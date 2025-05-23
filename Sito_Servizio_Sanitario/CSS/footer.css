@@ -1,0 +1,32 @@
+.main-footer {
+  width: 100%;
+  background-color: var(--bordeaux-scuro);
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 14px;
+  min-width: 625px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.footer-content {
+ /* max-width: 900px;*/
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.footer-content p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.footer-disclaimer {
+  font-size: 13px;
+  color: #e0e0e0;
+}
+
+.footer-disclaimer u {
+  text-decoration: underline dotted;
+}

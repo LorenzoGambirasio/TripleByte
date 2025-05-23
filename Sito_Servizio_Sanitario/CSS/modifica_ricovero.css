@@ -1,0 +1,514 @@
+:root {
+    --primary-color: #0056b3;
+    --primary-color-dark: #004085;
+    --secondary-color: #6c757d;
+    --secondary-color-dark: #5a6268;
+    --success-bg: #d1e7dd;
+    --success-text: #0a3622;
+    --success-border: #a3cfbb;
+    --danger-bg: #f8d7da;
+    --danger-text: #58151c;
+    --danger-border: #f1aeb5;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-500: #adb5bd;
+    --gray-700: #495057;
+    --text-muted: #6c757d;
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 0.75rem;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --input-focus-ring: rgba(0, 86, 179, 0.25);
+    --transition-speed: 0.2s;
+
+}
+
+body {
+    font-family: Arial;
+    color: var(--gray-700);
+}
+
+h1{
+text-align:center;
+}
+
+.alert {
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: opacity var(--transition-speed) ease-in-out;
+    box-shadow: var(--shadow-sm);
+}
+
+.alert-success {
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    border-color: var(--success-border);
+}
+
+.alert-danger {
+    background-color: var(--danger-bg);
+    color: var(--danger-text);
+    border-color: var(--danger-border);
+}
+
+
+.form-container {
+    max-width: 850px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background-color: var(--white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.form-container:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.form-group {
+    margin-bottom: 1.75rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 0.9rem;
+}
+
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem; 
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem; 
+    color: var(--gray-700);
+    background-color: var(--white);
+    transition: border-color var(--transition-speed) ease-in-out,
+                box-shadow var(--transition-speed) ease-in-out;
+    box-sizing: border-box;
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-family: Arial; 
+}
+
+
+.form-group input:not([readonly]):not([type="checkbox"]):focus,
+.form-group select:not([readonly]):focus,
+.form-group textarea:not([readonly]):focus,
+.single-select-combobox-toggle:focus,
+.multi-select-combobox-toggle:focus {
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--input-focus-ring);
+}
+
+
+.form-group input:not([readonly]):not([type="checkbox"]):hover,
+.form-group select:not([readonly]):hover,
+.form-group textarea:not([readonly]):hover,
+.single-select-combobox-toggle:hover,
+.multi-select-combobox-toggle:hover {
+    border-color: var(--gray-500);
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--gray-500);
+    opacity: 1; 
+    font-style: italic;
+}
+
+
+.form-group input:read-only,
+.form-group select:disabled,
+.form-group textarea:read-only,
+.form-group select[readonly] 
+{
+    background-color: var(--gray-200);
+    cursor: not-allowed;
+    opacity: 0.7;
+    border-color: var(--gray-300);
+}
+.form-group select[readonly] {
+     pointer-events: none; 
+}
+
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+
+.form-group input[type="number"] {
+    font-weight: 500;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.form-group input[type="number"]::-webkit-inner-spin-button,
+.form-group input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+}
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+
+.form-group input[type="date"] {
+    background-color: var(--white);
+    cursor: pointer;
+    position: relative;
+    font-family: Arial;
+}
+
+
+
+.form-group.cost-input-group::before,
+.form-group.duration-input-group::after {
+   content: none;
+   display: none;
+}
+
+
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--gray-700').trim().substring(1))}'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 3rem; 
+    cursor: pointer;
+    font-family: Arial;
+}
+
+.form-group select::-ms-expand {
+    display: none;
+}
+
+
+.buttons-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+
+.btn-salva, .btn-annulla {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 140px;
+    font-family: Arial;
+}
+
+.btn-salva {
+    background-color: #002080;
+    color: white;
+    border: none;
+}
+
+.btn-salva:hover {
+    background-color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+}
+
+
+.btn-annulla {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+}
+
+.btn-annulla:hover {
+    background-color: var(--secondary-color-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+
+.single-select-container, .multi-select-container {
+    position: relative;
+    width: 100%;
+}
+
+.single-select-combobox-toggle, .multi-select-combobox-toggle {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1rem; 
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    color: var(--gray-700);
+    background-color: var(--white);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    position: relative; 
+    transition: border-color var(--transition-speed) ease-in-out,
+                box-shadow var(--transition-speed) ease-in-out;
+    box-sizing: border-box;
+    min-height: calc(1.6em + 1.5rem + 2px); 
+    font-family: Arial;
+}
+
+
+.single-select-combobox-toggle::after, .multi-select-combobox-toggle::after {
+    content: '';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    width: 0.5em; 
+    height: 0.5em;
+    border-style: solid;
+    border-color: #800000; 
+    border-width: 0 2px 2px 0; 
+    transform: translateY(-70%) rotate(45deg); 
+    transition: transform var(--transition-speed) ease-in-out;
+    pointer-events: none; 
+}
+
+
+.single-select-combobox-toggle.open::after, .multi-select-combobox-toggle.open::after {
+    transform: translateY(-30%) rotate(225deg); 
+}
+
+
+.single-select-dropdown, .multi-select-dropdown {
+    position: absolute;
+    width: 100%;
+    background-color: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0; 
+    z-index: 1000;
+    bottom: calc(100% - 1px); 
+    left: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    box-shadow: var(--shadow-md);
+    box-sizing: border-box;
+}
+
+
+.single-select-dropdown.open, .multi-select-dropdown.open {
+    max-height: 350px; 
+    opacity: 1;
+    overflow-y: auto; 
+    border-color: var(--gray-300); 
+    border-bottom-color: var(--primary-color); 
+}
+
+
+.search-ospedale, .search-patologie {
+    width: calc(100% - 1.5rem);
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius-sm);
+    box-sizing: border-box;
+    font-size: 0.95rem;
+    position: sticky; 
+    top: 0;
+    background-color: var(--white);
+    z-index: 10; 
+    font-family: Arial;
+}
+.search-ospedale:focus, .search-patologie:focus {
+     border-color: var(--primary-color);
+     outline: 0;
+     box-shadow: 0 0 0 0.15rem var(--input-focus-ring);
+}
+
+
+.ospedali-container, .patologie-container {
+    padding: 0 0.5rem 0.5rem 0.5rem; 
+    max-height: calc(350px - 60px); 
+    overflow-y: auto;
+}
+
+
+.ospedale-item, .patologia-item {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.75rem;
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    transition: background-color var(--transition-speed) ease;
+    margin-bottom: 2px; 
+    font-family: Arial;
+}
+
+.ospedale-item:hover, .patologia-item:hover {
+    background-color: var(--gray-100);
+}
+
+.ospedale-item.selected, .patologia-item.selected {
+    background-color: #800000; 
+    color: var(--white);
+}
+
+.patologia-item input[type="checkbox"] {
+    margin-right: 0.75rem;
+    cursor: pointer;
+    width: 1em; height: 1em; 
+    accent-color: var(--primary-color); 
+}
+
+
+.patologia-item.selected input[type="checkbox"] {
+    accent-color: var(--white);
+}
+
+.patologia-item label {
+    cursor: pointer;
+    font-weight: normal;
+    margin-bottom: 0;
+    flex: 1; 
+    color: inherit; 
+    font-size: 0.95rem;
+    font-family: Arial;
+}
+
+
+.selection-value {
+    font-weight: 500;
+    color: var(--gray-700);
+    margin-right: 2rem; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: Arial;
+}
+.selection-placeholder {
+    color: var(--text-muted);
+     margin-right: 2rem;
+     font-style: italic;
+     font-family: Arial;
+}
+
+
+.selected-patologie-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem; 
+    margin-top: 0.75rem;
+    padding-left: 0; 
+    list-style: none;
+}
+
+.patologia-badge {
+    background-color: var(--gray-200); 
+    color: var(--gray-700);
+    border-radius: 50rem; 
+    padding: 0.3rem 0.8rem; 
+    font-size: 0.85rem; 
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem; 
+    font-weight: 500;
+    transition: background-color var(--transition-speed) ease;
+    font-family: Arial;
+}
+
+.patologia-badge .remove-badge {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em; 
+    color: var(--secondary-color);
+    transition: color var(--transition-speed) ease;
+    line-height: 1; 
+}
+
+.patologia-badge .remove-badge:hover {
+    color: var(--danger-text); 
+}
+.patologia-badge:hover {
+     background-color: var(--gray-300); 
+}
+
+
+.selection-count {
+    position: absolute;
+    right: 2.5rem; 
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background: var(--gray-100);
+    padding: 2px 8px;
+    border-radius: 50rem;
+    font-weight: 500;
+    pointer-events: none; 
+    white-space: nowrap;
+    font-family: Arial;
+}
+
+
+.no-results {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    font-family: Arial;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.alert {
+    animation: fadeIn 0.5s ease-in-out;
+    font-family: Arial;
+}
+
+@keyframes fadeInItem {
+    to { opacity: 1; }
+}
+
+
+@media (max-width: 768px) {
+    .form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn-salva, .btn-annulla {
+        width: 100%;
+        min-width: auto;
+    }
+}

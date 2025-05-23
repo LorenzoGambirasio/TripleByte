@@ -1,0 +1,81 @@
+.content {
+  width: 75%;
+  background-color: #fff;
+  padding: 28px;
+  margin-left: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #ccc;
+}
+
+.titoloPalette {
+  color: var(--bordeaux-scuro);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.homepage-content {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #333;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.homepage-title {
+  color: var(--bordeaux-scuro);
+  font-size: 24px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  position: relative;
+}
+
+.homepage-separator {
+  border: none;
+  height: 3px;
+  margin: 32px 0;
+  background-image: linear-gradient(to right, transparent, #000000, transparent);
+  background-size: 100% 2px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+}
+
+.homepage-intro {
+  font-size: 19px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.homepage-list {
+  font-size: 17px;
+  line-height: 1.9;
+  padding-left: 24px;
+  margin-bottom: 28px;
+}
+
+.homepage-list li {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.homepage-list li::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  
+}
+
+.homepage-footer {
+  font-style: italic;
+  color: #666;
+  font-size: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}

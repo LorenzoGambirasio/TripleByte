@@ -1,0 +1,231 @@
+.input-with-clear {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-clear input {
+    padding-right: 35px;
+    width: 100%;
+    
+}
+
+.clear-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ccc;
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+
+.clear-button:hover {
+    background: #999;
+    color: white;
+}
+
+.input-with-clear.has-content .clear-button {
+    opacity: 1;
+    visibility: visible;
+}
+
+.clear-button:focus {
+    outline: 2px solid #007cba;
+    outline-offset: 1px;
+}
+
+
+
+.filtro-contenuto {
+  padding: 28px 24px;
+  background-color: #fff;
+  border: none;
+  border-radius: 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.filtro-contenuto:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.filtro-contenuto h3 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  text-align: center;
+  padding-bottom: 12px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  position: relative;
+  letter-spacing: 0.5px;
+}
+
+.filtro-contenuto h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #000000, transparent);
+}
+
+.filtro-form .filtro-gruppo {
+  margin-bottom: 20px;
+}
+
+.filtro-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #444;
+  font-size: 1.05rem;
+  transition: color 0.2s;
+}
+
+.filtro-form .filtro-gruppo:focus-within label {
+  color: #800020; 
+}
+
+.filtro-form input[type="text"],
+.filtro-form input[type="date"] {
+  width: 100%;
+  padding: 15px 18px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  background-color: #ffffff;
+}
+
+.filtro-form input[type="text"]:focus,
+.filtro-form input[type="date"]:focus {
+  outline: none;
+  border-color: #800020; 
+  box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.1); 
+}
+
+.filtro-form input[type="text"]:hover,
+.filtro-form input[type="date"]:hover {
+  border-color: #bbb;
+}
+
+.filtro-azioni {
+  margin-top: 22px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+.filtro-azioni button,
+.filtro-azioni a {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 100px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filtro-azioni button::before,
+.filtro-azioni a::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.filtro-azioni button:hover::before,
+.filtro-azioni a:hover::before {
+  left: 100%;
+}
+
+.btn-filtra {
+  background-color: #002080;
+  color: white;
+}
+
+.btn-filtra:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 32, 128, 0.3);
+}
+
+.btn-reset {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-reset:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(90, 98, 104, 0.3);
+}
+
+select {
+  appearance: none;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px 40px 15px 18px;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 16px;
+  white-space: nowrap; 
+  overflow: hidden;    
+  text-overflow: ellipsis;
+}
+
+select:hover {
+  border-color: #bbb;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+select:focus {
+  outline: none;
+  border-color: #800020; 
+  box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.1); 
+}
+
+:root {
+  --bordeaux-scuro-rgb: 128, 0, 32;
+}

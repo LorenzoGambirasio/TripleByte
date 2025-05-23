@@ -1,0 +1,88 @@
+:root {
+  --bordeaux: #A63A3A;
+  --bordeaux-scuro: #800000;
+  --bordeaux-chiaro: #ffe6e6;
+  --bordeaux-hover: #a52a2a;
+  --testo-chiaro: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial;
+  background-color: #f5f5f5;
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  margin: 20px;
+  align-items: flex-start; 
+}
+
+.status-dot {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 
+        0 2px 5px rgba(0, 0, 0, 0.2),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 2px 3px rgba(255, 255, 255, 0.7);
+    animation: pulse 2s infinite ease-in-out;
+
+}
+
+
+.status-attivo {
+    background: radial-gradient(circle at 30% 30%, #5bff57, #00a000);
+    animation: pulse-attivo 2s infinite ease-in-out;
+}
+
+.status-trasferito {
+    background: radial-gradient(circle at 30% 30%, #ffcb57, #ff8c00);
+    animation: pulse-trasferito 2s infinite ease-in-out;
+}
+
+.status-dimesso {
+    background: radial-gradient(circle at 30% 30%, #ff6b57, #d10000);
+    animation: pulse-dimesso 2s infinite ease-in-out;
+}
+
+.stato-indicator {
+    display: flex;
+    flex-direction: column;
+}
+
+.stato-display {
+    display: flex;
+    align-items: center;
+}
+
+.status-dot {
+    display: inline-block;
+    margin-left: 16px;
+}
+
+.stato-text {
+    display: inline-block;
+    vertical-align: middle;
+} 
+
+.status-deceduto {
+    background: radial-gradient(circle at 30% 30%, #404040, #000000); 
+    animation: pulse-deceduto 2s infinite ease-in-out;
+}
