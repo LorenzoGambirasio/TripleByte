@@ -93,6 +93,3 @@ git clone https://github.com/LorenzoGambirasio/TripleByte.git
 
 
 
----
-
-![Tecnologie utilizzate](Risorse/technologies_badges.png)
