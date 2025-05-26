@@ -329,7 +329,7 @@ LIMIT ?, ?";
             confirmButtonColor: '#002080',
             confirmButtonText: 'Reimposta filtri'
         }).then((result) => {
-            if (result.isConfirmed) { // Aggiunto if per coerenza
+            if (result.isConfirmed) { 
                 window.location.href = 'patologie.php';
             }
         });

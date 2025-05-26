@@ -3,74 +3,92 @@ $page = 'ospedali';
 include '../db_connection.php';
 
 
-$filtro_codice_get = $_GET['filtro_codice'] ?? '';       
-$filtro_codice = trim($filtro_codice_get);              
+$filtro_codice_get = $_GET['filtro_codice'] ?? '';
+$filtro_codice = trim($filtro_codice_get);
 
-$filtro_nome_get = $_GET['filtro_nome'] ?? '';           
-$filtro_nome = trim($filtro_nome_get);                  
+$filtro_nome_get = $_GET['filtro_nome'] ?? '';
+$filtro_nome = trim($filtro_nome_get);
 
-$filtro_citta_get = $_GET['filtro_citta'] ?? '';         
-$filtro_citta = trim($filtro_citta_get);                
+$filtro_citta_get = $_GET['filtro_citta'] ?? '';
+$filtro_citta = trim($filtro_citta_get);
 
-$filtro_indirizzo_get = $_GET['filtro_indirizzo'] ?? ''; 
-$filtro_indirizzo = trim($filtro_indirizzo_get);        
+$filtro_indirizzo_get = $_GET['filtro_indirizzo'] ?? '';
+$filtro_indirizzo = trim($filtro_indirizzo_get);
 
-$filtro_direttore_get = $_GET['filtro_direttore'] ?? ''; 
-$filtro_direttore = trim($filtro_direttore_get);  
+$filtro_direttore_get = $_GET['filtro_direttore'] ?? '';
+$filtro_direttore = trim($filtro_direttore_get);
 
 $whereClauses = [];
 $params = [];
 $types = "";
 
-if (!empty($filtro_codice)) { 
-    $whereClauses[] = "codice LIKE ?";
+
+if (!empty($filtro_codice)) {
+    $whereClauses[] = "Ospedale.codice LIKE ?"; 
     $params[] = "%" . $filtro_codice . "%";
     $types .= "s";
 }
-if (!empty($filtro_nome)) { 
-    $whereClauses[] = "nome LIKE ?";
+if (!empty($filtro_nome)) {
+    $whereClauses[] = "Ospedale.nome LIKE ?"; 
     $params[] = "%" . $filtro_nome . "%";
     $types .= "s";
 }
-if (!empty($filtro_citta)) { 
-    $whereClauses[] = "città LIKE ?";
+if (!empty($filtro_citta)) {
+    $whereClauses[] = "Ospedale.città LIKE ?"; 
     $params[] = "%" . $filtro_citta . "%";
     $types .= "s";
 }
 if (!empty($filtro_indirizzo)) {
-    $whereClauses[] = "indirizzo LIKE ?";
+    $whereClauses[] = "Ospedale.indirizzo LIKE ?"; 
     $params[] = "%" . $filtro_indirizzo . "%";
     $types .= "s";
 }
-if (!empty($filtro_direttore)) { 
-    $whereClauses[] = "direttoreSanitario LIKE ?";
-    $params[] = "%" . $filtro_direttore . "%";
-    $types .= "s";
+
+if (!empty($filtro_direttore)) {
+    $whereClauses[] = "(Cittadino.nome LIKE ? OR Cittadino.cognome LIKE ? OR CONCAT(Cittadino.nome, ' ', Cittadino.cognome) LIKE ?)";
+    $param_val_direttore = "%" . $filtro_direttore . "%";
+    $params[] = $param_val_direttore; 
+    $params[] = $param_val_direttore; 
+    $params[] = $param_val_direttore; 
+    $types .= "sss";
 }
 
-$orderBy = $_GET['order_by'] ?? 'nome';
-$orderDir = $_GET['order_dir'] ?? 'asc';
 
-$validOrderColumns = [
-    'nome' => 'nome',
-    'città' => 'città',
-    'indirizzo' => 'indirizzo',
-    'direttore' => 'direttoreSanitario'
-];
-
-$orderByColumn = $validOrderColumns[$orderBy] ?? 'nome';
-$orderDirection = strtolower($orderDir) === 'desc' ? 'DESC' : 'ASC';
+$orderBy = $_GET['order_by'] ?? 'nome'; 
+$orderDir = $_GET['order_dir'] ?? 'asc';  
+$orderDirectionSQL = strtolower($orderDir) === 'desc' ? 'DESC' : 'ASC';
 
 
+$validSortKeys = ['nome', 'città', 'indirizzo', 'direttore'];
+if (!in_array($orderBy, $validSortKeys)) {
+    $orderBy = 'nome'; 
+}
+
+$orderBySQLClause = ""; 
+
+switch ($orderBy) {
+    case 'nome':
+        $orderBySQLClause = "Ospedale.nome " . $orderDirectionSQL;
+        break;
+    case 'città':
+        $orderBySQLClause = "Ospedale.città " . $orderDirectionSQL;
+        break;
+    case 'indirizzo':
+        $orderBySQLClause = "Ospedale.indirizzo " . $orderDirectionSQL;
+        break;
+    case 'direttore':
+        
+        $orderBySQLClause = "cognome_direttore " . $orderDirectionSQL . ", nome_direttore " . $orderDirectionSQL;
+        break;
+    default:
+        $orderBySQLClause = "Ospedale.nome " . $orderDirectionSQL; 
+        break;
+}
 
 $whereSql = "";
 if (!empty($whereClauses)) {
     $whereSql = " WHERE " . implode(" AND ", $whereClauses);
 }
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -109,46 +127,71 @@ if (!empty($whereClauses)) {
         if ($currentPage < 1) $currentPage = 1;
         $startFrom = ($currentPage - 1) * $recordsPerPage;
 
+       
+        $countQuery = "SELECT COUNT(Ospedale.codice) AS total
+                       FROM Ospedale
+                       LEFT JOIN Cittadino ON Ospedale.CSSN_direttore = Cittadino.CSSN" . $whereSql;
         
-        $countQuery = "SELECT COUNT(*) as total FROM Ospedale" . $whereSql;
         $stmtCount = $conn->prepare($countQuery);
-        if (!empty($params)) $stmtCount->bind_param($types, ...$params);
+        if ($stmtCount === false) {
+            die("Errore preparazione query conteggio: " . htmlspecialchars($conn->error) . " Query: " . htmlspecialchars($countQuery));
+        }
+        if (!empty($params)) { 
+            $stmtCount->bind_param($types, ...$params);
+        }
         $stmtCount->execute();
         $countResult = $stmtCount->get_result();
-        $totalRecords = $countResult->fetch_assoc()['total'];
+        $totalRecords = 0;
+        if($countResult) {
+            $totalRecordsRow = $countResult->fetch_assoc();
+            if ($totalRecordsRow) {
+                $totalRecords = $totalRecordsRow['total'];
+            }
+        }
         $totalPages = ceil($totalRecords / $recordsPerPage);
+        if(isset($stmtCount)) $stmtCount->close();
+
 
         
-        $query = "SELECT codice, nome, città, indirizzo, direttoreSanitario FROM Ospedale"
-   		. $whereSql
-    	. " ORDER BY $orderByColumn $orderDirection, codice ASC LIMIT ?, ?";
-		$limitTypes = $types . "ii";
-        $limitParams = array_merge($params, [$startFrom, $recordsPerPage]);
+        $query = "SELECT Ospedale.codice, Ospedale.nome, Ospedale.città, Ospedale.indirizzo,
+                       Cittadino.nome AS nome_direttore, Cittadino.cognome AS cognome_direttore
+                       FROM Ospedale
+                       LEFT JOIN Cittadino ON Ospedale.CSSN_direttore = Cittadino.CSSN"
+                           . $whereSql  
+                        . " ORDER BY " . $orderBySQLClause . ", Ospedale.codice ASC LIMIT ?, ?";
+        
+        $limitTypes = $types . "ii"; 
+        $limitParams = array_merge($params, [$startFrom, $recordsPerPage]); 
+        
         $stmt = $conn->prepare($query);
-        if (!empty($limitParams)) $stmt->bind_param($limitTypes, ...$limitParams);
+        if ($stmt === false) {
+            die("Errore preparazione query principale: " . htmlspecialchars($conn->error) . " Query: " . htmlspecialchars($query));
+        }
+        
+        $stmt->bind_param($limitTypes, ...$limitParams);
+        
         $stmt->execute();
         $result = $stmt->get_result();
         
-        function getSortUrl($column, $currentOrderBy, $currentOrderDir) {
-    $params = $_GET;
-    $params['order_by'] = $column;
-    $params['order_dir'] = ($currentOrderBy === $column && $currentOrderDir === 'asc') ? 'desc' : 'asc';
-    if (!isset($params['p'])) {
-        $params['p'] = 1;
-    }
-    return '?' . http_build_query($params);
-}
-
-function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
-    if ($currentOrderBy !== $column) {
-        return '<i class="fas fa-sort"></i>';
-    }
-    return ($currentOrderDir === 'asc') 
-        ? '<i class="fas fa-sort-up"></i>' 
-        : '<i class="fas fa-sort-down"></i>';
-}
-
         
+        function getSortUrl($column, $currentOrderBy, $currentOrderDir) {
+            $params_url = $_GET; 
+            $params_url['order_by'] = $column;
+            $params_url['order_dir'] = ($currentOrderBy === $column && $currentOrderDir === 'asc') ? 'desc' : 'asc';
+            if (!isset($params_url['p'])) {
+                $params_url['p'] = 1;
+            }
+            return '?' . http_build_query($params_url);
+        }
+
+        function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
+            if ($currentOrderBy !== $column) {
+                return '<i class="fas fa-sort"></i>';
+            }
+            return ($currentOrderDir === 'asc')
+                ? '<i class="fas fa-sort-up"></i>'
+                : '<i class="fas fa-sort-down"></i>';
+        }
         ?>
  
         <?php if ($result && $result->num_rows > 0): ?>
@@ -165,22 +208,20 @@ function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
                         <th class="sortable" onclick="window.location.href='<?= getSortUrl('indirizzo', $orderBy, $orderDir) ?>'">
                           Indirizzo <?= getSortIcon('indirizzo', $orderBy, $orderDir) ?>
                         </th>
-                        <th class="sortable" onclick="window.location.href='<?= getSortUrl('direttore', $orderBy, $orderDir) ?>'">
+                        <th class="sortable th-direttore" onclick="window.location.href='<?= getSortUrl('direttore', $orderBy, $orderDir) ?>'">
                           Direttore Sanitario <?= getSortIcon('direttore', $orderBy, $orderDir) ?>
                         </th>
                       </tr>
                      </thead>
-
                    <tbody>
                      <?php while ($row = $result->fetch_assoc()):
                          $urlRicoveriOspedale = 'ricoveri.php?filtro_ospedale_cod=' . urlencode($row['codice']);
                      ?>
                          <tr onclick="window.location.href='<?= $urlRicoveriOspedale ?>'" style="cursor: pointer;">
-                             <!--<td><?//= htmlspecialchars($row['codice']) ?></td>-->
                              <td><?= htmlspecialchars($row['nome']) ?></td>
                              <td><?= htmlspecialchars($row['città']) ?></td>
                              <td><?= htmlspecialchars($row['indirizzo']) ?></td>
-                             <td><?= htmlspecialchars($row['direttoreSanitario']) ?></td>
+                             <td><?= htmlspecialchars(trim($row['nome_direttore'] . ' ' . $row['cognome_direttore'])) ?></td>
                          </tr>
                      <?php endwhile; ?>
                      </tbody>
@@ -196,9 +237,9 @@ function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
             
 			<div class="paginazione">
                 <?php
-                $queryParams = $_GET;
-                unset($queryParams['p']);
-                $queryStringBase = http_build_query($queryParams);
+                $queryParams_pagination_display = $_GET; 
+                unset($queryParams_pagination_display['p']);
+                $queryStringBase = http_build_query($queryParams_pagination_display);
                 if (!empty($queryStringBase)) $queryStringBase .= '&';
 
                 if ($currentPage > 1) {
@@ -207,7 +248,6 @@ function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
                     echo '<span class="disabled">&laquo; Precedente</span>';
                 }
 
-                
                 $startPage = max(1, $currentPage - 2);
                 $endPage = min($totalPages, $currentPage + 2);
 
@@ -260,11 +300,8 @@ function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
 </html>
 
 <script>
-                
   document.addEventListener('DOMContentLoaded', function() {
     if (<?= !empty($whereSql) && $totalRecords == 0 ? 'true' : 'false' ?>) {
-
-     
       Swal.fire({
       title: 'Nessun risultato',
       text: 'Non sono stati trovati ospedali con i filtri specificati.',
@@ -282,5 +319,5 @@ function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
 
 <?php
 if (isset($stmt)) $stmt->close();
-if (isset($stmtCount)) $stmtCount->close();
-?>
+
+?>

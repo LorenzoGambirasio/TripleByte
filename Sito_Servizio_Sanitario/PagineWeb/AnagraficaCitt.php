@@ -4,6 +4,24 @@ include '../db_connection.php';
 
 define('STATO_ATTIVO_RICOVERO', 0);
 
+function getSortUrlAnagrafica($column, $currentOrderBy, $currentOrderDir, $baseFile = 'AnagraficaCitt.php') {
+    $params_url = $_GET;
+    $params_url['order_by'] = $column;
+    $params_url['order_dir'] = ($currentOrderBy === $column && $currentOrderDir === 'asc') ? 'desc' : 'asc';
+    if (!isset($params_url['p']) || $currentOrderBy !== $column) {
+        $params_url['p'] = 1;
+    }
+    return strtok($_SERVER["REQUEST_URI"], '?') . '?' . http_build_query($params_url);
+}
+
+function getSortIconAnagrafica($column, $currentOrderBy, $currentOrderDir) {
+    if ($currentOrderBy !== $column) {
+        return '<i class="fas fa-sort"></i>';
+    }
+    return ($currentOrderDir === 'asc')
+        ? '<i class="fas fa-sort-up"></i>'
+        : '<i class="fas fa-sort-down"></i>';
+}
 
 $filtro_nome_get = $_GET['filtro_nome'] ?? '';
 $filtro_nome = trim($filtro_nome_get);
@@ -19,8 +37,7 @@ $filtro_indirizzo = trim($filtro_indirizzo_get);
 
 $filtro_cssn_get = $_GET['filtro_cssn'] ?? '';
 $filtro_cssn = trim($filtro_cssn_get);
-$filtro_stato_cittadino = $_GET['filtro_stato_cittadino'] ?? null; 
-
+$filtro_stato_cittadino = $_GET['filtro_stato_cittadino'] ?? null;
 
 $filtri_attuali = [
     'filtro_nome' => $filtro_nome,
@@ -31,7 +48,6 @@ $filtri_attuali = [
     'filtro_stato_cittadino' => $filtro_stato_cittadino,
 ];
 
-
 $filters_active = !empty($filtro_nome) ||
                   !empty($filtro_cognome) ||
                   !empty($filtro_luogo) ||
@@ -39,17 +55,14 @@ $filters_active = !empty($filtro_nome) ||
                   !empty($filtro_cssn) ||
                   !empty($filtro_stato_cittadino);
 
-
-$whereClauses_main = []; 
-$params_main = [];     
-$types_main = "";      
+$whereClauses_main = [];
+$params_main = [];
+$types_main = "";
 $havingClauses_main = [];
-
 
 $whereClauses_count = [];
 $params_count = [];
 $types_count = "";
-
 
 if (!empty($filtro_nome)) {
     $clause = "c.nome LIKE ?";
@@ -87,7 +100,6 @@ if (!empty($filtro_cssn)) {
     $whereClauses_count[] = $clause; $params_count[] = $param_val; $types_count .= $type_char;
 }
 
-
 $stato_attivo_ricovero_const = STATO_ATTIVO_RICOVERO;
 
 if (!empty($filtro_stato_cittadino)) {
@@ -103,17 +115,16 @@ if (!empty($filtro_stato_cittadino)) {
         $type_char = "i";
         $whereClauses_main[] = $clause; $params_main[] = $param_val; $types_main .= $type_char;
         $whereClauses_count[] = $clause; $params_count[] = $param_val; $types_count .= $type_char;
-        $havingClauses_main[] = "is_ricoverato_attivo = 1"; 
+        $havingClauses_main[] = "is_ricoverato_attivo = 1";
     } elseif ($filtro_stato_cittadino === 'attivo') {
         $clause = "c.deceduto = ?";
         $param_val = 0;
         $type_char = "i";
         $whereClauses_main[] = $clause; $params_main[] = $param_val; $types_main .= $type_char;
         $whereClauses_count[] = $clause; $params_count[] = $param_val; $types_count .= $type_char;
-        $havingClauses_main[] = "is_ricoverato_attivo = 0"; 
+        $havingClauses_main[] = "is_ricoverato_attivo = 0";
     }
 }
-
 
 $whereSql_main = "";
 if (!empty($whereClauses_main)) {
@@ -124,10 +135,39 @@ if (!empty($havingClauses_main)) {
     $havingSql_main = " HAVING " . implode(" AND ", $havingClauses_main);
 }
 
-
 $whereSql_count = "";
 if (!empty($whereClauses_count)) {
     $whereSql_count = " WHERE " . implode(" AND ", $whereClauses_count);
+}
+
+$orderBy = $_GET['order_by'] ?? 'cognome';
+$orderDir = $_GET['order_dir'] ?? 'asc';
+$orderDirectionSQL = strtolower($orderDir) === 'desc' ? 'DESC' : 'ASC';
+
+$validSortColumnsAnagrafica = [
+    'cssn' => 'c.CSSN',
+    'nome' => 'c.nome',
+    'cognome' => 'c.cognome',
+    'dataNascita' => 'c.dataNascita',
+    'luogoNascita' => 'c.luogoNascita',
+    'indirizzo' => 'c.indirizzo'
+];
+
+if (!array_key_exists($orderBy, $validSortColumnsAnagrafica)) {
+    $orderBy = 'cognome';
+}
+
+$columnToSortBySQL = $validSortColumnsAnagrafica[$orderBy];
+$orderBySql = " ORDER BY " . $columnToSortBySQL . " " . $orderDirectionSQL;
+
+if ($orderBy === 'cognome') {
+    $orderBySql .= ", c.nome " . $orderDirectionSQL;
+} elseif ($orderBy === 'nome') {
+    $orderBySql .= ", c.cognome " . $orderDirectionSQL;
+}
+
+if ($orderBy !== 'cssn') {
+    $orderBySql .= ", c.CSSN ASC";
 }
 
 ?>
@@ -157,7 +197,7 @@ if (!empty($whereClauses_count)) {
 
             <?php if ($page !== 'home'): ?>
                 <div class="filtro">
-                    <?php include '../MainLayout/filtro.php'; // $filtri_attuali is used here ?>
+                    <?php include '../MainLayout/filtro.php'; ?>
                 </div>
             <?php endif; ?>
         </aside>
@@ -165,20 +205,18 @@ if (!empty($whereClauses_count)) {
         <main class="content">
             <h1 class="titoloPalette">Anagrafica dei Cittadini</h1>
             <?php
-            
             $recordsPerPage = 20;
             $currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
             if ($currentPage < 1) $currentPage = 1;
             $startFrom = ($currentPage - 1) * $recordsPerPage;
 
-            
             $countQueryFinal = "";
             $finalParams_count = [];
             $finalTypes_count = "";
 
             if ($filtro_stato_cittadino === 'ricoverato' || $filtro_stato_cittadino === 'attivo') {
                 $status_check_value = ($filtro_stato_cittadino === 'ricoverato' ? 1 : 0);
-               
+
                 $countQueryFinal = "
                     SELECT COUNT(*) AS total FROM (
                         SELECT c.CSSN
@@ -188,15 +226,14 @@ if (!empty($whereClauses_count)) {
                         GROUP BY c.CSSN
                         HAVING MAX(CASE WHEN r.paziente IS NOT NULL THEN 1 ELSE 0 END) = {$status_check_value}
                     ) AS subquery_count";
-                $finalTypes_count = "i" . $types_count; 
+                $finalTypes_count = "i" . $types_count;
                 $finalParams_count = array_merge([$stato_attivo_ricovero_const], $params_count);
             } else {
-                
                 $countQueryFinal = "SELECT COUNT(*) as total FROM Cittadino c" . $whereSql_count;
                 $finalTypes_count = $types_count;
                 $finalParams_count = $params_count;
             }
-            
+
             $stmtCount = $conn->prepare($countQueryFinal);
             if ($stmtCount === false) {
                 die("Errore preparazione query conteggio: " . $conn->error . " Query: " . $countQueryFinal);
@@ -216,56 +253,64 @@ if (!empty($whereClauses_count)) {
             $totalPages = ceil($totalRecords / $recordsPerPage);
             if (isset($stmtCount)) $stmtCount->close();
 
-
-           
-            $orderBySql = " ORDER BY c.cognome ASC, c.nome ASC";
             $query = "
                 SELECT
                     c.CSSN, c.nome, c.cognome, c.dataNascita, c.luogoNascita, c.indirizzo, c.deceduto,
                     MAX(CASE WHEN r.paziente IS NOT NULL THEN 1 ELSE 0 END) AS is_ricoverato_attivo
                 FROM Cittadino c
-                LEFT JOIN Ricovero r ON c.CSSN = r.paziente AND r.stato = ? 
+                LEFT JOIN Ricovero r ON c.CSSN = r.paziente AND r.stato = ?
                 " . $whereSql_main . "
                 GROUP BY c.CSSN, c.nome, c.cognome, c.dataNascita, c.luogoNascita, c.indirizzo, c.deceduto
                 " . $havingSql_main . "
                 " . $orderBySql . "
                 LIMIT ?, ?";
-            
-            $finalTypes_main = "i" . $types_main . "ii"; 
+
+            $finalTypes_main = "i" . $types_main . "ii";
             $finalParams_main = array_merge([$stato_attivo_ricovero_const], $params_main, [$startFrom, $recordsPerPage]);
 
             $stmt = $conn->prepare($query);
             if ($stmt === false) {
                 die("Errore preparazione query principale: " . $conn->error);
             }
-            if (!empty($finalTypes_main)) { 
+            if (!empty($finalTypes_main)) {
                 $stmt->bind_param($finalTypes_main, ...$finalParams_main);
             }
             $stmt->execute();
             $result = $stmt->get_result();
-             
-            
+
             if ($result && $result->num_rows > 0): ?>
                 <div class="tabella-wrapper">
                     <table class="tabella-cittadini">
                        <thead>
-                           <tr>
-                               <th>CSSN</th>
-                               <th>Nome</th>
-                               <th>Cognome</th>
-                               <th>Data di Nascita</th>
-                               <th>Luogo di Nascita</th>
-                               <th>Indirizzo</th>
-                               <th>Stato</th>
-                           </tr>
-                       </thead>
+       <tr>
+           <th class="sortable th-anagrafica-cssn" onclick="window.location.href='<?= getSortUrlAnagrafica('cssn', $orderBy, $orderDir) ?>'">
+               CSSN <?= getSortIconAnagrafica('cssn', $orderBy, $orderDir) ?>
+           </th>
+           <th class="sortable th-anagrafica-nome" onclick="window.location.href='<?= getSortUrlAnagrafica('nome', $orderBy, $orderDir) ?>'">
+               Nome <?= getSortIconAnagrafica('nome', $orderBy, $orderDir) ?>
+           </th>
+           <th class="sortable th-anagrafica-cognome" onclick="window.location.href='<?= getSortUrlAnagrafica('cognome', $orderBy, $orderDir) ?>'">
+               Cognome <?= getSortIconAnagrafica('cognome', $orderBy, $orderDir) ?>
+           </th>
+           <th class="sortable th-anagrafica-data-nascita" onclick="window.location.href='<?= getSortUrlAnagrafica('dataNascita', $orderBy, $orderDir) ?>'">
+               Data di Nascita <?= getSortIconAnagrafica('dataNascita', $orderBy, $orderDir) ?>
+           </th>
+           <th class="sortable th-anagrafica-luogo-nascita" onclick="window.location.href='<?= getSortUrlAnagrafica('luogoNascita', $orderBy, $orderDir) ?>'">
+               Luogo di Nascita <?= getSortIconAnagrafica('luogoNascita', $orderBy, $orderDir) ?>
+           </th>
+           <th class="sortable th-anagrafica-indirizzo" onclick="window.location.href='<?= getSortUrlAnagrafica('indirizzo', $orderBy, $orderDir) ?>'">
+               Indirizzo <?= getSortIconAnagrafica('indirizzo', $orderBy, $orderDir) ?>
+           </th>
+           <th class="th-anagrafica-stato">Stato</th>
+       </tr>
+   </thead>
                        <tbody>
                          <?php while ($row = $result->fetch_assoc()):
                          $urlRicoveri = 'ricoveri.php?filtro_paziente_cssn=' . urlencode($row['CSSN']);
-                         
-                         $testoDefault = 'Domicilio'; 
+
+                         $testoDefault = 'Domicilio';
                          $statoCittadinoText = $testoDefault;
-                         $classeCssStato = 'stato-cittadino-domicilio'; 
+                         $classeCssStato = 'stato-cittadino-domicilio';
 
                          if (isset($row['deceduto']) && $row['deceduto'] == 1) {
                            $statoCittadinoText = 'Deceduto';
@@ -279,7 +324,7 @@ if (!empty($whereClauses_count)) {
                            <td><?= htmlspecialchars($row['CSSN']) ?></td>
                            <td><?= htmlspecialchars($row['nome']) ?></td>
                            <td><?= htmlspecialchars($row['cognome']) ?></td>
-                           <td><?= htmlspecialchars(date("d/m/Y", strtotime($row['dataNascita']))) ?></td> 
+                           <td><?= htmlspecialchars(date("d/m/Y", strtotime($row['dataNascita']))) ?></td>
                            <td><?= htmlspecialchars($row['luogoNascita']) ?></td>
                            <td><?= htmlspecialchars($row['indirizzo']) ?></td>
                            <td>
@@ -287,7 +332,6 @@ if (!empty($whereClauses_count)) {
                                <?php echo htmlspecialchars($statoCittadinoText); ?>
                              </span>
                            </td>
-
                          </tr>
                          <?php endwhile; ?>
                       </tbody>
@@ -302,8 +346,7 @@ if (!empty($whereClauses_count)) {
                     </div>
                     <div class="paginazione">
                         <?php
-                        
-                        $queryParams_pagination = $_GET; 
+                        $queryParams_pagination = $_GET;
                         unset($queryParams_pagination['p']);
                         $queryStringBase = http_build_query($queryParams_pagination);
                         if (!empty($queryStringBase)) $queryStringBase .= '&';
@@ -354,7 +397,6 @@ if (!empty($whereClauses_count)) {
             <div class="total-records-display" style="margin-bottom: 20px;">
                 <p>Totale: <b>0</b> cittadini</p>
             </div>
-           
         </div>
     <?php elseif (!$filters_active && $totalRecords == 0): ?>
         <div class="no-results-container" style="text-align: center; margin-top: 40px; padding: 40px 20px;">
@@ -378,17 +420,17 @@ if (!empty($whereClauses_count)) {
       Swal.fire({
         title: 'Nessun risultato',
         text: 'Non sono stati trovati cittadini con i filtri specificati.',
-        icon: 'error', 
+        icon: 'error',
         confirmButtonColor: '#002080',
         confirmButtonText: 'Reimposta filtri'
       }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = 'AnagraficaCitt.php'; 
+            window.location.href = 'AnagraficaCitt.php';
         }
       });
     }
   });
-  
+
   function resetFilters() {
     window.location.href = 'AnagraficaCitt.php';
 }
@@ -396,5 +438,5 @@ if (!empty($whereClauses_count)) {
 
 <?php
  if (isset($stmt)) $stmt->close();
- $conn->close(); 
+ $conn->close();
 ?>

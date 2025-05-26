@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         noResultsElement.textContent = 'Nessun ospedale trovato';
                         ospedaleItemsContainer.appendChild(noResultsElement);
                     } else {
-                        noResults.style.display = 'block'; // o 'flex'
+                        noResults.style.display = 'block'; 
                     }
                 } else {
                     if (noResults) {
