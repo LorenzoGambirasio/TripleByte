@@ -3,7 +3,8 @@ $page = 'patologie';
 include '../db_connection.php';
 
 
-$filtro_nome = $_GET['filtro_nome'] ?? null;
+$filtro_nome_get = $_GET['filtro_nome'] ?? ''; 
+$filtro_nome = trim($filtro_nome_get);
 $filtro_criticita = $_GET['filtro_criticita'] ?? null;
 $filtro_tipologia = $_GET['filtro_tipologia'] ?? null; 
 
@@ -294,17 +295,15 @@ LIMIT ?, ?";
         </div>
             <?php else: ?>
             <?php if (!empty($whereSql)): ?>
-                <div id="no-results">
-                
-                <div class="empty-state-container" style="text-align: center; padding: 40px 20px;">
-                    <i class="fa-solid fa-search fa-3x" style="color: #002080; margin-bottom: 20px;"></i>
-                    <h2>Nessuna patologia trovata</h2>
-                    <p>Non sono state trovate patologie con i filtri specificati.</p>
-                    <div class="total-records-display" style="margin-top:10px;">
-                        Totale: <strong>0</strong> patologie
+                <div id="no-results"> <div class="empty-state-container" style="text-align: center; padding: 40px 20px;">
+                        <i class="fa-solid fa-search fa-3x" style="color: #002080; margin-bottom: 20px;"></i>
+                        <h2>Nessuna patologia trovata</h2>
+                        <p>Non sono state trovate patologie con i filtri specificati.</p>
+                        <div class="total-records-display" style="margin-top:10px;">
+                            Totale: <strong>0</strong> patologie
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php else: ?>
                 <p>Nessuna patologia presente.</p>
             <?php endif; ?>
@@ -322,17 +321,18 @@ LIMIT ?, ?";
     document.addEventListener('DOMContentLoaded', function() {
         if (<?= !empty($whereSql) && $totalRecords == 0 ? 'true' : 'false' ?>) {
             
-            document.getElementById('no-results').style.display = 'none';
+            
             Swal.fire({
-                title: 'Nessun risultato',
-                text: 'Non sono state trovate patologie con i filtri specificati.',
-                icon: 'error',
-                confirmButtonColor: '#002080',
-                confirmButtonText: 'Reimposta filtri'
-            }).then((result) => {
-                
+            title: 'Nessun risultato',
+            text: 'Non sono state trovate patologie con i filtri specificati.',
+            icon: 'error',
+            confirmButtonColor: '#002080',
+            confirmButtonText: 'Reimposta filtri'
+        }).then((result) => {
+            if (result.isConfirmed) { // Aggiunto if per coerenza
                 window.location.href = 'patologie.php';
-            });
+            }
+        });
         }
     });
 </script>

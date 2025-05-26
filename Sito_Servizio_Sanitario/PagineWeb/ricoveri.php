@@ -7,19 +7,56 @@ include '../db_connection.php';
 define('STATO_ATTIVO', 0);
 define('STATO_TRASFERITO', 1);
 define('STATO_DIMESSO', 2);
-define('STATO_DECEDUTO', 3);
+define('STATO_DECEDUTO', 3); 
 
+$filtro_paziente_cssn_get = $_GET['filtro_paziente_cssn'] ?? ''; 
+$filtro_paziente_cssn = trim($filtro_paziente_cssn_get);     
 
-$filtro_paziente_cssn = $_GET['filtro_paziente_cssn'] ?? null;
-$filtro_nome = $_GET['filtro_nome'] ?? null;
-$filtro_cognome = $_GET['filtro_cognome'] ?? null;
+$filtro_nome_get = $_GET['filtro_nome'] ?? '';                   
+$filtro_nome = trim($filtro_nome_get);                         
+
+$filtro_cognome_get = $_GET['filtro_cognome'] ?? '';          
+$filtro_cognome = trim($filtro_cognome_get); 
 $filtro_ospedale_cod = $_GET['filtro_ospedale_cod'] ?? null;
-$filtro_data_inizio = $_GET['filtro_data_inizio'] ?? null;
-$filtro_data_fine = $_GET['filtro_data_fine'] ?? null;
-$filtro_motivo = $_GET['filtro_motivo'] ?? null;
+$filtro_data_inizio_get = $_GET['filtro_data_inizio'] ?? '';
+$filtro_data_inizio = trim($filtro_data_inizio_get); 
+
+$filtro_data_fine_get = $_GET['filtro_data_fine'] ?? '';
+$filtro_data_fine = trim($filtro_data_fine_get);     
+
+$errore_intervallo_date = null;
+$filtro_motivo_get = $_GET['filtro_motivo'] ?? '';            
+$filtro_motivo = trim($filtro_motivo_get);    
 $filtro_patologia_cod = $_GET['filtro_patologia_cod'] ?? null;
 $filtro_stato = isset($_GET['filtro_stato']) && $_GET['filtro_stato'] !== '' ? (int)$_GET['filtro_stato'] : null;
 
+if ($filtro_data_inizio !== '' && $filtro_data_fine !== '') {
+    try {
+        $dataDaObj = new DateTime($filtro_data_inizio);
+        $dataAObj = new DateTime($filtro_data_fine);
+
+        $dataDaObj->setTime(0, 0, 0); 
+        $dataAObj->setTime(0, 0, 0);  
+
+        if ($dataAObj < $dataDaObj) {
+            $errore_intervallo_date = 'La data "A data" non può essere precedente alla data "Da data". La ricerca per questo intervallo di date non è stata eseguita.';
+            $filtro_data_inizio = null;
+            $filtro_data_fine = null;
+        }
+    } catch (Exception $e) {
+        
+        $errore_intervallo_date = 'Formato data non valido. La ricerca per data non è stata eseguita.';
+        $filtro_data_inizio = null;
+        $filtro_data_fine = null;
+    }
+}
+
+if (isset($_GET['mostra_deceduti'])) {
+    
+    $mostra_deceduti = ($_GET['mostra_deceduti'] == '1');
+} else {
+    $mostra_deceduti = true;
+}
 
 $sortableColumns = [
     'ospedale' => 'nomeOspedale',
@@ -191,9 +228,76 @@ if (isset($_POST['declare_deceased']) && isset($_POST['pazienteCSSN']) && isset(
     }
 }
 
+if (isset($_POST['update_causa_decesso']) && isset($_POST['pazienteCSSN_causa']) && isset($_POST['nuovaCausaDecesso'])) {
+    $pazienteCSSN = $_POST['pazienteCSSN_causa'];
+    $nuovaCausa = trim($_POST['nuovaCausaDecesso']);
+
+    if (empty($nuovaCausa)) {
+        $redirectParams = $_GET;
+        unset($redirectParams['deleted'], $redirectParams['error_msg'], $redirectParams['deceased_update'], $redirectParams['causa_updated']);
+        $redirectParams['causa_updated'] = 'error';
+        $redirectParams['error_msg'] = urlencode("La nuova causa del decesso non può essere vuota.");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?" . http_build_query($redirectParams));
+        exit;
+    }
+    
+    if (strlen($nuovaCausa) < 3) {
+        $redirectParams = $_GET;
+        unset($redirectParams['deleted'], $redirectParams['error_msg'], $redirectParams['deceased_update'], $redirectParams['causa_updated']);
+        $redirectParams['causa_updated'] = 'error';
+        $redirectParams['error_msg'] = urlencode("La causa del decesso deve contenere almeno 3 caratteri.");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?" . http_build_query($redirectParams));
+        exit;
+    }
+
+   
+    $nuovaCausa = ucfirst($nuovaCausa);
+
+    $conn->begin_transaction();
+    try {
+        $stmtUpdateCausa = $conn->prepare("UPDATE Cittadino SET causaDecesso = ? WHERE CSSN = ? AND deceduto = 1");
+        if (!$stmtUpdateCausa) {
+            throw new Exception("Errore preparazione query aggiornamento causa: " . $conn->error);
+        }
+        $stmtUpdateCausa->bind_param("ss", $nuovaCausa, $pazienteCSSN);
+        $stmtUpdateCausa->execute();
+
+        if ($stmtUpdateCausa->affected_rows > 0) {
+            $conn->commit();
+            $updateSuccess = true;
+        } else {
+            $conn->commit(); 
+            $updateSuccess = true; 
+        }
+        $stmtUpdateCausa->close();
+
+        $redirectParams = $_GET;
+        unset($redirectParams['deleted'], $redirectParams['error_msg'], $redirectParams['deceased_update'], $redirectParams['causa_updated']);
+        $redirectParams['causa_updated'] = 'success';
+        $redirectParams['success_msg'] = urlencode("Causa del decesso aggiornata con successo.");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?" . http_build_query($redirectParams));
+        exit;
+
+    } catch (Exception $e) {
+        $conn->rollback();
+        $redirectParams = $_GET;
+        unset($redirectParams['deleted'], $redirectParams['error_msg'], $redirectParams['deceased_update'], $redirectParams['causa_updated']);
+        $redirectParams['causa_updated'] = 'error';
+        $redirectParams['error_msg'] = urlencode("Errore aggiornamento causa: " . $e->getMessage());
+        header("Location: " . $_SERVER['PHP_SELF'] . "?" . http_build_query($redirectParams));
+        exit;
+    }
+}
+
 $whereClauses = [];
 $params = [];
 $types = "";
+
+if (!$mostra_deceduti) {
+    
+    $whereClauses[] = "(c.deceduto = 0 OR c.deceduto IS NULL)";
+    
+}
 
 if (!empty($filtro_paziente_cssn)) {
     $whereClauses[] = "r.paziente LIKE ?";
@@ -219,16 +323,17 @@ if (!empty($filtro_ospedale_cod)) {
     $types .= "s";
 }
 
-if (!empty($filtro_data_inizio)) {
-    $whereClauses[] = "r.data >= ?";
-    $params[] = $filtro_data_inizio;
-    $types .= "s";
-}
-
-if (!empty($filtro_data_fine)) {
-    $whereClauses[] = "r.data <= ?";
-    $params[] = $filtro_data_fine;
-    $types .= "s";
+if (!$errore_intervallo_date) {
+    if (!empty($filtro_data_inizio)) { 
+        $whereClauses[] = "r.data >= ?";
+        $params[] = $filtro_data_inizio;
+        $types .= "s";
+    }
+    if (!empty($filtro_data_fine)) { 
+        $whereClauses[] = "r.data <= ?";
+        $params[] = $filtro_data_fine;
+        $types .= "s";
+    }
 }
 
 if (!empty($filtro_motivo)) {
@@ -290,6 +395,11 @@ if (!empty($whereClauses)) {
     <main class="content">
         <div class="header-with-button-container">
             <h1 class="titoloPalette">Elenco dei Ricoveri</h1>
+            <?php if ($errore_intervallo_date): ?>
+                <div style="color: white; background-color: #c82333; border: 1px solid #bd2130; padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center;">
+                    <strong>Attenzione:</strong> <?php echo htmlspecialchars($errore_intervallo_date); ?>
+                </div>
+            <?php endif; ?>
             <div class="table-actions">
                 <a href="aggiungi_ricovero.php" class="add-btn" title="Aggiungi Nuovo Ricovero">
                     <i class="fa-solid fa-plus"></i> </a>
@@ -483,7 +593,8 @@ if ($isPazienteDeceduto): ?>
                 title="Informazioni Decesso"
                 data-dataora="<?= htmlspecialchars($row['dataOraDecesso'] ?? 'Non disponibile') ?>"
                 data-causa="<?= htmlspecialchars($row['causaDecesso'] ?? 'Non disponibile') ?>"
-                data-nome="<?= htmlspecialchars($row['nomePaziente'] . ' ' . $row['cognomePaziente']) ?>">
+                data-nome="<?= htmlspecialchars($row['nomePaziente'] . ' ' . $row['cognomePaziente']) ?>"
+                data-cssn="<?= htmlspecialchars($row['pazienteCSSN']) ?>">
             <i class="fa-solid fa-info-circle"></i>
         </button>
         
@@ -759,6 +870,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         window.history.replaceState({}, document.title, cleanUrl.toString()); 
     }
+    
+    if (urlParams.has('causa_updated')) {
+    const updateStatus = urlParams.get('causa_updated');
+    const cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete('causa_updated');
+    cleanUrl.searchParams.delete('error_msg');
+    cleanUrl.searchParams.delete('success_msg');
+
+    if (updateStatus === 'success') {
+        let successMsg = urlParams.get('success_msg') || 'Operazione completata con successo.';
+        successMsg = successMsg.replace(/\+/g, ' ');
+        Swal.fire({
+            icon: 'success',
+            title: 'Aggiornamento Completato',
+            text: decodeURIComponent(successMsg),
+            timer: 3000,
+            showConfirmButton: false
+        });
+    } else if (updateStatus === 'error') {
+        let errorMsg = urlParams.get('error_msg') || 'Si è verificato un errore.';
+        errorMsg = errorMsg.replace(/\+/g, ' ');
+        Swal.fire({
+            icon: 'error',
+            title: 'Errore Aggiornamento Causa',
+            text: decodeURIComponent(errorMsg),
+            confirmButtonColor: '#d33'
+        });
+    }
+    window.history.replaceState({}, document.title, cleanUrl.toString());
+}
 });
 
 document.querySelectorAll('.swal-decease-btn').forEach(button => {
@@ -779,151 +920,178 @@ document.querySelectorAll('.swal-decease-btn').forEach(button => {
             month: '2-digit', 
             year: 'numeric'
         });
-        Swal.fire({
-            title: 'Dichiarazione di Decesso',
-            html: `
-                <div style="text-align: center; margin: 20px 0; margin-bottom: -0.75em;">
-                    <div style="background: #e8f4fd; border: 1px solid #b8daff; border-radius: 6px; padding: 12px; margin-bottom: 20px; max-width: 450px; margin-left: auto; margin-right: auto;">
-                        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 5px;">
-                            <i class="fa-solid fa-info-circle" style="color: #0c5460; margin-right: 8px; font-size: 16px;"></i>
-                            <strong style="color: #0c5460; font-size: 14px;">Data Ricovero: ${dataRicoveroDisplay}</strong>
-                        </div>
-                        <p style="margin: 0; color: #0c5460; font-size: 13px;">
-                            La data del decesso non può essere precedente alla data di ricovero
-                        </p>
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label for="swal-dataOraDecesso" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">
-                            Data e Ora del Decesso <span style="color: #e74c3c;">*</span>
-                        </label>
-                        <input type="datetime-local" id="swal-dataOraDecesso" class="swal2-input swal-death-input" 
-                               value="${currentDateTime}" max="${currentDateTime}" min="${dataRicoveroFormatted}"
-                               style="width: 100%; max-width: 400px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; font-family: Arial, sans-serif !important; transition: border-color 0.3s ease; margin: 0 auto; display: block;">
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label for="swal-causaDecesso" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">
-                            Causa del Decesso <span style="color: #e74c3c;">*</span>
-                        </label>
-                        <textarea id="swal-causaDecesso" class="swal2-textarea swal-death-textarea" placeholder="Inserisci la causa del decesso..."
-                                  style="width: 100%; max-width: 400px; min-height: 80px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; font-family: Arial, sans-serif !important; resize: vertical; transition: border-color 0.3s ease; margin: 0 auto; display: block;"></textarea>
-                    </div>
-                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 15px; margin-top: 20px; max-width: 450px; margin-left: auto; margin-right: auto;">
-                        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-                            <i class="fa-solid fa-exclamation-triangle" style="color: #f39c12; margin-right: 10px; font-size: 18px;"></i>
-                            <strong style="color: #856404;">Attenzione</strong>
-                        </div>
-                        <p style="margin: 0; color: #856404; font-size: 14px; line-height: 1.4; text-align: center;">
-                            Questa azione dichiarerà il paziente deceduto e imposterà lo stato del ricovero come tale. 
-                            I dati del paziente e questo ricovero non saranno più modificabili.
-                        </p>
-                    </div>
-                </div>
-            `,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2c3e50',
-            cancelButtonColor: '#95a5a6',
-            confirmButtonText: '<i class="fa-solid fa-check"></i> Conferma Decesso',
-            cancelButtonText: '<i class="fa-solid fa-times"></i> Annulla',
-            width: '600px',
-            customClass: {
-                popup: 'swal-decesso-popup',
-                confirmButton: 'swal-decesso-confirm',
-                cancelButton: 'swal-decesso-cancel'
-            },
-             didOpen: () => {
-                const inputs = document.querySelectorAll('#swal-dataOraDecesso, #swal-causaDecesso');
-                inputs.forEach(input => {
-                    input.addEventListener('focus', function() {
-                        this.style.borderColor = '#3498db';
-                        this.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.1)';
-                    });
-                    input.addEventListener('blur', function() {
-                        this.style.borderColor = '#ddd';
-                        this.style.boxShadow = 'none';
-                    });
-                });
-                
-                const dateInput = document.getElementById('swal-dataOraDecesso');
-                dateInput.addEventListener('input', function() {
-                    const selectedDate = new Date(this.value);
-                    const ricoveroDate = new Date(dataRicovero); 
-                    
-                    if (selectedDate < ricoveroDate) {
-                        this.style.borderColor = '#e74c3c';
-                        this.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.1)';
-                    } else {
-                        this.style.borderColor = '#27ae60'; 
-                        this.style.boxShadow = '0 0 0 3px rgba(39, 174, 96, 0.1)';
-                    }
-                });
 
-                
-                const causaDecessoTextarea = document.getElementById('swal-causaDecesso');
-                if (causaDecessoTextarea) {
-                    causaDecessoTextarea.addEventListener('input', function(e) {
-                        let value = this.value;
-                        if (value.length > 0) {
-                            
-                            const selectionStart = this.selectionStart;
-                            const selectionEnd = this.selectionEnd;
-                            const newValue = value.charAt(0).toUpperCase() + value.slice(1);
-                            if (this.value !== newValue) {
-                                this.value = newValue;
-                                this.setSelectionRange(selectionStart, selectionEnd);
-                            }
+        
+        function showDeceaseForm() {
+            Swal.fire({
+                title: 'Dichiarazione di Decesso',
+                html: `
+                    <div style="text-align: center; margin: 20px 0; margin-bottom: -0.75em;">
+                        <div style="background: #e8f4fd; border: 1px solid #b8daff; border-radius: 6px; padding: 12px; margin-bottom: 20px; max-width: 450px; margin-left: auto; margin-right: auto;">
+                            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 5px;">
+                                <i class="fa-solid fa-info-circle" style="color: #0c5460; margin-right: 8px; font-size: 16px;"></i>
+                                <strong style="color: #0c5460; font-size: 14px;">Data Ricovero: ${dataRicoveroDisplay}</strong>
+                            </div>
+                            <p style="margin: 0; color: #0c5460; font-size: 13px;">
+                                La data del decesso non può essere precedente alla data di ricovero
+                            </p>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label for="swal-dataOraDecesso" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">
+                                Data e Ora del Decesso <span style="color: #e74c3c;">*</span>
+                            </label>
+                            <input type="datetime-local" id="swal-dataOraDecesso" class="swal2-input swal-death-input" 
+                                   value="${currentDateTime}" max="${currentDateTime}" min="${dataRicoveroFormatted}"
+                                   style="width: 100%; max-width: 400px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; font-family: Arial, sans-serif !important; transition: border-color 0.3s ease; margin: 0 auto; display: block;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label for="swal-causaDecesso" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">
+                                Causa del Decesso <span style="color: #e74c3c;">*</span>
+                            </label>
+                            <textarea id="swal-causaDecesso" class="swal2-textarea swal-death-textarea" placeholder="Inserisci la causa del decesso..."
+                                      style="width: 100%; max-width: 400px; min-height: 80px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; font-family: Arial, sans-serif !important; resize: vertical; transition: border-color 0.3s ease; margin: 0 auto; display: block;"></textarea>
+                        </div>
+                        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 15px; margin-top: 20px; max-width: 450px; margin-left: auto; margin-right: auto;">
+                            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+                                <i class="fa-solid fa-exclamation-triangle" style="color: #f39c12; margin-right: 10px; font-size: 18px;"></i>
+                                <strong style="color: #856404;">Attenzione</strong>
+                            </div>
+                            <p style="margin: 0; color: #856404; font-size: 14px; line-height: 1.4; text-align: center;">
+                                Questa azione dichiarerà il paziente deceduto e imposterà lo stato del ricovero come tale. 
+                                I dati del paziente e questo ricovero non saranno più modificabili.
+                            </p>
+                        </div>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#2c3e50',
+                cancelButtonColor: '#95a5a6',
+                confirmButtonText: '<i class="fa-solid fa-check"></i> Conferma Decesso',
+                cancelButtonText: '<i class="fa-solid fa-times"></i> Annulla',
+                width: '600px',
+                customClass: {
+                    popup: 'swal-decesso-popup',
+                    confirmButton: 'swal-decesso-confirm',
+                    cancelButton: 'swal-decesso-cancel'
+                },
+                 didOpen: () => { 
+                    const inputs = document.querySelectorAll('#swal-dataOraDecesso, #swal-causaDecesso');
+                    inputs.forEach(input => {
+                        input.addEventListener('focus', function() {
+                            this.style.borderColor = '#3498db';
+                            this.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.1)';
+                        });
+                        input.addEventListener('blur', function() {
+                            this.style.borderColor = '#ddd';
+                            this.style.boxShadow = 'none';
+                        });
+                    });
+                    
+                    const dateInput = document.getElementById('swal-dataOraDecesso');
+                    dateInput.addEventListener('input', function() {
+                        const selectedDate = new Date(this.value);
+                       
+                        
+                        if (selectedDate < dataRicoveroObj) { 
+                            this.style.borderColor = '#e74c3c';
+                            this.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.1)';
+                        } else {
+                            this.style.borderColor = '#27ae60'; 
+                            this.style.boxShadow = '0 0 0 3px rgba(39, 174, 96, 0.1)';
                         }
                     });
-                }
-                
-            },
-            preConfirm: () => {
-            },
-            preConfirm: () => {
-                const dataOraDecesso = document.getElementById('swal-dataOraDecesso').value;
-                let causaDecesso = document.getElementById('swal-causaDecesso').value; 
-                
-                if (!dataOraDecesso) {
-                    Swal.showValidationMessage('La data e ora del decesso sono obbligatorie'); 
-                    return false;
-                }
-                
-                if (!causaDecesso || causaDecesso.trim() === '') {
-                    Swal.showValidationMessage('La causa del decesso è obbligatoria'); 
-                    document.getElementById('swal-causaDecesso').value = ''; 
-                    return false;
-                }
-                
-                causaDecesso = causaDecesso.trim(); 
 
-                if (causaDecesso.length < 3) {
-                    Swal.showValidationMessage('La causa del decesso deve contenere almeno 3 caratteri'); 
-                    return false;
+                    const causaDecessoTextarea = document.getElementById('swal-causaDecesso');
+                    if (causaDecessoTextarea) {
+                        causaDecessoTextarea.addEventListener('input', function(e) {
+                            let value = this.value;
+                            if (value.length > 0) {
+                                const selectionStart = this.selectionStart;
+                                const selectionEnd = this.selectionEnd;
+                                const newValue = value.charAt(0).toUpperCase() + value.slice(1);
+                                if (this.value !== newValue) {
+                                    this.value = newValue;
+                                    this.setSelectionRange(selectionStart, selectionEnd);
+                                }
+                            }
+                        });
+                    }
+                },
+                preConfirm: () => { 
+                    const dataOraDecesso = document.getElementById('swal-dataOraDecesso').value;
+                    let causaDecesso = document.getElementById('swal-causaDecesso').value; 
+                    
+                    if (!dataOraDecesso) {
+                        Swal.showValidationMessage('La data e ora del decesso sono obbligatorie'); 
+                        return false;
+                    }
+                    
+                    if (!causaDecesso || causaDecesso.trim() === '') {
+                        Swal.showValidationMessage('La causa del decesso è obbligatoria'); 
+                        document.getElementById('swal-causaDecesso').value = ''; 
+                        return false;
+                    }
+                    
+                    causaDecesso = causaDecesso.trim(); 
+
+                    if (causaDecesso.length < 3) {
+                        Swal.showValidationMessage('La causa del decesso deve contenere almeno 3 caratteri'); 
+                        return false;
+                    }
+                                        
+                    if (causaDecesso.length > 0) {
+                        causaDecesso = causaDecesso.charAt(0).toUpperCase() + causaDecesso.slice(1);
+                    }
+                                   
+                    const selectedDate = new Date(dataOraDecesso);
+                    
+                    if (selectedDate < dataRicoveroObj) { 
+                        Swal.showValidationMessage(`La data del decesso non può essere precedente alla data di ricovero (${dataRicoveroDisplay})`); 
+                        return false;
+                    }
+                    
+                    return { dataOraDecesso, causaDecesso };
                 }
-                
-                
-                if (causaDecesso.length > 0) {
-                   
-                    causaDecesso = causaDecesso.charAt(0).toUpperCase() + causaDecesso.slice(1);
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.querySelector('input[name="dataOraDecesso"]').value = result.value.dataOraDecesso;
+                    form.querySelector('input[name="causaDecesso"]').value = result.value.causaDecesso;
+                    form.submit();
                 }
-               
-                
-                const selectedDate = new Date(dataOraDecesso);
-                const ricoveroDate = new Date(dataRicovero); 
-                
-                if (selectedDate < ricoveroDate) {
-                    Swal.showValidationMessage(`La data del decesso non può essere precedente alla data di ricovero (${dataRicoveroDisplay})`); 
-                    return false;
+            });
+        }
+
+
+        Swal.fire({
+            title: 'Verifica Autorizzazione',
+            input: 'password',
+            inputPlaceholder: 'Inserisci la password amministratore',
+            inputAttributes: {
+                autocapitalize: 'off',
+                autocorrect: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#800020',
+            confirmButtonText: 'Conferma',
+            cancelButtonText: 'Annulla',
+            showLoaderOnConfirm: true,
+            customClass: {
+                popup: 'swal-password-popup',
+                input: 'swal-password-input'
+            },
+            preConfirm: (password) => {
+                const definedPassword = "admin"; 
+                if (password !== definedPassword) {
+                    Swal.showValidationMessage('Password errata');
+                    return false; 
                 }
-                
-                return { dataOraDecesso, causaDecesso };
-            }
+                return password; 
+            },
+            allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {
             if (result.isConfirmed) {
-                
-                form.querySelector('input[name="dataOraDecesso"]').value = result.value.dataOraDecesso;
-                form.querySelector('input[name="causaDecesso"]').value = result.value.causaDecesso;
-                form.submit();
+                showDeceaseForm(); 
             }
         });
     });
@@ -936,75 +1104,226 @@ document.querySelectorAll('.swal-decease-btn').forEach(button => {
 document.querySelectorAll('.info-decesso-btn').forEach(button => {
     button.addEventListener('click', function() {
         const dataOra = this.getAttribute('data-dataora');
-        const causa = this.getAttribute('data-causa');
+        const causaOriginale = this.getAttribute('data-causa');
         const nomePaziente = this.getAttribute('data-nome');
+        const cssnPaziente = this.getAttribute('data-cssn'); 
+
         
+        if (!cssnPaziente) {
+            console.error("CSSN del paziente non trovato sull'attributo data-cssn del pulsante info.");
+            Swal.fire('Errore Interno', 'Impossibile recuperare l\'identificativo del paziente. Contattare l\'assistenza.', 'error');
+            return; 
+        }
+
         let dataOraFormatted = 'Non disponibile';
-        if (dataOra && dataOra !== 'Non disponibile') {
+        if (dataOra && dataOra !== 'Non disponibile' && dataOra !== '0000-00-00 00:00:00') {
             try {
                 const date = new Date(dataOra);
-                dataOraFormatted = date.toLocaleString('it-IT', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                });
+                if (!isNaN(date.getTime())) {
+                    dataOraFormatted = date.toLocaleString('it-IT', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                    });
+                }
             } catch (e) {
                 dataOraFormatted = dataOra;
             }
         }
         
-        Swal.fire({
-            title: '<i class="fa-solid fa-info-circle" style="color: #2c3e50;"></i> Informazioni Decesso',
-            html: `
-                <div style="text-align: left; max-width: 500px; margin: 0 auto;">
-                    <div style="background: #f8f9fa; border-left: 4px solid #2c3e50; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                            <i class="fa-solid fa-user" style="color: #2c3e50; margin-right: 10px; font-size: 16px;"></i>
-                            <strong style="color: #2c3e50; font-size: 16px;">Paziente:</strong>
-                            <span style="margin-left: 8px; font-size: 16px;">${nomePaziente}</span>
-                        </div>
-                        
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
-                            <i class="fa-solid fa-calendar-times" style="color: #e74c3c; margin-right: 10px; font-size: 16px; margin-top: 2px;"></i>
-                            <div>
-                                <strong style="color: #2c3e50; font-size: 14px;">Data e Ora Decesso:</strong>
-                                <div style="margin-top: 5px; padding: 8px 12px; background: #fff; border: 1px solid #dee2e6; border-radius: 4px; font-family: monospace; font-size: 14px;">
-                                    ${dataOraFormatted}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; align-items: flex-start;">
-                            <i class="fa-solid fa-clipboard-list" style="color: #f39c12; margin-right: 10px; font-size: 16px; margin-top: 2px;"></i>
-                            <div style="flex: 1;">
-                                <strong style="color: #2c3e50; font-size: 14px;">Causa del Decesso:</strong>
-                                <div style="margin-top: 5px; padding: 12px; background: #fff; border: 1px solid #dee2e6; border-radius: 4px; min-height: 50px; line-height: 1.4; font-size: 14px;">
-                                    ${causa || 'Non specificata'}
-                                </div>
+        const infoPopupHtml = `
+            <div style="text-align: left; max-width: 500px; margin: 0 auto;">
+                <div style="background: #f8f9fa; border-left: 4px solid #2c3e50; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="fa-solid fa-user" style="color: #2c3e50; margin-right: 10px; font-size: 16px;"></i>
+                        <strong style="color: #2c3e50; font-size: 16px;">Paziente:</strong>
+                        <span style="margin-left: 8px; font-size: 16px;">${nomePaziente}</span>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                        <i class="fa-solid fa-calendar-times" style="color: #e74c3c; margin-right: 10px; font-size: 16px; margin-top: 2px;"></i>
+                        <div>
+                            <strong style="color: #2c3e50; font-size: 14px;">Data e Ora Decesso:</strong>
+                            <div style="margin-top: 5px; padding: 8px 12px; background: #fff; border: 1px solid #dee2e6; border-radius: 4px; font-family: monospace; font-size: 14px;">
+                                ${dataOraFormatted}
                             </div>
                         </div>
                     </div>
-                    
-                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; text-align: center;">
-                        <i class="fa-solid fa-exclamation-triangle" style="color: #f39c12; margin-right: 8px;"></i>
-                        <small style="color: #856404; font-style: italic;">
-                            Questo paziente è stato dichiarato deceduto. I dati non sono più modificabili.
-                        </small>
+                    <div style="display: flex; align-items: flex-start;">
+                        <i class="fa-solid fa-clipboard-list" style="color: #f39c12; margin-right: 10px; font-size: 16px; margin-top: 2px;"></i>
+                        <div style="flex: 1;">
+                            <strong style="color: #2c3e50; font-size: 14px;">Causa del Decesso:</strong>
+                            <div id="display-causa-decesso" style="margin-top: 5px; padding: 12px; background: #fff; border: 1px solid #dee2e6; border-radius: 4px; min-height: 50px; line-height: 1.4; font-size: 14px; word-wrap: break-word;">
+                                ${causaOriginale || 'Non specificata'}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            `,
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; text-align: center;">
+                    <i class="fa-solid fa-exclamation-triangle" style="color: #f39c12; margin-right: 8px;"></i>
+                    <small style="color: #856404; font-style: italic;">
+                        Questo paziente è stato dichiarato deceduto.
+                    </small>
+                </div>
+            </div>
+        `;
+
+        Swal.fire({
+            title: '<i class="fa-solid fa-info-circle" style="color: #2c3e50;"></i> Informazioni Decesso',
+            html: infoPopupHtml,
             icon: null,
+            showCancelButton: true,
+            cancelButtonText: '<i class="fa-solid fa-pen-to-square"></i> Modifica Causa',
             confirmButtonColor: '#2c3e50',
             confirmButtonText: '<i class="fa-solid fa-check"></i> Chiudi',
             width: '600px',
             customClass: {
-                popup: 'swal-info-decesso-popup'
+                popup: 'swal-info-decesso-popup',
+                cancelButton: 'swal-edit-causa-button' 
+            }
+        }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.cancel) { 
+
+                Swal.fire({
+                    title: 'Verifica Autorizzazione Modifica',
+                    input: 'password',
+                    inputPlaceholder: 'Inserisci password amministratore',
+                    inputAttributes: { autocapitalize: 'off', autocorrect: 'off' },
+                    showCancelButton: true,
+                    confirmButtonColor: '#800020',
+                    confirmButtonText: 'Conferma',
+                    cancelButtonText: 'Annulla',
+                    customClass: { input: 'swal-password-input' },
+                    preConfirm: (password) => {
+                        if (password !== "admin") { 
+                            Swal.showValidationMessage('Password errata!');
+                            return false;
+                        }
+                        return password;
+                    }
+                }).then((passwordResult) => {
+                    if (passwordResult.isConfirmed) {
+                        Swal.fire({
+                            title: 'Modifica Causa Decesso',
+                            html: `
+                                <div style="text-align:left; margin-bottom:15px;">
+                                  <p style="font-size: 1em; margin-bottom: 5px;">Paziente: <strong>${nomePaziente}</strong></p>
+                                  <p style="font-size: 0.9em; margin-bottom: 15px;">Data Decesso: ${dataOraFormatted} (non modificabile)</p>
+                                </div>
+                                <textarea id="swal-nuovaCausaDecesso" class="swal2-textarea" placeholder="Nuova causa del decesso..." style="min-height: 100px;">${causaOriginale || ''}</textarea>
+                            `,
+                            showCancelButton: true,
+                            confirmButtonColor: '#800020',
+                            confirmButtonText: 'Salva Modifiche',
+                            cancelButtonText: 'Annulla',
+                            customClass: { textarea: 'swal-causa-textarea' },
+                            didOpen: () => {
+                                const textarea = document.getElementById('swal-nuovaCausaDecesso');
+                                if (textarea) {
+                                    textarea.focus();
+                                    textarea.addEventListener('input', function() {
+                                        let value = this.value;
+                                        if (value.length > 0) {
+                                            const selectionStart = this.selectionStart;
+                                            const selectionEnd = this.selectionEnd;
+                                            const newValue = value.charAt(0).toUpperCase() + value.slice(1);
+                                            if (this.value !== newValue) {
+                                                this.value = newValue;
+                                                this.setSelectionRange(selectionStart, selectionEnd);
+                                            }
+                                        }
+                                    });
+                                }
+                            },
+                            preConfirm: () => {
+                                let nuovaCausa = document.getElementById('swal-nuovaCausaDecesso').value.trim();
+                                if (!nuovaCausa) {
+                                    Swal.showValidationMessage('La causa non può essere vuota.');
+                                    return false;
+                                }
+                                if (nuovaCausa.length < 3) {
+                                     Swal.showValidationMessage('La causa deve contenere almeno 3 caratteri.');
+                                     return false;
+                                }
+                                return nuovaCausa.charAt(0).toUpperCase() + nuovaCausa.slice(1);
+                            }
+                        }).then((editResult) => {
+                            if (editResult.isConfirmed) {
+                                const nuovaCausaValorizzata = editResult.value;
+                                const postForm = document.createElement('form');
+                                postForm.method = 'post';
+                                const currentSearchParams = new URLSearchParams(window.location.search);
+                                postForm.action = 'ricoveri.php?' + currentSearchParams.toString();
+
+                                const hiddenCSSN = document.createElement('input');
+                                hiddenCSSN.type = 'hidden';
+                                hiddenCSSN.name = 'pazienteCSSN_causa';
+                                hiddenCSSN.value = cssnPaziente; 
+                                postForm.appendChild(hiddenCSSN);
+
+                                const hiddenCausa = document.createElement('input');
+                                hiddenCausa.type = 'hidden';
+                                hiddenCausa.name = 'nuovaCausaDecesso';
+                                hiddenCausa.value = nuovaCausaValorizzata;
+                                postForm.appendChild(hiddenCausa);
+
+                                const hiddenAction = document.createElement('input');
+                                hiddenAction.type = 'hidden';
+                                hiddenAction.name = 'update_causa_decesso';
+                                hiddenAction.value = '1';
+                                postForm.appendChild(hiddenAction);
+
+                                document.body.appendChild(postForm);
+                                postForm.submit();
+                            }
+                        });
+                    }
+                });
             }
         });
     });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const formFiltri = document.querySelector('aside.sidebar .filtro form');
+
+    if (formFiltri) {
+        formFiltri.addEventListener('submit', function(event) {
+           
+            const dataInizioInput = formFiltri.querySelector('input[name="filtro_data_inizio"]');
+            const dataFineInput = formFiltri.querySelector('input[name="filtro_data_fine"]');
+
+            if (dataInizioInput && dataFineInput) {
+                const dataInizioValue = dataInizioInput.value;
+                const dataFineValue = dataFineInput.value;
+
+               
+                if (dataInizioValue && dataFineValue) {
+                    const dataInizio = new Date(dataInizioValue);
+                    const dataFine = new Date(dataFineValue);
+
+                    
+                    dataInizio.setHours(0, 0, 0, 0);
+                    dataFine.setHours(0, 0, 0, 0);
+
+                    if (dataFine < dataInizio) {
+                        event.preventDefault(); 
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Intervallo Date Non Valido',
+                            text: 'La data "A data" non può essere precedente alla data "Da data". Si prega di correggere.',
+                            confirmButtonColor: '#002080', 
+                            confirmButtonText: 'Conferma'
+                        });
+                    }
+                }
+            }
+        });
+    } else {
+        console.warn('Attenzione: Form dei filtri non trovato. La validazione delle date potrebbe non funzionare.');
+    }
 });
 </script>
 

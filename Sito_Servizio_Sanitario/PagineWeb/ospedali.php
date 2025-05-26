@@ -3,27 +3,36 @@ $page = 'ospedali';
 include '../db_connection.php';
 
 
-$filtro_codice = $_GET['filtro_codice'] ?? null;
-$filtro_nome = $_GET['filtro_nome'] ?? null;
-$filtro_citta = $_GET['filtro_citta'] ?? null;
-$filtro_indirizzo = $_GET['filtro_indirizzo'] ?? null;
-$filtro_direttore = $_GET['filtro_direttore'] ?? null;
+$filtro_codice_get = $_GET['filtro_codice'] ?? '';       
+$filtro_codice = trim($filtro_codice_get);              
+
+$filtro_nome_get = $_GET['filtro_nome'] ?? '';           
+$filtro_nome = trim($filtro_nome_get);                  
+
+$filtro_citta_get = $_GET['filtro_citta'] ?? '';         
+$filtro_citta = trim($filtro_citta_get);                
+
+$filtro_indirizzo_get = $_GET['filtro_indirizzo'] ?? ''; 
+$filtro_indirizzo = trim($filtro_indirizzo_get);        
+
+$filtro_direttore_get = $_GET['filtro_direttore'] ?? ''; 
+$filtro_direttore = trim($filtro_direttore_get);  
 
 $whereClauses = [];
 $params = [];
 $types = "";
 
-if (!empty($filtro_codice)) {
+if (!empty($filtro_codice)) { 
     $whereClauses[] = "codice LIKE ?";
     $params[] = "%" . $filtro_codice . "%";
     $types .= "s";
 }
-if (!empty($filtro_nome)) {
+if (!empty($filtro_nome)) { 
     $whereClauses[] = "nome LIKE ?";
     $params[] = "%" . $filtro_nome . "%";
     $types .= "s";
 }
-if (!empty($filtro_citta)) {
+if (!empty($filtro_citta)) { 
     $whereClauses[] = "città LIKE ?";
     $params[] = "%" . $filtro_citta . "%";
     $types .= "s";
@@ -33,7 +42,7 @@ if (!empty($filtro_indirizzo)) {
     $params[] = "%" . $filtro_indirizzo . "%";
     $types .= "s";
 }
-if (!empty($filtro_direttore)) {
+if (!empty($filtro_direttore)) { 
     $whereClauses[] = "direttoreSanitario LIKE ?";
     $params[] = "%" . $filtro_direttore . "%";
     $types .= "s";
@@ -230,16 +239,15 @@ function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
         </div>
             <?php else: ?>
             <?php if (!empty($whereSql)): ?>
-                <div id="no-results">
-                <div class="empty-state-container" style="text-align: center; padding: 40px 20px;">
-                    <i class="fa-solid fa-search fa-3x" style="color: #002080; margin-bottom: 20px;"></i>
-                    <h2>Nessun ospedale trovato</h2>
-                    <p>Non sono stati trovati ospedali con i filtri specificati.</p>
-                    <div class="total-records-display" style="margin-top:10px;">
-                        Totale: <strong>0</strong> ospedali
+                <div id="no-results"> <div class="empty-state-container" style="text-align: center; padding: 40px 20px;">
+                        <i class="fa-solid fa-search fa-3x" style="color: #002080; margin-bottom: 20px;"></i>
+                        <h2>Nessun ospedale trovato</h2>
+                        <p>Non sono stati trovati ospedali con i filtri specificati.</p>
+                        <div class="total-records-display" style="margin-top:10px;">
+                            Totale: <strong>0</strong> ospedali
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php else: ?>
                 <p>Nessun ospedale presente.</p>
             <?php endif; ?>
@@ -254,19 +262,20 @@ function getSortIcon($column, $currentOrderBy, $currentOrderDir) {
 <script>
                 
   document.addEventListener('DOMContentLoaded', function() {
-    if (<?= !empty($whereSql) ? 'true' : 'false' ?>) {
+    if (<?= !empty($whereSql) && $totalRecords == 0 ? 'true' : 'false' ?>) {
 
-      document.getElementById('no-results').style.display = 'none';
+     
       Swal.fire({
-        title: 'Nessun risultato',
-        text: 'Non sono stati trovati ospedali con i filtri specificati.',
-        icon: 'error',
-        confirmButtonColor: '#002080',
-        confirmButtonText: 'Reimposta filtri'
-      }).then((result) => {
-        
-        window.location.href = 'ospedali.php';
-      });
+      title: 'Nessun risultato',
+      text: 'Non sono stati trovati ospedali con i filtri specificati.',
+      icon: 'error',
+      confirmButtonColor: '#002080',
+      confirmButtonText: 'Reimposta filtri'
+    }).then((result) => {
+      if (result.isConfirmed) { 
+         window.location.href = 'ospedali.php';
+      }
+    });
     }
   });
 </script>

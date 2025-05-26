@@ -124,3 +124,19 @@ th.sortable {
         margin-left: 0;
      }
 }
+
+
+
+.stato-cittadino-domicilio {
+    color: #9C9C9C; 
+    font-style: italic;
+}
+
+.stato-cittadino-ricoverato,
+.stato-cittadino-deceduto {
+    color: #000; 
+    font-style: normal; 
+    font-weight: bold; 
+}
+
+

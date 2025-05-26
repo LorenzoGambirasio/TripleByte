@@ -135,6 +135,16 @@ $filtro_stato_attuale_per_select = isset($filtri_attuali['filtro_stato']) && $fi
 						</button>
                     </div>
                 </div>
+                
+                 <div class="filtro-gruppo">
+                            <label for="filtro_stato_cittadino">Stato:</label>
+                            <select id="filtro_stato_cittadino" name="filtro_stato_cittadino" class="input-like-select">
+                                <option value="" <?= (empty($filtri_attuali['filtro_stato_cittadino']) ? 'selected' : '') ?>>Tutti gli stati</option>
+                                <option value="attivo" <?= (($filtri_attuali['filtro_stato_cittadino'] ?? '') === 'attivo' ? 'selected' : '') ?>>Domicilio</option>
+                                <option value="ricoverato" <?= (($filtri_attuali['filtro_stato_cittadino'] ?? '') === 'ricoverato' ? 'selected' : '') ?>>Ricoverato</option>
+                                <option value="deceduto" <?= (($filtri_attuali['filtro_stato_cittadino'] ?? '') === 'deceduto' ? 'selected' : '') ?>>Deceduto</option>
+                            </select>
+                        </div>
             <?php break; ?>
 
             <?php case 'ospedali': ?>
@@ -178,7 +188,21 @@ $filtro_stato_attuale_per_select = isset($filtri_attuali['filtro_stato']) && $fi
                 </div>
             <?php break; ?>
 
-            <?php case 'ricoveri': ?>
+             <?php case 'ricoveri': ?>
+            
+                <div class="filtro-gruppo filtro-gruppo-checkbox">
+    <label for="filtro_mostra_deceduti" class="label-checkbox-custom">Mostra deceduti:</label>
+    <div> <input type="hidden" name="mostra_deceduti" value="0"> <input type="checkbox" id="filtro_mostra_deceduti" name="mostra_deceduti" value="1"
+            <?php
+            
+            $valoreFiltroMostraDeceduti = $filtri_attuali['mostra_deceduti'] ?? '1'; 
+            echo ($valoreFiltroMostraDeceduti == '1') ? 'checked' : '';
+            ?>
+            onchange="this.form.submit()"
+        >
+    </div>
+</div>
+
                 <div class="filtro-gruppo">
                     <label for="filtro_paziente_cssn">CSSN Paziente:</label>
                     <div class="input-with-clear <?= !empty($filtri_attuali['filtro_paziente_cssn']) ? 'has-content' : '' ?>">
@@ -230,11 +254,11 @@ $filtro_stato_attuale_per_select = isset($filtri_attuali['filtro_stato']) && $fi
                     </select>
                 </div>
                 <div class="filtro-gruppo">
-                    <label for="filtro_data_inizio">Da Data:</label>
+                    <label for="filtro_data_inizio">Da Data:</label> 
                     <input type="date" id="filtro_data_inizio" name="filtro_data_inizio" value="<?= htmlspecialchars($filtri_attuali['filtro_data_inizio'] ?? '') ?>">
                 </div>
                  <div class="filtro-gruppo">
-                    <label for="filtro_data_fine">A Data:</label>
+                    <label for="filtro_data_fine">A Data:</label> 
                     <input type="date" id="filtro_data_fine" name="filtro_data_fine" value="<?= htmlspecialchars($filtri_attuali['filtro_data_fine'] ?? '') ?>">
                 </div>
                 <div class="filtro-gruppo">
@@ -268,7 +292,6 @@ $filtro_stato_attuale_per_select = isset($filtri_attuali['filtro_stato']) && $fi
                         <option value="">Tutti gli stati</option>
                         <?php foreach ($statiRicoveroPerFiltro as $valoreStato => $dettagliStato): ?>
                             <option value="<?= $valoreStato ?>" <?= ($filtro_stato_attuale_per_select === $valoreStato) ? 'selected' : '' ?>>
-                                <span class="status-dot <?= htmlspecialchars($dettagliStato['classe_css']) ?>" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle;"></span>
                                 <?= htmlspecialchars($dettagliStato['testo']) ?>
                             </option>
                         <?php endforeach; ?>
@@ -336,19 +359,15 @@ function clearInput(inputId) {
     if (input) { 
         const container = input.closest('.input-with-clear');
         input.value = ''; 
-
         if (container) { 
             container.classList.remove('has-content');
         }
-        
         const form = input.closest('.filtro-form');
         if (form) {
             form.submit(); 
         } else {
             console.error("Modulo dei filtri non trovato per l'invio automatico.");
-            
         }
-
     } else {
         console.error("Campo input con ID '" + inputId + "' non trovato.");
     }
@@ -390,5 +409,44 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+    
+ const mainFilterForm = document.getElementById('mainFilterForm'); 
+
+    if (mainFilterForm) {
+        
+        const dataInizioRicoveriInput = mainFilterForm.querySelector('#filtro_data_inizio');
+        const dataFineRicoveriInput = mainFilterForm.querySelector('#filtro_data_fine');
+
+       
+        if (dataInizioRicoveriInput && dataFineRicoveriInput) {
+            mainFilterForm.addEventListener('submit', function(event) {
+                const dataInizioValue = dataInizioRicoveriInput.value;
+                const dataFineValue = dataFineRicoveriInput.value;
+
+                
+                if (dataInizioValue && dataFineValue) {
+                    const dataInizio = new Date(dataInizioValue);
+                    const dataFine = new Date(dataFineValue);
+
+                    
+                    dataInizio.setHours(0, 0, 0, 0);
+                    dataFine.setHours(0, 0, 0, 0);
+
+                    if (dataFine < dataInizio) {
+                        event.preventDefault(); 
+
+                      
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Intervallo Date Non Valido',
+                            text: 'La data "A data" non può essere precedente alla data "Da data". Si prega di correggere.',
+                            confirmButtonColor: '#002080', 
+                            confirmButtonText: 'Capito'
+                        });
+                    }
+                }
+            });
+        }
+    }
 });
 </script>
