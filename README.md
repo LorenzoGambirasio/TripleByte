@@ -84,7 +84,7 @@ git clone https://github.com/LorenzoGambirasio/TripleByte.git
 ## 👤 Autori
 
 **Lorenzo Umberto Gambirasio**  
-📧 [lorenzo.gambirasio@example.com](mailto:l.gambirasio3@studenti.unibg.it)  
+📧 [lorenzo.gambirasio@studenti.unibg.it](mailto:l.gambirasio3@studenti.unibg.it)  
 🌐 [GitHub – @LorenzoGambirasio](https://github.com/LorenzoGambirasio)
 
 **Alessandro Biscaro**  
