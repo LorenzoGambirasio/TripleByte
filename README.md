@@ -66,18 +66,9 @@ Questi sottoinsiemi **non sono disgiunti né esaustivi**: una patologia può app
 
 ## 🚀 Come Visualizzare il Sito
 
-### ✅ Opzione 1 – Accesso Online (Consigliato)
+### Accesso Online 
 👉 Visita: [https://serviziosanitario.altervista.org](https://serviziosanitario.altervista.org)
 
-### 🧪 Opzione 2 – In locale
-1. Clona la repository:
-
-```bash
-git clone https://github.com/LorenzoGambirasio/TripleByte.git
-```
-
-2. Posiziona i file nella cartella `htdocs` (se usi XAMPP)
-3. Avvia Apache e visita: `http://localhost/TripleByte`
 
 ---
 
