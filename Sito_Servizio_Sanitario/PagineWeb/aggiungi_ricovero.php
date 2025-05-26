@@ -10,6 +10,7 @@ $success_action = null;
 define('STATO_ATTIVO', 0);
 define('MAX_DURATA_RICOVERO', 36500);
 define('MAX_COSTO_RICOVERO', 99999999.99);
+define('MAX_LUNGHEZZA_MOTIVO', 200);
 
 function generaCodiceRicovero($conn) {
     $query = "SELECT cod FROM Ricovero ORDER BY cod DESC LIMIT 1";
@@ -164,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $input_values['data_ricovero'] = trim($_POST['data_ricovero'] ?? '');
         $input_values['durata'] = trim($_POST['durata'] ?? '');
         $input_values['motivo'] = trim($_POST['motivo'] ?? '');
-        $input_values['costo'] = trim(str_replace(',', '.', $_POST['costo'] ?? '')); // Normalizza virgola a punto
+        $input_values['costo'] = trim(str_replace(',', '.', $_POST['costo'] ?? ''));
         $patologie_selezionate = $_POST['patologie_selezionate'] ?? [];
         $errors = [];
 
@@ -192,6 +193,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!empty($input_values['data_ricovero']) && !preg_match("/^\d{4}-\d{2}-\d{2}$/", $input_values['data_ricovero'])) {
              $errors[] = "Il formato della Data Ricovero non è valido (YYYY-MM-DD).";
         }
+        if (mb_strlen($input_values['motivo'], 'UTF-8') > MAX_LUNGHEZZA_MOTIVO) {
+            $errors[] = "Il motivo del ricovero non può superare " . MAX_LUNGHEZZA_MOTIVO . " caratteri.";
+        }
+
 
         if (empty($errors)) {
              list($pazienteEsiste, $nomePazienteDB, $dataNascitaPaziente) = verificaPazienteEsistente($conn, $input_values['paziente']);
@@ -436,7 +441,7 @@ $patologieAttuali = $patologie_selezionate;
 </div>
 <div class="form-group">
 <label for="motivo">Motivo Ricovero: *</label>
-<textarea id="motivo" name="motivo" placeholder="Descrivere brevemente il motivo del ricovero..." required="" rows="4"><?= htmlspecialchars($input_values['motivo'] ?? '') ?></textarea>
+<textarea id="motivo" name="motivo" placeholder="Descrivere brevemente il motivo del ricovero..." required="" rows="4" maxlength="200"><?= htmlspecialchars($input_values['motivo'] ?? '') ?></textarea>
 </div>
 <div class="form-group">
 <label for="costo">Costo (€): *</label>
@@ -588,6 +593,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let clientSideErrors = [];
             const MAX_DURATA_CLIENT = <?= MAX_DURATA_RICOVERO ?>;
             const MAX_COSTO_CLIENT = <?= MAX_COSTO_RICOVERO ?>;
+            const MAX_LUNGHEZZA_MOTIVO_CLIENT = <?= MAX_LUNGHEZZA_MOTIVO ?>;
 
             if (!pazienteInput || pazienteInput.value.trim() === '') {
                 clientSideErrors.push("Il campo Paziente (CSSN) è obbligatorio.");
@@ -610,6 +616,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (!motivoInput || motivoInput.value.trim() === '') {
                 clientSideErrors.push("Il campo Motivo Ricovero è obbligatorio.");
+            } else if (motivoInput.value.trim().length > MAX_LUNGHEZZA_MOTIVO_CLIENT) {
+                clientSideErrors.push(`Il motivo del ricovero non può superare ${MAX_LUNGHEZZA_MOTIVO_CLIENT} caratteri.`);
             }
             if (!costoInput || costoInput.value.trim() === '') {
                 clientSideErrors.push("Il campo Costo è obbligatorio.");
@@ -1017,4 +1025,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 </body>
-</html>
+</html>
