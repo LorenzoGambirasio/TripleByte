@@ -1,7 +1,6 @@
 # TripleByte – Servizio Sanitario 📊🩺
 
 ![Last Commit](https://img.shields.io/github/last-commit/LorenzoGambirasio/TripleByte?style=for-the-badge)
-![Language: PHP](https://img.shields.io/badge/php-80.1%25-blueviolet?style=for-the-badge)
 ![Languages Count](https://img.shields.io/github/languages/count/LorenzoGambirasio/TripleByte?style=for-the-badge)
 
 
