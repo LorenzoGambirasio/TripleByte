@@ -745,4 +745,4 @@ document.addEventListener('DOMContentLoaded', function() {
 if (isset($resultOspedali) && $resultOspedali instanceof mysqli_result) $resultOspedali->free();
 if (isset($resultPatologie) && $resultPatologie instanceof mysqli_result) $resultPatologie->free();
 if (isset($conn) && $conn instanceof mysqli) $conn->close();
-?>
+?>
