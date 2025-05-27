@@ -511,3 +511,58 @@ textarea {
     align-items: center;
     gap: 4px;
 }
+
+
+.swal-password-input {
+    border: 2px solid #ddd !important;
+    box-shadow: none !important;
+    font-size: 1.1em !important; 
+    transition: border-color 0.3s ease;
+}
+.swal-password-input:focus {
+    border-color: #800020 !important; 
+    box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.3) !important;
+}
+
+
+.swal-edit-causa-button {
+    background-color: var(--bordeaux-scuro) !important; 
+    color: white !important;
+}
+.swal-edit-causa-button:hover {
+    background-color: var(--bordeaux) !important; 
+}
+.swal-edit-causa-button:focus {
+    box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.3) !important;
+}
+
+
+
+.swal-causa-textarea { 
+    border: 2px solid #ddd !important;
+    font-family: inherit !important; 
+    font-size: 1em !important;
+    transition: border-color 0.3s ease;
+    resize: vertical; 
+}
+.swal-causa-textarea:focus {
+    border-color: #800020 !important; 
+    box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.3) !important;
+}
+
+.swal-death-input, .swal-death-textarea {
+    border: 2px solid #ddd !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    font-family: Arial, !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+    padding: 10px 12px !important; 
+    box-sizing: border-box !important; 
+}
+.swal-death-input:focus, .swal-death-textarea:focus {
+    border-color: #800020 !important;
+    box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.3) !important;
+}
+.swal-death-textarea {
+    resize: vertical !important;
+}
