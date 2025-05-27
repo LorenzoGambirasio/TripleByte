@@ -20,4 +20,4 @@ try {
     http_response_code(500);
     echo json_encode(['error' => 'Errore nel generare il CSSN estero: ' . $e->getMessage()]);
 }
-?>
+?>
