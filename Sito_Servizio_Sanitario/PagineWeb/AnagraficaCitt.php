@@ -357,26 +357,32 @@ if ($orderBy !== 'cssn') {
                             echo '<span class="disabled">&laquo; Precedente</span>';
                         }
 
-                        $startPage = max(1, $currentPage - 2);
-                        $endPage = min($totalPages, $currentPage + 2);
+                        $pages_to_show = [];
+                    $k = 1; 
 
-                        if ($startPage > 1) {
-                            echo '<a href="?' . $queryStringBase . 'p=1">1</a>';
-                            if ($startPage > 2) echo '<span>...</span>';
-                        }
-
-                        for ($i = $startPage; $i <= $endPage; $i++) {
-                            if ($i == $currentPage) {
-                                echo '<span class="active">' . $i . '</span>';
-                            } else {
-                                echo '<a href="?' . $queryStringBase . 'p=' . $i . '">' . $i . '</a>';
+                    if ($totalPages > 1) { 
+                        for ($i = 1; $i <= $totalPages; $i++) {
+                            if ($i == 1 || $i == $totalPages || ($i >= $currentPage - $k && $i <= $currentPage + $k)) {
+                                $pages_to_show[] = $i;
                             }
                         }
 
-                        if ($endPage < $totalPages) {
-                            if ($endPage < $totalPages - 1) echo '<span>...</span>';
-                            echo '<a href="?' . $queryStringBase . 'p=' . $totalPages . '">' . $totalPages . '</a>';
+                        $last_printed_page = 0;
+                        foreach ($pages_to_show as $page_num) {
+                            if ($last_printed_page > 0 && $page_num > $last_printed_page + 1) {
+                                echo '<span class="ellipsis">...</span>';
+                            }
+
+                            if ($page_num == $currentPage) {
+                                echo '<span class="active">' . $page_num . '</span>';
+                            } else {
+                                echo '<a href="?' . $queryStringBase . 'p=' . $page_num . '">' . $page_num . '</a>';
+                            }
+                            $last_printed_page = $page_num;
                         }
+                    } elseif ($totalPages == 1 && $totalRecords > 0) { 
+                         echo '<span class="active">1</span>';
+                    }
 
                         if ($currentPage < $totalPages) {
                             echo '<a href="?' . $queryStringBase . 'p=' . ($currentPage + 1) . '">Successiva &raquo;</a>';
@@ -439,4 +445,4 @@ if ($orderBy !== 'cssn') {
 <?php
  if (isset($stmt)) $stmt->close();
  $conn->close();
-?>
+?>
