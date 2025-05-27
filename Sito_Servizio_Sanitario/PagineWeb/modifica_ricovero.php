@@ -30,13 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $costo_form = trim(str_replace(',', '.', $_POST['costo'] ?? '')); 
     $patologie_selezionate_form = $_POST['patologie'] ?? [];
 
-    
-
     $form_validation_errors = []; 
 
-   
     if (empty($paziente_form)) { $form_validation_errors[] = "Il campo Paziente è obbligatorio."; }
-    if (empty($data_form)) { $form_validation_errors[] = "Il campo Data Ricovero (originale) risulta mancante."; }
+    if (empty($data_form)) { $form_validation_errors[] = "Il campo Data Ricovero (originale) risulta mancante."; } // $data_form è la data di inizio ricovero
     if (empty($durata_form)) { $form_validation_errors[] = "Il campo Durata è obbligatorio."; }
     if (empty($motivo_form)) { $form_validation_errors[] = "Il campo Motivo Ricovero è obbligatorio."; }
     if ($costo_form === '' || $costo_form === null) { $form_validation_errors[] = "Il campo Costo è obbligatorio."; }
@@ -97,78 +94,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
              $form_validation_errors[] = "Errore query data nascita paziente (server).";
         }
     }
-
     
+
+
     if (!empty($form_validation_errors)) {
         $updateError = implode("<br>", $form_validation_errors);
     } else {
         
-        $dataRicoveroPHP = new DateTime($data_form); 
-        $oggiPHP = new DateTime();
-        $dataFinePHP = clone $dataRicoveroPHP;
-        $dataFinePHP->modify("+" . intval($durata_form) . " days"); 
-
-        $stmtStatoOriginalePHP = $conn->prepare("SELECT stato FROM Ricovero WHERE codOspedale = ? AND cod = ?");
-        $statoOriginaleDBPHP = STATO_ATTIVO;
-        if ($stmtStatoOriginalePHP) {
-            $stmtStatoOriginalePHP->bind_param("ss", $codOspedale, $codRicovero);
-            $stmtStatoOriginalePHP->execute();
-            $resStatoOrigPHP = $stmtStatoOriginalePHP->get_result();
-            if ($resStatoOrigPHP && $resStatoOrigPHP->num_rows > 0) {
-                 $statoRowPHP = $resStatoOrigPHP->fetch_assoc();
-                 $statoOriginaleDBPHP = (int)$statoRowPHP['stato'];
+        $stmtStatoOriginale = $conn->prepare("SELECT stato FROM Ricovero WHERE codOspedale = ? AND cod = ?");
+        $statoOriginaleDalDB = null; 
+        if ($stmtStatoOriginale) {
+            $stmtStatoOriginale->bind_param("ss", $codOspedale, $codRicovero);
+            $stmtStatoOriginale->execute();
+            $resStatoOrig = $stmtStatoOriginale->get_result();
+            if ($resStatoOrig && $resStatoOrig->num_rows > 0) {
+                 $statoRow = $resStatoOrig->fetch_assoc();
+                 $statoOriginaleDalDB = (int)$statoRow['stato'];
             }
-            $stmtStatoOriginalePHP->close();
+            $stmtStatoOriginale->close();
+        }
+
+        if (is_null($statoOriginaleDalDB)) {
+            
+            throw new Exception("Impossibile recuperare lo stato originale del ricovero."); 
         }
         
-        $statoCalcolato = $statoOriginaleDBPHP; 
-        if ($statoOriginaleDBPHP == STATO_ATTIVO) { 
-            if ($dataFinePHP < $oggiPHP) {
-                $statoCalcolato = STATO_DIMESSO; 
-            } else {
-                $statoCalcolato = STATO_ATTIVO;
+        $statoCalcolato = $statoOriginaleDalDB; 
+
+        
+        if ($statoOriginaleDalDB === STATO_ATTIVO || $statoOriginaleDalDB === STATO_DIMESSO) {
+            try {
+                $dataRicoveroOggetto = new DateTime($data_form); 
+                $dataRicoveroOggetto->setTime(0, 0, 0); 
+
+                $dataUltimoGiornoDegenza = clone $dataRicoveroOggetto;
+                $durataInt = intval($durata_form);
+                if ($durataInt > 0) { 
+                    $dataUltimoGiornoDegenza->modify("+" . ($durataInt - 1) . " days");
+                }
+               
+
+                $oggiOggetto = new DateTime(); 
+                $oggiOggetto->setTime(0, 0, 0); 
+
+                if ($dataUltimoGiornoDegenza < $oggiOggetto) {
+                    $statoCalcolato = STATO_DIMESSO; 
+                } else {
+                    $statoCalcolato = STATO_ATTIVO; 
+                }
+            } catch (Exception $e) {
+                
+                $updateError = "Errore interno nel calcolo delle date per lo stato: " . $e->getMessage();
+                 
+            }
+        }
+        
+        
+        if ($updateError === null) { 
+            $conn->begin_transaction();
+            try {
+                $updateStmt = $conn->prepare("
+                    UPDATE Ricovero
+                    SET paziente = ?, durata = ?, motivo = ?, costo = ?, stato = ?
+                    WHERE codOspedale = ? AND cod = ?
+                ");
+                if ($updateStmt === false) throw new Exception("Errore DB (prepare Ricovero): " . $conn->error);
+                
+               
+                $durata_form_int = intval($durata_form); 
+                
+                $updateStmt->bind_param("sississ", $paziente_form, $durata_form_int, $motivo_form, $costo_form, $statoCalcolato, $codOspedale, $codRicovero);
+                if (!$updateStmt->execute()) throw new Exception("Errore DB (execute Ricovero): " . $updateStmt->error);
+                $updateStmt->close();
+                
+                $deletePatologieStmt = $conn->prepare("DELETE FROM PatologiaRicovero WHERE codOspedale = ? AND codRicovero = ?");
+                if ($deletePatologieStmt === false) throw new Exception("Errore DB (prepare delete Patologie): " . $conn->error);
+                $deletePatologieStmt->bind_param("ss", $codOspedale, $codRicovero);
+                $deletePatologieStmt->execute();
+                $deletePatologieStmt->close();
+
+                if (!empty($patologie_selezionate_form)) {
+                    $insertPatologiaStmt = $conn->prepare("INSERT INTO PatologiaRicovero (codOspedale, codRicovero, codPatologia) VALUES (?, ?, ?)");
+                    if ($insertPatologiaStmt === false) throw new Exception("Errore DB (prepare insert Patologie): " . $conn->error);
+                    foreach ($patologie_selezionate_form as $patologiaCod) {
+                        $insertPatologiaStmt->bind_param("sss", $codOspedale, $codRicovero, $patologiaCod);
+                        if(!$insertPatologiaStmt->execute()) throw new Exception("Errore DB (execute insert Patologia " .htmlspecialchars($patologiaCod). "): " . $insertPatologiaStmt->error);
+                    }
+                    $insertPatologiaStmt->close();
+                }
+                
+                $conn->commit();
+                $updateMessage = "Ricovero aggiornato con successo!";
+                $success_action = "ricovero_aggiornato";
+                $_GET['update_success'] = '1'; 
+
+            } catch (Exception $e) {
+                $conn->rollback();
+                $updateError = "Errore durante l'aggiornamento: " . $e->getMessage();
             }
         } 
-
-        $conn->begin_transaction();
-        try {
-            $updateStmt = $conn->prepare("
-                UPDATE Ricovero
-                SET paziente = ?, durata = ?, motivo = ?, costo = ?, stato = ?
-                WHERE codOspedale = ? AND cod = ?
-            ");
-            if ($updateStmt === false) throw new Exception("Errore DB (prepare Ricovero): " . $conn->error);
-            $updateStmt->bind_param("sississ", $paziente_form, $durata_form, $motivo_form, $costo_form, $statoCalcolato, $codOspedale, $codRicovero);
-            if (!$updateStmt->execute()) throw new Exception("Errore DB (execute Ricovero): " . $updateStmt->error);
-            $updateStmt->close();
-            
-            $deletePatologieStmt = $conn->prepare("DELETE FROM PatologiaRicovero WHERE codOspedale = ? AND codRicovero = ?");
-            if ($deletePatologieStmt === false) throw new Exception("Errore DB (prepare delete Patologie): " . $conn->error);
-            $deletePatologieStmt->bind_param("ss", $codOspedale, $codRicovero);
-            $deletePatologieStmt->execute();
-            $deletePatologieStmt->close();
-
-            if (!empty($patologie_selezionate_form)) {
-                $insertPatologiaStmt = $conn->prepare("INSERT INTO PatologiaRicovero (codOspedale, codRicovero, codPatologia) VALUES (?, ?, ?)");
-                if ($insertPatologiaStmt === false) throw new Exception("Errore DB (prepare insert Patologie): " . $conn->error);
-                foreach ($patologie_selezionate_form as $patologiaCod) {
-                    $insertPatologiaStmt->bind_param("sss", $codOspedale, $codRicovero, $patologiaCod);
-                    if(!$insertPatologiaStmt->execute()) throw new Exception("Errore DB (execute insert Patologia " .htmlspecialchars($patologiaCod). "): " . $insertPatologiaStmt->error);
-                }
-                $insertPatologiaStmt->close();
-            }
-            
-            $conn->commit();
-            $updateMessage = "Ricovero aggiornato con successo!";
-            $success_action = "ricovero_aggiornato";
-            $_GET['update_success'] = '1'; 
-
-        } catch (Exception $e) {
-            $conn->rollback();
-            $updateError = "Errore durante l'aggiornamento: " . $e->getMessage();
-        }
     }
 }
+
 
 $query = "
     SELECT
@@ -177,7 +204,7 @@ $query = "
         r.paziente AS pazienteCSSN,
         c.nome AS nomePaziente,
         c.cognome AS cognomePaziente,
-        c.dataNascita AS dataNascitaPaziente, /* <-- RIGA MODIFICATA/AGGIUNTA */
+        c.dataNascita AS dataNascitaPaziente, 
         o.nome AS nomeOspedale,
         r.data,
         r.durata,
@@ -227,14 +254,16 @@ $queryPatologieAttualiReload = "
     WHERE pr.codOspedale = ? AND pr.codRicovero = ?
 ";
 $stmtPatologieReload = $conn->prepare($queryPatologieAttualiReload);
-$stmtPatologieReload->bind_param("ss", $codOspedale, $codRicovero);
-$stmtPatologieReload->execute();
-$resultPatologieReload = $stmtPatologieReload->get_result()->fetch_assoc();
-$patologieAttuali = []; 
-if (!empty($resultPatologieReload['patologieCod'])) {
-    $patologieAttuali = explode(',', $resultPatologieReload['patologieCod']);
+if($stmtPatologieReload) { 
+    $stmtPatologieReload->bind_param("ss", $codOspedale, $codRicovero);
+    $stmtPatologieReload->execute();
+    $resultPatologieReload = $stmtPatologieReload->get_result()->fetch_assoc();
+    $patologieAttuali = []; 
+    if (!empty($resultPatologieReload['patologieCod'])) {
+        $patologieAttuali = explode(',', $resultPatologieReload['patologieCod']);
+    }
+    $stmtPatologieReload->close();
 }
-$stmtPatologieReload->close();
 
 ?>
 
@@ -274,7 +303,7 @@ $stmtPatologieReload->close();
                 <label for="ospedale_nome">Ospedale:</label>
                 <input type="text" id="ospedale_nome" value="<?= htmlspecialchars($ricovero['nomeOspedale'] ?? 'N/D') ?>" readonly>
                 <input type="hidden" name="ospedale" value="<?= htmlspecialchars($ricovero['codOspedale'] ?? '') ?>">
-                <?php if (isset($resultOspedali) && $resultOspedali !== false) $resultOspedali->free();  ?>
+                <?php if (isset($resultOspedali) && $resultOspedali instanceof mysqli_result) $resultOspedali->free();  ?>
                 </div>
 
                 <div class="form-group">
@@ -284,22 +313,41 @@ $stmtPatologieReload->close();
                 </div>
 
                 <div class="form-group">
-                    <label for="stato_ricovero">Stato Ricovero:</label>
+                    <label for="stato_ricovero">Stato Ricovero (originale da DB):</label>
                     <div class="stato-indicator">
                         <?php
-                        $statoClasses = ['status-attivo', 'status-trasferito', 'status-dimesso'];
-                        $statoLabels = ['ATTIVO', 'TRASFERITO', 'DIMESSO'];
-                        $stato = (int)$ricovero['stato'];
-                        $statoClass = isset($statoClasses[$stato]) ? $statoClasses[$stato] : 'status-sconosciuto';
-                        $statoLabel = isset($statoLabels[$stato]) ? $statoLabels[$stato] : 'Sconosciuto';
+                        
+                        $statoAttualeRicovero = (int)($ricovero['stato'] ?? STATO_ATTIVO); 
+                        $statoDisplayMap = [
+                            STATO_ATTIVO => ['label' => 'ATTIVO', 'class' => 'status-attivo'],
+                            STATO_TRASFERITO => ['label' => 'TRASFERITO', 'class' => 'status-trasferito'],
+                            STATO_DIMESSO => ['label' => 'DIMESSO', 'class' => 'status-dimesso'],
+                            STATO_DECEDUTO => ['label' => 'DECEDUTO', 'class' => 'status-deceduto'] 
+                        ];
+
+                        $displayInfo = $statoDisplayMap[$statoAttualeRicovero] ?? ['label' => 'SCONOSCIUTO ('.htmlspecialchars($statoAttualeRicovero).')', 'class' => 'status-sconosciuto'];
+                        $statoLabel = $displayInfo['label'];
+                        $statoClass = $displayInfo['class'];
+                        
                         ?>
                         <div class="stato-display">
-                            
-                            <span class="stato-text"><?= $statoLabel ?></span>
-                            <span class="status-dot <?= $statoClass ?>"></span>
+                            <span class="stato-text" id="stato-text-originale"><?= $statoLabel ?></span>
+                            <span class="status-dot <?= $statoClass ?>" id="status-dot-originale"></span>
                         </div>                     
                     </div>
+                    <small class="field-note">Questo è lo stato originale del ricovero.</small>
                 </div>
+                
+                <div class="form-group">
+                    <label>Stato Calcolato (preview):</label>
+                     <div class="stato-indicator">
+                        <div class="stato-display">
+                            <span class="stato-text" id="stato-text-calcolato">ATTIVO</span>
+                            <span class="status-dot status-attivo" id="status-dot-calcolato"></span>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <label for="paziente">Paziente:</label>
@@ -309,14 +357,17 @@ $stmtPatologieReload->close();
                                 <?php 
                                 $selectedText = "Seleziona un paziente...";
                                 if ($resultPazienti && $resultPazienti->num_rows > 0):
-                                    $resultPazienti->data_seek(0);
-                                    while ($paziente = $resultPazienti->fetch_assoc()):
-                                        if ($paziente['CSSN'] == $ricovero['pazienteCSSN']):
-                                            $selectedText = $paziente['cognome'] . ' ' . $paziente['nome'] . ' (' . $paziente['CSSN'] . ')';
+                                    // $resultPazienti->data_seek(0); 
+                                    $tempPazientiArray = [];
+                                    while($paz = $resultPazienti->fetch_assoc()) $tempPazientiArray[] = $paz;
+                                    $resultPazienti->data_seek(0); 
+
+                                    foreach ($tempPazientiArray as $pazienteOpt):
+                                        if ($pazienteOpt['CSSN'] == $ricovero['pazienteCSSN']):
+                                            $selectedText = $pazienteOpt['cognome'] . ' ' . $pazienteOpt['nome'] . ' (' . $pazienteOpt['CSSN'] . ')';
                                             break;
                                         endif;
-                                    endwhile;
-                                    $resultPazienti->data_seek(0);
+                                    endforeach;
                                 endif;
                                 echo htmlspecialchars($selectedText);
                                 ?>
@@ -325,18 +376,17 @@ $stmtPatologieReload->close();
                         <div class="single-select-dropdown" id="paziente-dropdown">
                             <input type="text" class="search-ospedale" id="search-paziente" placeholder="Cerca paziente...">
                             <div class="ospedale-container">
-                                <?php if ($resultPazienti && $resultPazienti->num_rows > 0): ?>
-                                    <?php while ($paziente = $resultPazienti->fetch_assoc()): ?>
-                                        <div class="ospedale-item <?= ($paziente['CSSN'] == $ricovero['pazienteCSSN']) ? 'selected' : '' ?>"
-                                             data-value="<?= htmlspecialchars($paziente['CSSN']) ?>"
-                                             data-birthdate="<?= htmlspecialchars($paziente['dataNascita']) ?>"> 
-                                            <?= htmlspecialchars($paziente['cognome'] . ' ' . $paziente['nome'] . ' (' . $paziente['CSSN'] . ')') ?>
+                                <?php if (!empty($tempPazientiArray)): ?>
+                                    <?php foreach ($tempPazientiArray as $pazienteOpt): ?>
+                                        <div class="ospedale-item <?= ($pazienteOpt['CSSN'] == $ricovero['pazienteCSSN']) ? 'selected' : '' ?>"
+                                             data-value="<?= htmlspecialchars($pazienteOpt['CSSN']) ?>"
+                                             data-birthdate="<?= htmlspecialchars($pazienteOpt['dataNascita']) ?>"> 
+                                            <?= htmlspecialchars($pazienteOpt['cognome'] . ' ' . $pazienteOpt['nome'] . ' (' . $pazienteOpt['CSSN'] . ')') ?>
                                         </div>
-                                    <?php endwhile; ?>
+                                    <?php endforeach; ?>
                                 <?php else: ?>
                                     <p class="no-results">Nessun paziente disponibile</p>
                                 <?php endif; ?>
-                                <?php if (isset($resultPazienti) && $resultPazienti !== false) $resultPazienti->data_seek(0); ?>
                             </div>
                         </div>
                         <input type="hidden" id="paziente" name="paziente" value="<?= htmlspecialchars($ricovero['pazienteCSSN']) ?>" required data-birthdate="<?= htmlspecialchars($currentPazienteDataNascitaValueHTML) ?>">
@@ -361,7 +411,7 @@ $stmtPatologieReload->close();
 
                 <div class="form-group cost-input-group"> 
                     <label for="costo">Costo (€):</label>
-                    <input type="number" id="costo" name="costo" class="cost-input" value="<?= htmlspecialchars($ricovero['costo']) ?>" min="0" step="0.01" max="<?= MAX_COSTO_RICOVERO_MOD ?>" required>
+                    <input type="number" id="costo" name="costo" class="cost-input" value="<?= number_format((float)($ricovero['costo'] ?? 0), 2, '.', '') ?>" min="0" step="0.01" max="<?= MAX_COSTO_RICOVERO_MOD ?>" required>
                 </div>
 
                 <div class="form-group">
@@ -379,16 +429,16 @@ $stmtPatologieReload->close();
                                 if ($resultPatologie && $resultPatologie->num_rows > 0): ?>
                                     <?php while ($patologia = $resultPatologie->fetch_assoc()): ?>
                                         <div class="patologia-item <?= in_array($patologia['cod'], $patologieAttuali) ? 'selected' : '' ?>">
-                                            <input type="checkbox" id="patologia_<?= $patologia['cod'] ?>"
+                                            <input type="checkbox" id="patologia_<?= htmlspecialchars($patologia['cod']) ?>"
                                                 name="patologie[]" value="<?= htmlspecialchars($patologia['cod']) ?>" 
                                                 <?= in_array($patologia['cod'], $patologieAttuali) ? 'checked' : '' ?>>
-                                            <label for="patologia_<?= $patologia['cod'] ?>"><?= htmlspecialchars($patologia['nome']) ?></label>
+                                            <label for="patologia_<?= htmlspecialchars($patologia['cod']) ?>"><?= htmlspecialchars($patologia['nome']) ?></label>
                                         </div>
                                     <?php endwhile; ?>
                                 <?php else: ?>
                                     <p class="no-results">Nessuna patologia disponibile</p>
                                 <?php endif; ?>
-                                <?php if (isset($resultPatologie) && $resultPatologie !== false) $resultPatologie->free(); // Libera il risultato ?>
+                                <?php if (isset($resultPatologie) && $resultPatologie instanceof mysqli_result) $resultPatologie->free(); ?>
                             </div>
                         </div>
                     </div>
@@ -409,7 +459,8 @@ $stmtPatologieReload->close();
 <?php include '../MainLayout/footer.php'; ?>
 
 <script>
-let formModificato = false;
+let formModificato = false; 
+
 
 <?php if (!empty($updateMessage) && isset($success_action) && $success_action === 'ricovero_aggiornato'): ?>
 Swal.fire({
@@ -431,313 +482,367 @@ Swal.fire({
 });
 <?php endif; ?>
 
-document.querySelectorAll('input:not([readonly]), textarea, select').forEach(element => {
-    element.addEventListener('change', function() {
+document.querySelectorAll('input:not([readonly]), textarea, select, input[type="checkbox"]').forEach(element => {
+    element.addEventListener('input', function() { 
         formModificato = true;
     });
+    if (element.type === 'checkbox' || element.tagName === 'SELECT') {
+         element.addEventListener('change', function() {
+            formModificato = true;
+        });
+    }
 });
 
-function updateStatoIndicator() {
-    const dataInput = document.getElementById('data');
+
+
+function updateStatoPreviewIndicator() {
+    const dataInput = document.getElementById('data'); 
     const durataInput = document.getElementById('durata');
     
-    if (!dataInput.value || !durataInput.value) return;
+    const statoDotCalcolato = document.getElementById('status-dot-calcolato');
+    const statoTextCalcolato = document.getElementById('stato-text-calcolato');
+
+    if (!dataInput || !dataInput.value || !durataInput || !durataInput.value || !statoDotCalcolato || !statoTextCalcolato) {
+        
+        statoTextCalcolato.textContent = 'N/D';
+        statoDotCalcolato.className = 'status-dot status-sconosciuto';
+        return;
+    }
     
-    const dataRicovero = new Date(dataInput.value);
+    const dataRicovero = new Date(dataInput.value + "T00:00:00"); 
     const durata = parseInt(durataInput.value);
+    
+    if (isNaN(durata) || durata <= 0) { 
+        statoTextCalcolato.textContent = 'N/D';
+        statoDotCalcolato.className = 'status-dot status-sconosciuto';
+        return;
+    }
+
     const oggi = new Date();
+    oggi.setHours(0, 0, 0, 0); 
+
+    const dataUltimoGiornoDegenza = new Date(dataRicovero);
+    dataUltimoGiornoDegenza.setDate(dataUltimoGiornoDegenza.getDate() + durata - 1); 
     
-    const dataFine = new Date(dataRicovero);
-    dataFine.setDate(dataFine.getDate() + durata);
+
+    let previewStatoClass = 'status-attivo';
+    let previewStatoLabel = 'ATTIVO';
     
-    let statoClass = 'status-attivo';
-    let statoLabel = 'ATTIVO';
-    
-    if (dataFine < oggi) {
-        statoClass = 'status-dimesso';
-        statoLabel = 'DIMESSO';
+    if (dataUltimoGiornoDegenza < oggi) {
+        previewStatoClass = 'status-dimesso';
+        previewStatoLabel = 'DIMESSO';
     }
     
-    const statoDot = document.querySelector('.status-dot');
-    const statoText = document.querySelector('.stato-text');
-    
-    if (statoDot && statoText) {
-        statoDot.classList.remove('status-attivo', 'status-trasferito', 'status-dimesso', 'status-sconosciuto');
-        statoDot.classList.add(statoClass);
-        statoText.textContent = statoLabel;
-    }
+    statoDotCalcolato.className = 'status-dot ' + previewStatoClass;
+    statoTextCalcolato.textContent = previewStatoLabel;
 }
-
-document.getElementById('durata').addEventListener('change', updateStatoIndicator);
-
-const patologieToggle = document.getElementById('patologie-toggle');
-const patologieDropdown = document.getElementById('patologie-dropdown');
-const searchPatologie = document.getElementById('search-patologie');
-const patologieItems = document.querySelectorAll('.patologia-item');
-const selectedBadgesContainer = document.getElementById('selected-patologie-badges');
-const patologieCount = document.getElementById('patologie-count');
-const patologiePlaceholder = document.getElementById('patologie-placeholder');
-
-function updatePatologieSelection() {
-    const selectedCheckboxes = document.querySelectorAll('.patologie-container input[type="checkbox"]:checked');
-    selectedBadgesContainer.innerHTML = '';
-    
-    if (selectedCheckboxes.length > 0) {
-        if (patologiePlaceholder) patologiePlaceholder.style.display = 'none';
-        patologieCount.textContent = selectedCheckboxes.length;
-        patologieCount.style.display = 'inline';
-        
-            selectedCheckboxes.forEach(checkbox => {
-            const label = document.querySelector(`label[for="${checkbox.id}"]`);
-            const badge = document.createElement('div');
-            badge.className = 'patologia-badge';
-            badge.textContent = label ? label.textContent : checkbox.value;
-            
-            const removeBtn = document.createElement('span');
-            removeBtn.className = 'remove-badge';
-            removeBtn.innerHTML = '×';
-            removeBtn.dataset.value = checkbox.value;
-            removeBtn.onclick = (e) => {
-                e.stopPropagation();
-                checkbox.checked = false;
-                checkbox.closest('.patologia-item')?.classList.remove('selected');
-                updatePatologieSelection();
-            };
-            
-            badge.appendChild(removeBtn);
-            selectedBadgesContainer.appendChild(badge);
-        });
-    } else {
-        if (patologiePlaceholder) patologiePlaceholder.style.display = 'inline';
-        patologieCount.style.display = 'none';
-    }
-}
-
-patologieToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    const isOpen = patologieDropdown.classList.toggle('open');
-    patologieToggle.classList.toggle('open');
-    if (isOpen) {
-        searchPatologie.focus();
-    }
-});
-
-patologieToggle.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        patologieToggle.click();
-    }
-});
-
-document.addEventListener('click', function(event) {
-    if (!patologieToggle.contains(event.target) && !patologieDropdown.contains(event.target)) {
-        patologieDropdown.classList.remove('open');
-        patologieToggle.classList.remove('open');
-    }
-});
-
-searchPatologie.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase().trim();
-    const patologieContainer = document.querySelector('.patologie-container');
-    let visibleCount = 0;
-    
-    patologieItems.forEach(item => {
-        const itemText = item.textContent.toLowerCase();
-        const dataName = item.dataset.name ? item.dataset.name.toLowerCase() : '';
-        const dataValue = item.dataset.value ? item.dataset.value.toLowerCase() : '';
-        const matches = itemText.includes(searchTerm) || dataName.includes(searchTerm) || dataValue.includes(searchTerm);
-        
-        item.style.display = matches ? '' : 'none';
-        if (matches) visibleCount++;
-    });
-    
-    let noResultsMsg = patologieContainer.querySelector('.no-results');
-    if (visibleCount === 0 && !noResultsMsg) {
-        noResultsMsg = document.createElement('p');
-        noResultsMsg.className = 'no-results';
-        noResultsMsg.textContent = 'Nessun risultato trovato';
-        patologieContainer.appendChild(noResultsMsg);
-    } else if (visibleCount > 0 && noResultsMsg) {
-        noResultsMsg.remove();
-    }
-});
-
-patologieDropdown.addEventListener('click', (e) => {
-    const clickedItem = e.target.closest('.patologia-item');
-    if (!clickedItem) return;
-    
-    const checkbox = clickedItem.querySelector('input[type="checkbox"]');
-    if (checkbox && e.target !== checkbox && e.target.tagName !== 'LABEL') {
-        checkbox.checked = !checkbox.checked;
-    }
-    
-    if (checkbox) {
-        clickedItem.classList.toggle('selected', checkbox.checked);
-        updatePatologieSelection();
-    }
-});
-
-updatePatologieSelection();
 
 document.addEventListener('DOMContentLoaded', function() {
+    
+    updateStatoPreviewIndicator(); 
+
+    
+    const durataInput = document.getElementById('durata');
+    if (durataInput) {
+        durataInput.addEventListener('change', updateStatoPreviewIndicator);
+        durataInput.addEventListener('input', updateStatoPreviewIndicator); 
+    }
+
+    
+    const patologieToggle = document.getElementById('patologie-toggle');
+    const patologieDropdown = document.getElementById('patologie-dropdown');
+    const searchPatologie = document.getElementById('search-patologie');
+    const patologieItems = document.querySelectorAll('.patologia-item');
+    const selectedBadgesContainer = document.getElementById('selected-patologie-badges');
+    const patologieCount = document.getElementById('patologie-count');
+    // const patologiePlaceholder = document.getElementById('patologie-placeholder'); 
+
+    function updatePatologieSelection() {
+        const selectedCheckboxes = document.querySelectorAll('.patologie-container input[type="checkbox"]:checked');
+        selectedBadgesContainer.innerHTML = '';
+        
+        if (selectedCheckboxes.length > 0) {
+            // if (patologiePlaceholder) patologiePlaceholder.style.display = 'none';
+            patologieCount.textContent = selectedCheckboxes.length;
+            patologieCount.style.display = 'inline';
+            patologieToggle.childNodes[0].nodeValue = "Modifica selezione (" + selectedCheckboxes.length + ") ";
+
+
+            selectedCheckboxes.forEach(checkbox => {
+                const label = document.querySelector(`label[for="${checkbox.id}"]`);
+                const badge = document.createElement('div');
+                badge.className = 'patologia-badge';
+                badge.textContent = label ? label.textContent : checkbox.value;
+                
+                const removeBtn = document.createElement('span');
+                removeBtn.className = 'remove-badge';
+                removeBtn.innerHTML = '×';
+                removeBtn.dataset.value = checkbox.value;
+                removeBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    checkbox.checked = false;
+                    const itemDiv = checkbox.closest('.patologia-item');
+                    if(itemDiv) itemDiv.classList.remove('selected');
+                    updatePatologieSelection();
+                    formModificato = true;
+                };
+                
+                badge.appendChild(removeBtn);
+                selectedBadgesContainer.appendChild(badge);
+            });
+        } else {
+            // if (patologiePlaceholder) patologiePlaceholder.style.display = 'inline';
+            patologieCount.style.display = 'none';
+            patologieToggle.childNodes[0].nodeValue = "Seleziona una patologia...";
+        }
+    }
+
+    if (patologieToggle) {
+        patologieToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = patologieDropdown.classList.toggle('open');
+            patologieToggle.classList.toggle('open');
+            if (isOpen && searchPatologie) {
+                searchPatologie.focus();
+            }
+        });
+
+        patologieToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                patologieToggle.click();
+            }
+        });
+    }
+
+
+    document.addEventListener('click', function(event) {
+        if (patologieDropdown && patologieToggle && !patologieToggle.contains(event.target) && !patologieDropdown.contains(event.target)) {
+            patologieDropdown.classList.remove('open');
+            patologieToggle.classList.remove('open');
+        }
+    });
+
+    if (searchPatologie) {
+        searchPatologie.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            const patologieContainer = document.querySelector('.patologie-container');
+            let visibleCount = 0;
+            
+            patologieItems.forEach(item => {
+                const itemText = item.textContent.toLowerCase();
+                const matches = itemText.includes(searchTerm);
+                
+                item.style.display = matches ? '' : 'none';
+                if (matches) visibleCount++;
+            });
+            
+            let noResultsMsg = patologieContainer.querySelector('.no-results');
+            if (visibleCount === 0 && !noResultsMsg) {
+                noResultsMsg = document.createElement('p');
+                noResultsMsg.className = 'no-results';
+                noResultsMsg.textContent = 'Nessun risultato trovato';
+                patologieContainer.appendChild(noResultsMsg);
+            } else if (visibleCount > 0 && noResultsMsg) {
+                noResultsMsg.remove();
+            }
+        });
+    }
+
+    if (patologieDropdown) {
+        patologieDropdown.addEventListener('click', (e) => {
+            const clickedItem = e.target.closest('.patologia-item');
+            if (!clickedItem) return;
+            
+            const checkbox = clickedItem.querySelector('input[type="checkbox"]');
+            if (checkbox && e.target !== checkbox && e.target.tagName !== 'LABEL') { 
+                checkbox.checked = !checkbox.checked;
+                 formModificato = true;
+            }
+                        
+            if (checkbox) {
+                clickedItem.classList.toggle('selected', checkbox.checked);
+                updatePatologieSelection();
+            }
+        });
+         
+        document.querySelectorAll('.patologie-container input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                formModificato = true;
+                
+                const itemDiv = cb.closest('.patologia-item');
+                if(itemDiv) itemDiv.classList.toggle('selected', cb.checked);
+                updatePatologieSelection();
+            });
+        });
+    }
+    updatePatologieSelection(); 
+
+
+    
     const pazienteToggle = document.getElementById('paziente-toggle');
     const pazienteDropdown = document.getElementById('paziente-dropdown');
     const pazienteSelectedValue = document.getElementById('paziente-selected-value');
     const pazienteHiddenInput = document.getElementById('paziente');
     const searchPaziente = document.getElementById('search-paziente');
-    const pazienteItems = document.querySelectorAll('.ospedale-item');
-    
-    pazienteItems.forEach((item, index) => {
-        item.style.setProperty('--item-index', index + 1);
-    });
-  
-    pazienteToggle.addEventListener('click', function() {
-        pazienteToggle.classList.toggle('open');
-        pazienteDropdown.classList.toggle('open');
-        if (pazienteDropdown.classList.contains('open')) {
-            searchPaziente.focus();
-        }
-    });
-    
-    document.addEventListener('click', function(e) {
-        if (!pazienteToggle.contains(e.target) && !pazienteDropdown.contains(e.target)) {
-            pazienteToggle.classList.remove('open');
-            pazienteDropdown.classList.remove('open');
-        }
-    });
-    
-    searchPaziente.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        let foundItems = 0;
-        
-        pazienteItems.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            if (text.includes(searchTerm)) {
-                item.style.display = 'flex';
-                foundItems++;
-            } else {
-                item.style.display = 'none';
+    const pazienteItemsContainer = pazienteDropdown ? pazienteDropdown.querySelector('.ospedale-container') : null; // Selettore più specifico
+    const allPazienteItems = pazienteItemsContainer ? pazienteItemsContainer.querySelectorAll('.ospedale-item') : [];
+
+
+    if (pazienteToggle && pazienteDropdown && pazienteSelectedValue && pazienteHiddenInput && searchPaziente && pazienteItemsContainer) {
+        allPazienteItems.forEach((item, index) => {
+            item.style.setProperty('--item-index', index + 1);
+        });
+      
+        pazienteToggle.addEventListener('click', function() {
+            pazienteToggle.classList.toggle('open');
+            pazienteDropdown.classList.toggle('open');
+            if (pazienteDropdown.classList.contains('open')) {
+                searchPaziente.focus();
             }
         });
         
-        const noResults = pazienteDropdown.querySelector('.no-results');
-        if (foundItems === 0) {
-            if (!noResults) {
+        document.addEventListener('click', function(e) {
+            if (!pazienteToggle.contains(e.target) && !pazienteDropdown.contains(e.target)) {
+                pazienteToggle.classList.remove('open');
+                pazienteDropdown.classList.remove('open');
+            }
+        });
+        
+        searchPaziente.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let foundItems = 0;
+            
+            allPazienteItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'flex'; 
+                    foundItems++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            let noResults = pazienteItemsContainer.querySelector('.no-results');
+            if (foundItems === 0 && !noResults) {
                 const noResultsElement = document.createElement('p');
                 noResultsElement.className = 'no-results';
                 noResultsElement.textContent = 'Nessun paziente trovato';
-                pazienteDropdown.querySelector('.ospedale-container').appendChild(noResultsElement);
-            }
-        } else {
-            if (noResults) {
+                pazienteItemsContainer.appendChild(noResultsElement);
+            } else if (foundItems > 0 && noResults) {
                 noResults.remove();
             }
-        }
-    });
-    
-    pazienteItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const value = this.getAttribute('data-value');
-            const text = this.textContent;
-            
-            pazienteSelectedValue.textContent = text;
-            pazienteHiddenInput.value = value;
-             const birthdate = this.getAttribute('data-birthdate');
-        if (birthdate) {
-            pazienteHiddenInput.dataset.birthdate = birthdate;
-        } else {
-            delete pazienteHiddenInput.dataset.birthdate;
-        }
-
-            
-            pazienteItems.forEach(i => i.classList.remove('selected'));
-            this.classList.add('selected');
-            
-            pazienteToggle.classList.remove('open');
-            pazienteDropdown.classList.remove('open');
-            
-            formModificato = true; 
         });
-    });
-});
+        
+        allPazienteItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const text = this.textContent;
+                const birthdate = this.getAttribute('data-birthdate');
+                
+                pazienteSelectedValue.textContent = text;
+                pazienteHiddenInput.value = value;
+                if (birthdate) {
+                    pazienteHiddenInput.dataset.birthdate = birthdate;
+                } else {
+                    delete pazienteHiddenInput.dataset.birthdate;
+                }
+                
+                allPazienteItems.forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                pazienteToggle.classList.remove('open');
+                pazienteDropdown.classList.remove('open');
+                
+                formModificato = true; 
+            });
+        });
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
     const btnSalva = document.getElementById('btnSalva');
-    const form = btnSalva.closest('form');
+    const form = btnSalva ? btnSalva.closest('form') : null;
 
     if (form && btnSalva) {
         form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
+            event.preventDefault(); 
             
             let clientSideErrors = [];
-    const durataInputJS = document.getElementById('durata');
-    const motivoInputJS = document.getElementById('motivo');
-    const costoInputJS = document.getElementById('costo');
-    const pazienteHiddenInputJS = document.getElementById('paziente');
-    const dataRicoveroOriginaleJS = document.getElementById('data').value; 
+            const durataInputJS = document.getElementById('durata');
+            const motivoInputJS = document.getElementById('motivo');
+            const costoInputJS = document.getElementById('costo');
+            const pazienteHiddenInputJS = document.getElementById('paziente');
+            const dataRicoveroOriginaleJS = document.getElementById('data') ? document.getElementById('data').value : null; 
 
-    const MAX_DURATA_JS = <?= MAX_DURATA_RICOVERO_MOD ?>;
-    const MAX_COSTO_JS = <?= MAX_COSTO_RICOVERO_MOD ?>;
-    const MAX_LUNGHEZZA_MOTIVO_JS = <?= MAX_LUNGHEZZA_MOTIVO_MOD ?>;
+            const MAX_DURATA_JS = <?= MAX_DURATA_RICOVERO_MOD ?>;
+            const MAX_COSTO_JS = <?= MAX_COSTO_RICOVERO_MOD ?>;
+            const MAX_LUNGHEZZA_MOTIVO_JS = <?= MAX_LUNGHEZZA_MOTIVO_MOD ?>;
 
-    if (!pazienteHiddenInputJS || pazienteHiddenInputJS.value.trim() === '') {
-         clientSideErrors.push("Il campo Paziente è obbligatorio.");
-    }
+            if (!pazienteHiddenInputJS || pazienteHiddenInputJS.value.trim() === '') {
+                 clientSideErrors.push("Il campo Paziente è obbligatorio.");
+            }
 
-    if (!durataInputJS || durataInputJS.value.trim() === '') {
-        clientSideErrors.push("Il campo Durata è obbligatorio.");
-    } else {
-        const durataVal = parseInt(durataInputJS.value);
-        if (isNaN(durataVal) || durataVal <= 0) {
-            clientSideErrors.push("La durata deve essere un numero intero positivo.");
-        } else if (durataVal > MAX_DURATA_JS) {
-            clientSideErrors.push(`La durata del ricovero non può superare ${MAX_DURATA_JS} giorni.`);
-        }
-    }
+            if (!durataInputJS || durataInputJS.value.trim() === '') {
+                clientSideErrors.push("Il campo Durata è obbligatorio.");
+            } else {
+                const durataVal = parseInt(durataInputJS.value, 10);
+                if (isNaN(durataVal) || durataVal <= 0) {
+                    clientSideErrors.push("La durata deve essere un numero intero positivo.");
+                } else if (durataVal > MAX_DURATA_JS) {
+                    clientSideErrors.push(`La durata del ricovero non può superare ${MAX_DURATA_JS} giorni.`);
+                }
+            }
 
-    if (!motivoInputJS || motivoInputJS.value.trim() === '') {
-        clientSideErrors.push("Il campo Motivo Ricovero è obbligatorio.");
-    } else if (motivoInputJS.value.trim().length > MAX_LUNGHEZZA_MOTIVO_JS) {
-         clientSideErrors.push(`Il motivo del ricovero non può superare ${MAX_LUNGHEZZA_MOTIVO_JS} caratteri. Inseriti: ${motivoInputJS.value.trim().length}.`);
-    }
+            if (!motivoInputJS || motivoInputJS.value.trim() === '') {
+                clientSideErrors.push("Il campo Motivo Ricovero è obbligatorio.");
+            } else if (motivoInputJS.value.trim().length > MAX_LUNGHEZZA_MOTIVO_JS) {
+                 clientSideErrors.push(`Il motivo del ricovero non può superare ${MAX_LUNGHEZZA_MOTIVO_JS} caratteri. Inseriti: ${motivoInputJS.value.trim().length}.`);
+            }
 
-    if (!costoInputJS || costoInputJS.value.trim() === '') {
-        clientSideErrors.push("Il campo Costo è obbligatorio.");
-    } else {
-        const costoVal = parseFloat(costoInputJS.value.replace(',', '.'));
-        if (isNaN(costoVal) || costoVal < 0) {
-            clientSideErrors.push("Il costo deve essere un numero positivo.");
-        } else if (costoVal > MAX_COSTO_JS) {
-            clientSideErrors.push(`Il costo del ricovero non può superare ${MAX_COSTO_JS.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €.`);
-        }
-    }
+            if (!costoInputJS || costoInputJS.value.trim() === '') {
+                clientSideErrors.push("Il campo Costo è obbligatorio.");
+            } else {
+                const costoVal = parseFloat(costoInputJS.value.replace(',', '.'));
+                if (isNaN(costoVal) || costoVal < 0) {
+                    clientSideErrors.push("Il costo deve essere un numero positivo.");
+                } else if (costoVal > MAX_COSTO_JS) {
+                    
+                    const formattedMaxCosto = parseFloat('<?= MAX_COSTO_RICOVERO_MOD ?>').toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    clientSideErrors.push(`Il costo del ricovero non può superare ${formattedMaxCosto} €.`);
+                }
+            }
 
-    const pazienteBirthDateValue = pazienteHiddenInputJS ? pazienteHiddenInputJS.dataset.birthdate : null;
-    if (dataRicoveroOriginaleJS && pazienteBirthDateValue) {
-        const dataRicoveroDate = new Date(dataRicoveroOriginaleJS);
-        const pazienteNascitaDate = new Date(pazienteBirthDateValue);
-        dataRicoveroDate.setHours(0,0,0,0);
-        pazienteNascitaDate.setHours(0,0,0,0);
-        if (dataRicoveroDate < pazienteNascitaDate) {
-            clientSideErrors.push("La data di ricovero ("+ dataRicoveroDate.toLocaleDateString('it-IT') +") non può essere precedente alla data di nascita del paziente ("+ pazienteNascitaDate.toLocaleDateString('it-IT') +").");
-        }
-    }
+            const pazienteBirthDateValue = pazienteHiddenInputJS ? pazienteHiddenInputJS.dataset.birthdate : null;
+            if (dataRicoveroOriginaleJS && pazienteBirthDateValue) {
+                try {
+                    const dataRicoveroDate = new Date(dataRicoveroOriginaleJS + "T00:00:00");
+                    const pazienteNascitaDate = new Date(pazienteBirthDateValue + "T00:00:00");
+                    
+                    if (isNaN(dataRicoveroDate.getTime()) || isNaN(pazienteNascitaDate.getTime())) {
+                        // clientSideErrors.push("Formato data ricovero o data nascita non valido per confronto.");
+                         
+                    } else {
+                         if (dataRicoveroDate < pazienteNascitaDate) {
+                            clientSideErrors.push("La data di ricovero ("+ dataRicoveroDate.toLocaleDateString('it-IT') +") non può essere precedente alla data di nascita del paziente ("+ pazienteNascitaDate.toLocaleDateString('it-IT') +").");
+                        }
+                    }
+                } catch(e) {
+                    
+                }
+            }
 
-    if (clientSideErrors.length > 0) {
-        
-        Swal.fire({
-            icon: 'error',
-            title: 'Errori di Validazione',
-            html: clientSideErrors.join('<br>'),
-            confirmButtonColor: '#002080'
-        });
-        return; 
-    }
+            if (clientSideErrors.length > 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Errori di Validazione',
+                    html: clientSideErrors.join('<br>'),
+                    confirmButtonColor: '#002080'
+                });
+                return; 
+            }
             
             Swal.fire({
                 title: 'Sei sicuro?',
-                text: "Confermi la modifica del ricovero? Se hai cambiato l\'ospedale o il codice ricovero, il record verrà riassegnato.",
+                text: "Confermi la modifica del ricovero?",
                 icon: 'warning', 
                 showCancelButton: true,
                 confirmButtonColor: '#002080', 
@@ -746,15 +851,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 cancelButtonText: 'Annulla'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    formModificato = false;
-                    form.submit();
+                    formModificato = false; 
+                    form.submit(); 
                 }
             });
         });
     }
-
-    document.querySelector('.btn-annulla').addEventListener('click', function() {
-        formModificato = false;
-    });
+    
+    const btnAnnulla = document.querySelector('.btn-annulla');
+    if (btnAnnulla) {
+         btnAnnulla.addEventListener('click', function(e) {
+            if (formModificato) {
+                e.preventDefault(); 
+                Swal.fire({
+                    title: 'Modifiche non salvate',
+                    text: "Sei sicuro di voler uscire senza salvare le modifiche?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#002080',
+                    cancelButtonColor: '#800000',
+                    confirmButtonText: 'Sì, esci',
+                    cancelButtonText: 'No, rimani'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        formModificato = false; 
+                        window.location.href = this.href;
+                    }
+                });
+            }
+           
+        });
+    }
 });
 </script>
+
+</body>
+</html>
