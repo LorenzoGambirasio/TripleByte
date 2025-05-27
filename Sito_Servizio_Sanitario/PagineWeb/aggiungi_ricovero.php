@@ -10,7 +10,7 @@ $success_action = null;
 define('STATO_ATTIVO', 0);
 define('MAX_DURATA_RICOVERO', 36500);
 define('MAX_COSTO_RICOVERO', 99999999.99);
-define('MAX_LUNGHEZZA_MOTIVO', 200);
+define('MAX_LUNGHEZZA_MOTIVO', 500);
 
 function generaCodiceRicovero($conn) {
     $query = "SELECT cod FROM Ricovero ORDER BY cod DESC LIMIT 1";
@@ -196,7 +196,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mb_strlen($input_values['motivo'], 'UTF-8') > MAX_LUNGHEZZA_MOTIVO) {
             $errors[] = "Il motivo del ricovero non può superare " . MAX_LUNGHEZZA_MOTIVO . " caratteri.";
         }
-
 
         if (empty($errors)) {
              list($pazienteEsiste, $nomePazienteDB, $dataNascitaPaziente) = verificaPazienteEsistente($conn, $input_values['paziente']);
@@ -617,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!motivoInput || motivoInput.value.trim() === '') {
                 clientSideErrors.push("Il campo Motivo Ricovero è obbligatorio.");
             } else if (motivoInput.value.trim().length > MAX_LUNGHEZZA_MOTIVO_CLIENT) {
-                clientSideErrors.push(`Il motivo del ricovero non può superare ${MAX_LUNGHEZZA_MOTIVO_CLIENT} caratteri.`);
+                clientSideErrors.push(`Il motivo del ricovero non può superare ${MAX_LUNGHEZZA_MOTIVO_CLIENT} caratteri. Inseriti: ${motivoInput.value.trim().length}.`);
             }
             if (!costoInput || costoInput.value.trim() === '') {
                 clientSideErrors.push("Il campo Costo è obbligatorio.");
