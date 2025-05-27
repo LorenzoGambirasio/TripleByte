@@ -74,15 +74,15 @@ Questi sottoinsiemi **non sono disgiunti né esaustivi**: una patologia può app
 
 ## 👤 Autori
 
-**Lorenzo Umberto Gambirasio**  
+**Lorenzo Umberto Gambirasio - [1087441]**  
 📧 [lorenzo.gambirasio@studenti.unibg.it](mailto:l.gambirasio3@studenti.unibg.it)  
 🌐 [GitHub – @LorenzoGambirasio](https://github.com/LorenzoGambirasio)
 
-**Alessandro Biscaro**  
+**Alessandro Biscaro - [1087892]**  
 📧 [a.biscaro@studenti.unibg.it](mailto:a.biscaro@studenti.unibg.it)  
 🌐 [GitHub – @AlessandroBiscaro](https://github.com/AlessandroBiscaro)
 
-**Marco Valceschini**  
+**Marco Valceschini - [1086356]**  
 📧 [m.valceschini1@studenti.unibg.it](mailto:m.valceschini1@studenti.unibg.it)  
 🌐 [GitHub – @MarcoValceschini](https://github.com/MarcoValceschini)
 
