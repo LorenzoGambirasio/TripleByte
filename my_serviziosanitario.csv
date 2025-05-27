@@ -1,0 +1,1449 @@
+"CSSN","nome","cognome","dataNascita","luogoNascita","indirizzo","deceduto","dataOraDecesso","causaDecesso"
+"RSSMRA70A01F205Z","Mario","Rossi","1970-01-01","Milano","Via Roma 1, Milano","0",NULL,NULL
+"VRDLCU80B02F205Y","Luca","Verdi","1980-02-02","Milano","Via Montenapoleone 2, Milano","0",NULL,NULL
+"BNCLRA75C03F205X","Laura","Bianchi","1975-03-03","Milano","Via Dante 3, Milano","0",NULL,NULL
+"NRECLR82D04F205W","Clara","Neri","1982-04-04","Milano","Corso Buenos Aires 4, Milano","0",NULL,NULL
+"GLLGPP79E05F205V","Giuseppe","Gialli","1979-05-05","Milano","Via Padova 5, Milano","0",NULL,NULL
+"RSSFNC65F06D612U","Francesca","Rossi","1965-06-06","Firenze","Via dei Mille 6, Firenze","0",NULL,NULL
+"VRDMRC72G07H501T","Marco","Verdi","1972-07-07","Roma","Via del Corso 7, Roma","0",NULL,NULL
+"BNCSFN77H08A944S","Stefano","Bianchi","1977-08-08","Bologna","Via Indipendenza 8, Bologna","0",NULL,NULL
+"NREMRT83I09L219R","Marta","Neri","1983-09-09","Torino","Via Roma 9, Torino","0",NULL,NULL
+"GLLSVT78L10A662Q","Salvatore","Gialli","1978-10-10","Bari","Corso Vittorio Emanuele 10, Bari","1","2025-05-22 12:17:12",NULL
+"BRNNTN66M11F839P","Antonio","Bruni","1966-11-11","Napoli","Via Toledo 11, Napoli","0",NULL,NULL
+"VRDGVN73N12D969O","Giovanna","Verdi","1973-12-12","Genova","Via XX Settembre 12, Genova","0",NULL,NULL
+"BNCGPP78A13G273N","Giuseppe","Bianchi","1978-01-13","Palermo","Via Maqueda 13, Palermo","0",NULL,NULL
+"RSSLRA68B14C351M","Laura","Rossi","1968-02-14","Catania","Via Etnea 14, Catania","0",NULL,NULL
+"NREDNL81C15A271L","Daniele","Neri","1981-03-15","Ancona","Corso Garibaldi 15, Ancona","0",NULL,NULL
+"GLLVNT87D16H703K","Valentina","Gialli","1987-04-16","Siena","Piazza del Campo 16, Siena","0",NULL,NULL
+"BRNLCU76E17I754J","Lucia","Bruni","1976-05-17","Verona","Via Mazzini 17, Verona","0",NULL,NULL
+"VRDSMN82F18E715I","Simone","Verdi","1982-06-18","Pescara","Corso Umberto I 18, Pescara","0",NULL,NULL
+"BNCLNZ85G19A783H","Lorenzo","Bianchi","1985-07-19","Pisa","Lungarno Mediceo 19, Pisa","0",NULL,NULL
+"RSSPTR70H20G224G","Pietro","Rossi","1970-08-20","Padova","Via del Santo 20, Padova","0",NULL,NULL
+"CNTGPP64A01F205Z","Giuseppe","Conti","1964-01-01","Milano","Via Ripamonti 21, Milano","0",NULL,NULL
+"MRNDNL75B02F205Y","Daniela","Moretti","1975-02-02","Milano","Via Washington 22, Milano","0",NULL,NULL
+"FRRLCU80C03F205X","Luca","Ferrari","1980-03-03","Milano","Via Tortona 23, Milano","0",NULL,NULL
+"ESPLRA82D04F205W","Laura","Esposito","1982-04-04","Milano","Via Solari 24, Milano","0",NULL,NULL
+"RMNNNA79E05F205V","Anna","Romano","1979-05-05","Milano","Via Savona 25, Milano","0",NULL,NULL
+"CNTRCC65F06D612U","Riccardo","Conti","1965-06-06","Firenze","Via Tornabuoni 26, Firenze","0",NULL,NULL
+"MRNFNC72G07H501T","Francesca","Moretti","1972-07-07","Roma","Via Veneto 27, Roma","0",NULL,NULL
+"FRRMRC77H08A944S","Marco","Ferrari","1977-08-08","Bologna","Via Ugo Bassi 28, Bologna","0",NULL,NULL
+"ESPSFN83I09L219R","Stefania","Esposito","1983-09-09","Torino","Via Po 29, Torino","0",NULL,NULL
+"RMNGVN78L10A662Q","Giovanni","Romano","1978-10-10","Bari","Via Sparano 30, Bari","0",NULL,NULL
+"BLDMRT66M11F839P","Marta","Baldi","1966-11-11","Napoli","Via Chiaia 31, Napoli","0",NULL,NULL
+"CNTCRL73N12D969O","Carlo","Conti","1973-12-12","Genova","Via Garibaldi 32, Genova","0",NULL,NULL
+"MRNSVT78A13G273N","Salvatore","Moretti","1978-01-13","Palermo","Via Roma 33, Palermo","0",NULL,NULL
+"FRRLRA68B14C351M","Laura","Ferrari","1968-02-14","Catania","Via Vittorio Emanuele 34, Catania","0",NULL,NULL
+"ESPGPP81C15A271L","Giuseppe","Esposito","1981-03-15","Ancona","Via XXIX Settembre 35, Ancona","0",NULL,NULL
+"RMNLCU87D16H703K","Lucia","Romano","1987-04-16","Siena","Via di Città 36, Siena","0",NULL,NULL
+"BLDLNZ76E17I754J","Lorenzo","Baldi","1976-05-17","Verona","Via Cappello 37, Verona","0",NULL,NULL
+"CNTCLR82F18E715I","Clara","Conti","1982-06-18","Pescara","Via Parini 38, Pescara","0",NULL,NULL
+"MRNDNL85G19A783H","Daniele","Moretti","1985-07-19","Pisa","Corso Italia 39, Pisa","0",NULL,NULL
+"FRRFNC70H20G224G","Francesca","Ferrari","1970-08-20","Padova","Via Roma 40, Padova","0",NULL,NULL
+"MLNSVT76A21F205Z","Salvatore","Milani","1976-01-21","Milano","Via Farini 41, Milano","0",NULL,NULL
+"RSSMRA60B22F205Y","Maria","Russo","1960-02-22","Milano","Via Legnano 42, Milano","0",NULL,NULL
+"CSTLCU72C23F205X","Luca","Costa","1972-03-23","Milano","Via Procaccini 43, Milano","1","2025-05-22 17:22:00","Infarto"
+"GRCLRA83D24F205W","Laura","Greco","1983-04-24","Milano","Via Cenisio 44, Milano","0",NULL,NULL
+"BRNGVN77E25F205V","Giovanni","Bruno","1977-05-25","Milano","Via Ceresio 45, Milano","0",NULL,NULL
+"MLNVNT67F26D612U","Valentina","Milani","1967-06-26","Firenze","Via Cavour 46, Firenze","0",NULL,NULL
+"RSSDNL74G27H501T","Daniele","Russo","1974-07-27","Roma","Via Nazionale 47, Roma","0",NULL,NULL
+"CSTSRA78H28A944S","Sara","Costa","1978-08-28","Bologna","Via Rizzoli 48, Bologna","0",NULL,NULL
+"GRCMRC82I29L219R","Marco","Greco","1982-09-29","Torino","Via Lagrange 49, Torino","0",NULL,NULL
+"BRNNNA79L30A662Q","Anna","Bruno","1979-10-30","Bari","Via Argiro 50, Bari","0",NULL,NULL
+"FRRMNC75A21F205Z","Monica","Ferretti","1975-01-21","Milano","Via Mecenate 51, Milano","0",NULL,NULL
+"GLLPLA81B22F205Y","Paolo","Gallo","1981-02-22","Milano","Via Palmanova 52, Milano","0",NULL,NULL
+"BNCGCM63C23F205X","Giacomo","Bianchi","1963-03-23","Milano","Via Padova 53, Milano","0",NULL,NULL
+"RSSVTR72D24F205W","Vittoria","Rossi","1972-04-24","Milano","Viale Monza 54, Milano","0",NULL,NULL
+"MRCLDA84E25F205V","Aldo","Marchetti","1984-05-25","Milano","Via Melchiorre Gioia 55, Milano","0",NULL,NULL
+"VRDGNN69F26D612U","Gianna","Verdi","1969-06-26","Firenze","Via Panzani 56, Firenze","0",NULL,NULL
+"GRSMRC73G27H501T","Marco","Grassi","1973-07-27","Roma","Via Merulana 57, Roma","0",NULL,NULL
+"LMBGPP85H28A944S","Giuseppe","Lombardi","1985-08-28","Bologna","Via Marconi 58, Bologna","0",NULL,NULL
+"CTLLCU77I29L219R","Lucia","Catalano","1977-09-29","Torino","Corso Vittorio Emanuele 59, Torino","0",NULL,NULL
+"MNTSRA82L30A662Q","Sara","Monti","1982-10-30","Bari","Via Murat 60, Bari","0",NULL,NULL
+"SLVMTT68M01F839P","Matteo","Silvestri","1968-11-01","Napoli","Via Foria 61, Napoli","0",NULL,NULL
+"DMRNNA79N02D969O","Anna","De Marchi","1979-12-02","Genova","Via Balbi 62, Genova","0",NULL,NULL
+"RMNRRT66A03G273N","Roberto","Romani","1966-01-03","Palermo","Via Vittorio Emanuele 63, Palermo","0",NULL,NULL
+"MRLMRC84B04C351M","Marco","Morelli","1984-02-04","Catania","Via Etnea 64, Catania","0",NULL,NULL
+"TRRFNC71C05A271L","Francesca","Torre","1971-03-05","Ancona","Corso Stamira 65, Ancona","0",NULL,NULL
+"CLMGPP83D06H703K","Giuseppe","Colombo","1983-04-06","Siena","Via di Città 66, Siena","0",NULL,NULL
+"DSNCRL75E07I754J","Carlo","De Santis","1975-05-07","Verona","Via Mazzini 67, Verona","0",NULL,NULL
+"VLNNTN80F08E715I","Antonio","Valentini","1980-06-08","Pescara","Via Firenze 68, Pescara","0",NULL,NULL
+"MRNRRT88G09A783H","Roberta","Marini","1988-07-09","Pisa","Lungarno Pacinotti 69, Pisa","0",NULL,NULL
+"BLLGCM74H10G224G","Giacomo","Bellini","1974-08-10","Padova","Via San Francesco 70, Padova","0",NULL,NULL
+"PZZLDA62A11F205Z","Aldo","Pezzini","1962-01-11","Milano","Via Vitruvio 71, Milano","0",NULL,NULL
+"RZZSRA83B12F205Y","Sara","Rizzi","1983-02-12","Milano","Via Plinio 72, Milano","1","2025-05-22 12:17:37",NULL
+"DNTNCS67C13F205X","Nicola","Donati","1967-03-13","Milano","Via Settembrini 73, Milano","0",NULL,NULL
+"FLCPLA86D14F205W","Paola","Falconi","1986-04-14","Milano","Via Savona 74, Milano","0",NULL,NULL
+"CSTGNN78E15F205V","Gianni","Castelli","1978-05-15","Milano","Via Tortona 75, Milano","0",NULL,NULL
+"SNTMRA64F16D612U","Maria","Santoro","1964-06-16","Firenze","Via dei Servi 76, Firenze","0",NULL,NULL
+"DNGFBA71G17H501T","Fabio","De Angelis","1971-07-17","Roma","Via Arenula 77, Roma","0",NULL,NULL
+"LMBLRA89H18A944S","Laura","Lombardo","1989-08-18","Bologna","Via Zamboni 78, Bologna","0",NULL,NULL
+"CRSLCU76I19L219R","Luca","Corsini","1976-09-19","Torino","Corso Duca degli Abruzzi 79, Torino","0",NULL,NULL
+"GLLDFR82L20A662Q","Delfina","Galli","1982-10-20","Bari","Via Carulli 80, Bari","0",NULL,NULL
+"GRDSVN65M21F839P","Silvano","Girardi","1965-11-21","Napoli","Via Duomo 81, Napoli","0",NULL,NULL
+"MRTDNL77N22D969O","Daniele","Martinelli","1977-12-22","Genova","Via Cairoli 82, Genova","1","2025-05-22 12:39:00","Tumore al seno"
+"CNTCLD69A23G273N","Claudio","Conti","1969-01-23","Palermo","Via Roma 83, Palermo","0",NULL,NULL
+"FRLSVN87B24C351M","Silvana","Ferlito","1987-02-24","Catania","Via Garibaldi 84, Catania","0",NULL,NULL
+"PLMFLR70C25A271L","Flora","Palmieri","1970-03-25","Ancona","Corso Mazzini 85, Ancona","0",NULL,NULL
+"GRCLDA85D26H703K","Aldo","Greco","1985-04-26","Siena","Via Pantaneto 86, Siena","0",NULL,NULL
+"VLNSFN73E27I754J","Stefania","Valentini","1973-05-27","Verona","Via Roma 87, Verona","0",NULL,NULL
+"MRNMRL81F28E715I","Mariella","Mariani","1981-06-28","Pescara","Via Annunzio 88, Pescara","0",NULL,NULL
+"CSTPLA90G29A783H","Paolo","Costantini","1990-07-29","Pisa","Via Santa Maria 89, Pisa","0",NULL,NULL
+"VTLCRN72H30G224G","Carina","Vitali","1972-08-30","Padova","Via Dante 90, Padova","0",NULL,NULL
+"RMNRRT63A01F205Z","Roberto","Romani","1963-01-01","Milano","Via Vespucci 91, Milano","0",NULL,NULL
+"SLVGRL84B02F205Y","Gabriella","Silvestri","1984-02-02","Milano","Via Vittorio Veneto 92, Milano","0",NULL,NULL
+"MSGMTT66C03F205X","Matteo","Messaggi","1966-03-03","Milano","Via Pisacane 93, Milano","0",NULL,NULL
+"GNTPLA88D04F205W","Paola","Gentile","1988-04-04","Milano","Via Farini 94, Milano","0",NULL,NULL
+"BRLSVN75E05F205V","Silvano","Barilli","1975-05-05","Milano","Via Turati 95, Milano","1","2025-05-11 12:42:00","dolori alla testa"
+"MRCGPP67F06D612U","Giuseppe","Marchesi","1967-06-06","Firenze","Via del Proconsolo 96, Firenze","0",NULL,NULL
+"CSTLNZ74G07H501T","Lorenzo","Castelli","1974-07-07","Roma","Via Condotti 97, Roma","0",NULL,NULL
+"BRNLCU86H08A944S","Lucia","Bernardi","1986-08-08","Bologna","Via Santo Stefano 98, Bologna","0",NULL,NULL
+"FRRNTN71I09L219R","Antonio","Ferrari","1971-09-09","Torino","Via Garibaldi 99, Torino","0",NULL,NULL
+"MNTGNN83L10A662Q","Gianna","Monti","1983-10-10","Bari","Via Nicolai 100, Bari","0",NULL,NULL
+"RCCLRA68M11F839P","Laura","Ricci","1968-11-11","Napoli","Via San Biagio dei Librai 101, Napoli","0",NULL,NULL
+"PLLNDR77N12D969O","Andrea","Pellegrini","1977-12-12","Genova","Via San Lorenzo 102, Genova","0",NULL,NULL
+"DSTPTR69A13G273N","Pietro","De Stefani","1969-01-13","Palermo","Via Libertà 103, Palermo","0",NULL,NULL
+"GRTLNZ82B14C351M","Lorenzo","Graziani","1982-02-14","Catania","Via Plebiscito 104, Catania","0",NULL,NULL
+"BLDNNA77C15A271L","Anna","Baldini","1977-03-15","Ancona","Via Castelfidardo 105, Ancona","0",NULL,NULL
+"CLFGPP90D16H703K","Giuseppe","Califano","1990-04-16","Siena","Via delle Terme 106, Siena","0",NULL,NULL
+"MRCLCU71E17I754J","Lucia","Marchetti","1971-05-17","Verona","Via Leoni 107, Verona","0",NULL,NULL
+"RSSMRT84F18E715I","Marta","Rossi","1984-06-18","Pescara","Via Nicola Fabrizi 108, Pescara","0",NULL,NULL
+"LNEDNL91G19A783H","Daniele","Leone","1991-07-19","Pisa","Via Santa Maria 109, Pisa","0",NULL,NULL
+"FRRSFN64H20G224G","Stefano","Ferretti","1964-08-20","Padova","Via Roma 110, Padova","0",NULL,NULL
+"CSTNLT67A21F205Z","Nicoletta","Costantini","1967-01-21","Milano","Via Paolo Sarpi 111, Milano","0",NULL,NULL
+"VLNRRT89B22F205Y","Roberto","Valentini","1989-02-22","Milano","Via Sempione 112, Milano","0",NULL,NULL
+"CTLGCM61C23F205X","Giacomo","Catalano","1961-03-23","Milano","Via Cenisio 113, Milano","0",NULL,NULL
+"TMMCST87D24F205W","Cristina","Tommasi","1987-04-24","Milano","Via Solari 114, Milano","1","2025-05-22 13:10:00","ipertensione arteriosa"
+"GRSFLV76E25F205V","Flavio","Grassi","1976-05-25","Milano","Via Foppa 115, Milano","0",NULL,NULL
+"LNGPRN63F26D612U","Pierina","Longhi","1963-06-26","Firenze","Via Ghibellina 116, Firenze","0",NULL,NULL
+"PRSMRA75G27H501T","Maria","Parisi","1975-07-27","Roma","Via Appia Nuova 117, Roma","0",NULL,NULL
+"DLCCLR88H28A944S","Clara","De Luca","1988-08-28","Bologna","Via Azeglio 118, Bologna","0",NULL,NULL
+"GLLNTS73I29L219R","Anastasia","Galli","1973-09-29","Torino","Via Nizza 119, Torino","0",NULL,NULL
+"MRLDNL85L30A662Q","Daniele","Morelli","1985-10-30","Bari","Via Abate Gimma 120, Bari","0",NULL,NULL
+"CNTGVN62M01F839P","Giovanni","Conti","1962-11-01","Napoli","Via Santa Lucia 121, Napoli","0",NULL,NULL
+"LMBLRA78N02D969O","Laura","Lombardi","1978-12-02","Genova","Via Roma 122, Genova","0",NULL,NULL
+"GRCDNL70A03G273N","Daniele","Greco","1970-01-03","Palermo","Via Notarbartolo 123, Palermo","0",NULL,NULL
+"BNCRRT83B04C351M","Roberta","Bianchi","1983-02-04","Catania","Via Umberto 124, Catania","0",NULL,NULL
+"SCRLNZ65C05A271L","Lorenzo","Sacchi","1965-03-05","Ancona","Piazza del Plebiscito 125, Ancona","0",NULL,NULL
+"SLVLSN92D06H703K","Alessandro","Silvestri","1992-04-06","Siena","Via Banchi di Sopra 126, Siena","0",NULL,NULL
+"GLLMRA72E07I754J","Maria","Gallo","1972-05-07","Verona","Via Quattro Spade 127, Verona","0",NULL,NULL
+"BLLRRT86F08E715I","Roberto","Bellini","1986-06-08","Pescara","Corso Vittorio Emanuele 128, Pescara","0",NULL,NULL
+"CSTRRT93G09A783H","Roberta","Costa","1993-07-09","Pisa","Borgo Stretto 129, Pisa","0",NULL,NULL
+"MNTPLA64H10G224G","Paolo","Monti","1964-08-10","Padova","Via VIII Febbraio 130, Padova","0",NULL,NULL
+"VRNNLT66A11F205Z","Nicoletta","Veronesi","1966-01-11","Milano","Via Marghera 131, Milano","0",NULL,NULL
+"RSSFNC88B12F205Y","Francesco","Rossi","1988-02-12","Milano","Via Washington 132, Milano","0",NULL,NULL
+"FRLSVT60C13F205X","Salvatore","Ferlito","1960-03-13","Milano","Via Canonica 133, Milano","0",NULL,NULL
+"DLCGPP87D14F205W","Giuseppe","De Luca","1987-04-14","Milano","Via Procaccini 134, Milano","0",NULL,NULL
+"CRSDNL79E15F205V","Daniele","Corso","1979-05-15","Milano","Via Ceresio 135, Milano","0",NULL,NULL
+"FNNLRA64F16D612U","Laura","Fontana","1964-06-16","Firenze","Via Dante 136, Firenze","0",NULL,NULL
+"MRLPTR76G17H501T","Pietro","Morelli","1976-07-17","Roma","Via del Corso 137, Roma","0",NULL,NULL
+"BLDMNC89H18A944S","Monica","Baldi","1989-08-18","Bologna","Via Galliera 138, Bologna","0",NULL,NULL
+"VNTGNN70I19L219R","Gianni","Venturi","1970-09-19","Torino","Via San Tommaso 139, Torino","0",NULL,NULL
+"VLTSFN82L20A662Q","Stefano","Valente","1982-10-20","Bari","Via Putignani 140, Bari","0",NULL,NULL
+"MRCLNZ67M21F839P","Lorenzo","Marchetti","1967-11-21","Napoli","Via Santa Brigida 141, Napoli","0",NULL,NULL
+"RCCMRA79N22D969O","Maria","Ricci","1979-12-22","Genova","Via XXV Aprile 142, Genova","0",NULL,NULL
+"BNNRRT69A23G273N","Roberto","Bianchi","1969-01-23","Palermo","Via Cavour 143, Palermo","0",NULL,NULL
+"CRRLNZ85B24C351M","Lorenzo","Caruso","1985-02-24","Catania","Via Crociferi 144, Catania","0",NULL,NULL
+"GRSFBA65C25A271L","Fabio","Grassi","1965-03-25","Ancona","Via Pizzecolli 145, Ancona","0",NULL,NULL
+"DSTSRA94D26H703K","Sara","De Stefano","1994-04-26","Siena","Via di Città 146, Siena","0",NULL,NULL
+"FRRLCU74E27I754J","Luca","Ferrara","1974-05-27","Verona","Via Stella 147, Verona","0",NULL,NULL
+"VLNDNL86F28E715I","Daniele","Valentini","1986-06-28","Pescara","Via Regina Elena 148, Pescara","0",NULL,NULL
+"BSCLSN94G29A783H","Alessandro","Boschi","1994-07-29","Pisa","Via San Martino 149, Pisa","0",NULL,NULL
+"GNTGNN66H30G224G","Gianna","Gentile","1966-08-30","Padova","Via Zabarella 150, Padova","0",NULL,NULL
+"SRRMLA65A01F205Z","Amelia","Serra","1965-01-01","Milano","Via Rembrandt 151, Milano","0",NULL,NULL
+"BNLRCC90B02F205Y","Riccardo","Bonelli","1990-02-02","Milano","Via Vincenzo Monti 152, Milano","0",NULL,NULL
+"TLDRRT59C03F205X","Roberto","Toledano","1959-03-03","Milano","Via Pergolesi 153, Milano","0",NULL,NULL
+"SCNCRL89D04F205W","Carolina","Scanu","1989-04-04","Milano","Via Boccaccio 154, Milano","0",NULL,NULL
+"CRLNTN76E05F205V","Antonio","Carli","1976-05-05","Milano","Via Leopardi 155, Milano","0",NULL,NULL
+"MRNNDR64F06D612U","Andrea","Marini","1964-06-06","Firenze","Via Ricasoli 156, Firenze","0",NULL,NULL
+"CMPSVN78G07H501T","Silvana","Campisi","1978-07-07","Roma","Via Sistina 157, Roma","0",NULL,NULL
+"DMRFNC91H08A944S","Francesca","Di Mauro","1991-08-08","Bologna","Via Castiglione 158, Bologna","0",NULL,NULL
+"MNTLSN69I09L219R","Alessandro","Montanari","1969-09-09","Torino","Via Pietro Micca 159, Torino","0",NULL,NULL
+"DLCNDR84L10A662Q","Andrea","De Luca","1984-10-10","Bari","Via Andrea da Bari 160, Bari","0",NULL,NULL
+"BSSLCA62M11F839P","Luca","Basso","1962-11-11","Napoli","Via Benedetto Croce 161, Napoli","0",NULL,NULL
+"GRSMRA77N12D969O","Maria","Grasso","1977-12-12","Genova","Via Mazzini 162, Genova","0",NULL,NULL
+"SCRMRT69A13G273N","Marta","Scarpa","1969-01-13","Palermo","Via Ruggero Settimo 163, Palermo","0",NULL,NULL
+"PRSLRA85B14C351M","Laura","Perosi","1985-02-14","Catania","Via Monserrato 164, Catania","0",NULL,NULL
+"FRNMNC68C15A271L","Monica","Farina","1968-03-15","Ancona","Via Torresi 165, Ancona","0",NULL,NULL
+"CSGRRT93D16H703K","Roberto","Casagrande","1993-04-16","Siena","Via di Città 166, Siena","0",NULL,NULL
+"BRTLCU75E17I754J","Lucia","Berti","1975-05-17","Verona","Via delle Fogge 167, Verona","0",NULL,NULL
+"VCCCRL88F18E715I","Carlo","Vacca","1988-06-18","Pescara","Via Parini 168, Pescara","0",NULL,NULL
+"RGGNDR95G19A783H","Andrea","Reggio","1995-07-19","Pisa","Via San Frediano 169, Pisa","0",NULL,NULL
+"PNTNTN67H20G224G","Antonio","Ponti","1967-08-20","Padova","Via Altinate 170, Padova","0",NULL,NULL
+"CNTCLR61A21F205Z","Clara","Cantoni","1961-01-21","Milano","Via Bronzetti 171, Milano","0",NULL,NULL
+"MBRGNN88B22F205Y","Gianna","Ambrosi","1988-02-22","Milano","Via Tiraboschi 172, Milano","0",NULL,NULL
+"TRVGCM60C23F205X","Giacomo","Trevisan","1960-03-23","Milano","Via Melloni 173, Milano","0",NULL,NULL
+"PTRRRT87D24F205W","Roberto","Petrini","1987-04-24","Milano","Via Pascoli 174, Milano","0",NULL,NULL
+"GRDSRA79E25F205V","Sara","Girardi","1979-05-25","Milano","Via Vivaio 175, Milano","0",NULL,NULL
+"MGGLNZ62F26D612U","Lorenzo","Maggioni","1962-06-26","Firenze","Via dei Serragli 176, Firenze","0",NULL,NULL
+"VLLLCU77G27H501T","Luca","Villa","1977-07-27","Roma","Via Veneto 177, Roma","0",NULL,NULL
+"DMNLRA91H28A944S","Laura","Damiani","1991-08-28","Bologna","Via Oberdan 178, Bologna","0",NULL,NULL
+"RSSNNS73I29L219R","Annalisa","Russo","1973-09-29","Torino","Via Mazzini 179, Torino","0",NULL,NULL
+"LMBCRL84L30A662Q","Carlo","Lombardo","1984-10-30","Bari","Via Dante 180, Bari","0",NULL,NULL
+"SNTMRT63M01F839P","Marta","Santini","1963-11-01","Napoli","Via Partenope 181, Napoli","0",NULL,NULL
+"MRLSVN78N02D969O","Silvana","Morelli","1978-12-02","Genova","Via Corsica 182, Genova","0",NULL,NULL
+"FRRPTR70A03G273N","Pietro","Ferrari","1970-01-03","Palermo","Corso Vittorio Emanuele 183, Palermo","0",NULL,NULL
+"BNCLNZ83B04C351M","Lorenzo","Bianchi","1983-02-04","Catania","Via Pacini 184, Catania","0",NULL,NULL
+"CTLMRA66C05A271L","Maria","Catalano","1966-03-05","Ancona","Via Cialdini 185, Ancona","0",NULL,NULL
+"GLLCRL94D06H703K","Carlo","Gallo","1994-04-06","Siena","Via del Capitano 186, Siena","0",NULL,NULL
+"CSTMNC72E07I754J","Monica","Costantini","1972-05-07","Verona","Via Mazzini 187, Verona","0",NULL,NULL
+"RSSSRA87F08E715I","Sara","Rossi","1987-06-08","Pescara","Via Trento 188, Pescara","0",NULL,NULL
+"GRSRRT95G09A783H","Roberto","Grassi","1995-07-09","Pisa","Via Dalmazia 189, Pisa","0",NULL,NULL
+"MRNLCA65H10G224G","Luca","Marini","1965-08-10","Padova","Via Roma 190, Padova","0",NULL,NULL
+"NPLSVN62A11F205Z","Silvana","Napoli","1962-01-11","Milano","Via Savona 191, Milano","0",NULL,NULL
+"PLMCRL89B12F205Y","Carlo","Palumbo","1989-02-12","Milano","Via Solferino 192, Milano","0",NULL,NULL
+"SRNRRT58C13F205X","Roberto","Sorrentino","1958-03-13","Milano","Via Moscova 193, Milano","0",NULL,NULL
+"GLLMRT88D14F205W","Marta","Galli","1988-04-14","Milano","Via Castaldi 194, Milano","0",NULL,NULL
+"FRNLCA78E15F205V","Luca","Farina","1978-05-15","Milano","Via Lambro 195, Milano","0",NULL,NULL
+"BRSLRA64F16D612U","Laura","Borsetti","1964-06-16","Firenze","Via del Corso 196, Firenze","0",NULL,NULL
+"CRLCRL77G17H501T","Carlo","Carli","1977-07-17","Roma","Via Frattina 197, Roma","0",NULL,NULL
+"VTRSVN90H18A944S","Silvana","Vitrano","1990-08-18","Bologna","Via Santo Stefano 198, Bologna","0",NULL,NULL
+"PLTLCU70I19L219R","Luca","Poletti","1970-09-19","Torino","Via Cernaia 199, Torino","0",NULL,NULL
+"GLLMRA84L20A662Q","Maria","Gallo","1984-10-20","Bari","Via Cairoli 200, Bari","1","2025-05-24 14:39:00","Diverticolite"
+"VRDLCU80B02F205L","Verdoni","Luca","2003-05-20","Bergamo","Via Filippo Corridoni 32, Bergamo","0",NULL,NULL
+"VRDLCU80B02F205I","Luciana","Verdonara","2001-06-24","Bergamo","Via Andrea Galeazzi 3, Bergamo","0",NULL,NULL
+"VRDLCU80B02F205T","Lucio","Vardone","1999-08-12","Sondrio","Via Mario Rossi 5, Sondrio","0",NULL,NULL
+"BSCLSN03A26G856W","Alessandro","Biscaro","2003-01-26","Ponte San Pietro","Via Sandro Pertini 3, Capriate, BG","0",NULL,NULL
+"BSCLSN03A26G856R","Alessandra","Biscotti","2002-02-22","Los Angeles","Los Angeles Avenue, Los Angeles, California, Stati Uniti","0",NULL,NULL
+"VRDLCU80B02F205O","Lucio","Verdana","2012-12-12","Parigi, Francia","Rue Mouffetard, Parigi, Francia","0",NULL,NULL
+"MRARSS13S08H501H","Maria","Rossi","2000-07-07","Perugia, PG, Italia","Via Gaetano Donizetti, Milano, MI, Italia","0",NULL,NULL
+"BCCRSS03H66I628K","Raissa","Beccarelli","2003-06-26","Seriate, BG, Italia","Via Presolana, Novezio, Cerete BG, Italia","0","2025-05-23 17:41:00","Emicrania"
+"VRDLCU80B02F205S","Lucia","Verdone","2000-04-23","Firenze, FI, Italia","Via dè Tornabuoni, Firenze, FI, Italia","0",NULL,NULL
+"BNCLRA75C03F205S","Laura","Bianchi","1975-03-03","Milano Marittima, RA, Italia","Vicolo Milano, Milano Marittima, RA, Italia","0",NULL,NULL
+"CCTCHR04T46A794A","Chiara","Cucitore","2004-12-06","Bergamo, BG, Italia","Via Filippo Corridoni, 66, Bergamo, BG, Italia","0",NULL,NULL
+"EST0000000000001","Frank","Gallagher","1970-08-07","Connecticut, Stati Uniti","Connecticut Ave, Washington, Distretto di Columbia, Stati Uniti","1","2025-05-22 17:43:00","Coma"
+"LLCNJE02R30R765W","Noje","Lullice","2002-03-30","Accra, Ghana","Via del Pratello, Bologna, BO, Italia","0",NULL,NULL
+"FRRLNE85L52F205A","Elena","Ferrari","1985-07-12","Verona","Via Mazzini 10, Verona","0",NULL,NULL
+"GLLRRT72C22Bres","Roberto","Galli","1972-03-22","Brescia","Corso Zanardelli 5, Brescia","0",NULL,NULL
+"CNTSFO90S45P205C","Sofia","Conti","1990-11-05","Padova","Via Roma 15, Padova","0",NULL,NULL
+"MRTLSN66A30G205D","Alessandro","Moretti","1966-01-30","Genova","Via XX Settembre 20, Genova","1","2025-04-10 10:00:00","Malattia Cardiovascolare"
+"RZZGLI95P58V205E","Giulia","Rizzo","1995-09-18","Venezia","Calle Larga XXII Marzo 25, Venezia","0",NULL,NULL
+"LMBDVD80F07B205F","Davide","Lombardi","1980-06-07","Bologna","Via Indipendenza 30, Bologna","0",NULL,NULL
+"SRRMTN78T65F205G","Martina","Serra","1978-12-25","Firenze","Piazza della Signoria 35, Firenze","0",NULL,NULL
+"BRBSMN92D03N205H","Simone","Barbieri","1992-04-03","Napoli","Via Toledo 40, Napoli","0",NULL,NULL
+"MRNVLN83M55T205I","Valentina","Marino","1983-08-15","Torino","Via Po 45, Torino","1","2025-03-20 14:30:00","Incidente stradale"
+"RMNFNC70B28P205J","Francesco","Romano","1970-02-28","Palermo","Via Maqueda 50, Palermo","0",NULL,NULL
+"GRCCHR88R50B205K","Chiara","Greco","1988-10-10","Bari","Corso Cavour 55, Bari","0",NULL,NULL
+"VLLMRC63E20C205L","Marco","Villa","1963-05-20","Catania","Via Etnea 60, Catania","0",NULL,NULL
+"VTLSRA99L47M205M","Sara","Vitali","1999-07-07","Messina","Viale San Martino 65, Messina","0",NULL,NULL
+"LNENDR75C14G205N","Andrea","Leone","1975-03-14","Cagliari","Via Roma 70, Cagliari","0",NULL,NULL
+"NGRALC82S41T205O","Alice","Negri","1982-11-01","Trento","Via Belenzani 75, Trento","1","2025-05-01 08:15:00","Complicazioni diabete"
+"PLLGBR93A22P205P","Gabriele","Pellegrini","1993-01-22","Perugia","Corso Vannucci 80, Perugia","0",NULL,NULL
+"SNTBTC77P49A205Q","Beatrice","Santi","1977-09-09","Ancona","Corso Garibaldi 85, Ancona","0",NULL,NULL
+"BLLRCC89F16P205R","Riccardo","Bellini","1989-06-16","Pescara","Corso Umberto I 90, Pescara","0",NULL,NULL
+"MNTFDR97D44R205S","Federica","Montanari","1997-04-04","Reggio Calabria","Corso Garibaldi 95, Reggio Calabria","0",NULL,NULL
+"FNTTMS60T12S205T","Tommaso","Fontana","1960-12-12","Salerno","Corso Vittorio Emanuele 100, Salerno","0",NULL,NULL
+"EST0000000000002","John","Doe","1980-01-15","New York, USA","5th Avenue, New York, USA","0",NULL,NULL
+"EST0000000000003","Jane","Smith","1992-06-20","London, UK","Baker Street, London, UK","0",NULL,NULL
+"EST0000000000004","Carlos","Garcia","1975-10-03","Madrid, Spagna","Gran Via, Madrid, Spagna","1","2025-02-10 11:00:00","Polmonite"
+"EST0000000000005","Aisha","Khan","1988-04-12","Mumbai, India","Marine Drive, Mumbai, India","0",NULL,NULL
+"EST0000000000006","Kenji","Tanaka","1970-11-25","Tokyo, Giappone","Shibuya Crossing, Tokyo, Giappone","0",NULL,NULL
+"BNCDNL78A15M205U","Daniela","Bianconi","1978-01-15","Roma","Via Appia Nuova 101, Roma","0",NULL,NULL
+"RSSLCA65B22F205V","Luca","Rossini","1965-02-22","Firenze","Piazza Duomo 5, Firenze","0",NULL,NULL
+"VRDFBA82C10P205W","Fabio","Verdini","1982-03-10","Napoli","Via Toledo 110, Napoli","1","2025-01-15 09:30:00","Arresto cardiaco"
+"GLLMRA91D55T205X","Maria Grazia","Galli","1991-04-15","Torino","Corso Francia 22, Torino","0",NULL,NULL
+"CNTSTF60E01M205Y","Stefano","Contini","1960-05-01","Bologna","Via Zamboni 33, Bologna","0",NULL,NULL
+"FRRGRG88F20B205Z","Giorgia","Ferraro","1988-06-20","Palermo","Via Maqueda 44, Palermo","0",NULL,NULL
+"MRNCHR73G45V205A","Christian","Marini","1973-07-05","Genova","Via XX Settembre 55, Genova","0",NULL,NULL
+"ESPLSN69H12C205B","Alessio","Esposito","1969-08-12","Venezia","Riva degli Schiavoni 66, Venezia","1","2024-12-01 18:00:00","Insufficienza respiratoria"
+"RMNELN95I50P205C","Eleonora","Romani","1995-09-10","Bari","Corso Vittorio Emanuele 77, Bari","0",NULL,NULL
+"BRNMTT70J25F205D","Matteo","Brunetti","1970-10-25","Catania","Via Etnea 88, Catania","0",NULL,NULL
+"SNTAND80K03M205E","Andrea","Santoro","1980-11-03","Verona","Piazza Bra 99, Verona","0",NULL,NULL
+"GRCLCU77L48T205F","Lucia","Greco","1977-12-08","Trieste","Viale Miramare 10, Trieste","0",NULL,NULL
+"FNTALB93A18B205G","Alberto","Fontana","1993-01-18","Cagliari","Via Roma 111, Cagliari","0",NULL,NULL
+"CSTMCH66B55V205H","Michela","Costa","1966-02-15","Messina","Viale della Libertà 12, Messina","1","2025-03-03 03:20:00","Complicazioni post-operatorie"
+"RZZPAO85C28P205I","Paola","Rizzi","1985-03-28","Reggio Calabria","Corso Garibaldi 13, Reggio Calabria","0",NULL,NULL
+"DMCDVD72D10T205J","Davide","De Amicis","1972-04-10","Salerno","Lungomare Trieste 14, Salerno","0",NULL,NULL
+"MRLSRA90E50M205K","Sara","Morelli","1990-05-20","Modena","Via Emilia Centro 15, Modena","0",NULL,NULL
+"LNEMRT63F07B205L","Martina","Leoni","1963-06-07","Parma","Strada della Repubblica 16, Parma","0",NULL,NULL
+"PCCSMN87G14V205M","Simone","Pucci","1987-07-14","Livorno","Via Grande 17, Livorno","0",NULL,NULL
+"TRRVLN60H55P205N","Valentina","Torrisi","1960-08-25","Perugia","Corso Cavour 18, Perugia","0",NULL,NULL
+"GALLSN85A01F205A","Alessio","Galli","1985-01-01","Milano","Via Padova 120, Milano","0",NULL,NULL
+"FERVAL70B42G273B","Valeria","Ferrari","1970-02-02","Palermo","Via Libertà 121, Palermo","0",NULL,NULL
+"CONROB92C03H501C","Roberto","Conti","1992-03-03","Roma","Via del Corso 122, Roma","0",NULL,NULL
+"ESPSIM68D44L219D","Simona","Esposito","1968-04-04","Torino","Via Po 123, Torino","1","2025-04-15 12:00:00","Leucemia"
+"ROMGIU75E05A944E","Giulia","Romano","1975-05-05","Bologna","Via Indipendenza 124, Bologna","0",NULL,NULL
+"MARAND90F06D612F","Andrea","Marini","1990-06-06","Firenze","Piazza della Signoria 125, Firenze","0",NULL,NULL
+"BARCHI65G07F839G","Chiara","Barbieri","1965-07-07","Napoli","Via Toledo 126, Napoli","0",NULL,NULL
+"SANFRA82H08A662H","Francesco","Santoro","1982-08-08","Bari","Corso Vittorio Emanuele 127, Bari","0",NULL,NULL
+"GREMAR79I09C351I","Marco","Greco","1979-09-09","Catania","Via Etnea 128, Catania","0",NULL,NULL
+"FONLUC60J10I754J","Luca","Fontana","1960-10-10","Verona","Via Mazzini 129, Verona","1","2025-05-01 07:45:00","Infarto"
+"EST0000000000007","Pierre","Dubois","1978-03-10","Parigi, Francia","Champs-Élysées, Parigi, Francia","0",NULL,NULL
+"EST0000000000008","Anja","Schmidt","1985-09-05","Berlino, Germania","Kurfürstendamm, Berlino, Germania","0",NULL,NULL
+"EST0000000000009","Mikhail","Ivanov","1969-07-20","Mosca, Russia","Arbat Street, Mosca, Russia","0",NULL,NULL
+"EST0000000000010","Sofia","Andersson","1993-12-01","Stoccolma, Svezia","Drottninggatan, Stoccolma, Svezia","0",NULL,NULL
+"EST0000000000011","Liam","OBrien","1972-05-18","Dublino, Irlanda","OConnell Street, Dublino, Irlanda","1","2025-03-10 22:15:00","Complicanze epatiche"
+"EST0000000000012","Fatima","Al-Jamil","1980-02-25","Il Cairo, Egitto","Khan el-Khalili, Il Cairo, Egitto","0",NULL,NULL
+"EST0000000000013","David","Miller","1995-08-30","Toronto, Canada","Yonge Street, Toronto, Canada","0",NULL,NULL
+"EST0000000000014","Yuki","Yamamoto","1977-04-14","Kyoto, Giappone","Gion District, Kyoto, Giappone","0",NULL,NULL
+"EST0000000000015","Maria","Silva","1965-10-09","Lisbona, Portogallo","Alfama District, Lisbona, Portogallo","0",NULL,NULL
+"EST0000000000016","Chen","Wei","1989-01-20","Pechino, Cina","Wangfujing Street, Pechino, Cina","0",NULL,NULL
+"RZZGNN72A15F205K","Giovanna","Rizzi","1972-01-15","Milano","Via Solferino 131, Milano","0",NULL,NULL
+"BRNLCU88B20G273L","Luciano","Bruno","1988-02-20","Palermo","Via Notarbartolo 132, Palermo","0",NULL,NULL
+"MNTSRN65C05H501M","Serena","Monti","1965-03-05","Roma","Via Nazionale 133, Roma","1","2025-02-20 11:45:00","Ictus cerebrale"
+"GLLFNC93D42L219N","Francesco","Galli","1993-04-02","Torino","Via Lagrange 134, Torino","0",NULL,NULL
+"FSTVLR70E10A944O","Valeria","Fausti","1970-05-10","Bologna","Via Rizzoli 135, Bologna","0",NULL,NULL
+"DMCDNL90F25D612P","Daniel","De Marco","1990-06-25","Firenze","Via Cavour 136, Firenze","0",NULL,NULL
+"LNRTMS67G03F839Q","Tommaso","Laneri","1967-07-03","Napoli","Via Chiaia 137, Napoli","0",NULL,NULL
+"SCCCRI84H18A662R","Cristina","Sacchi","1984-08-18","Bari","Via Sparano 138, Bari","1","2025-01-05 19:00:00","Cancro"
+"VTLSTF96I07C351S","Stefania","Vitale","1996-09-07","Catania","Via Vittorio Emanuele 139, Catania","0",NULL,NULL
+"GRSMTT62J11I754T","Mattia","Grassi","1962-10-11","Verona","Via Cappello 140, Verona","0",NULL,NULL
+"PLLELN80K50A271U","Elena","Pellegrini","1980-11-20","Ancona","Corso Stamira 141, Ancona","0",NULL,NULL
+"BNCCRL75L08H703V","Carlo","Bianchini","1975-12-08","Siena","Via di Città 142, Siena","0",NULL,NULL
+"RMNPAO91M15E715W","Paolo","Romano","1991-01-15","Pescara","Corso Umberto I 143, Pescara","0",NULL,NULL
+"FRRMRZ68N55A783X","Marzia","Ferrari","1968-02-25","Pisa","Lungarno Mediceo 144, Pisa","1","2024-11-11 23:10:00","Diabete scompensato"
+"ESPGFR83O03G224Y","Gianfranco","Esposito","1983-03-03","Padova","Via del Santo 145, Padova","0",NULL,NULL
+"CNTLCU70P10F205Z","Luigi","Conti","1970-04-10","Milano","Viale Monza 146, Milano","0",NULL,NULL
+"MRLROB66A01G273K","Roberta","Morelli","1966-01-01","Palermo","Via Maqueda 150, Palermo","0",NULL,NULL
+"FNTGIA78B02H501L","Gianluca","Fontana","1978-02-02","Roma","Via Nazionale 151, Roma","0",NULL,NULL
+"GRSANN90C03L219M","Annalisa","Grassi","1990-03-03","Torino","Via Po 152, Torino","0",NULL,NULL
+"BARPAO65D04A944N","Paola","Barbieri","1965-04-04","Bologna","Via Indipendenza 153, Bologna","1","2025-03-22 06:00:00","Una Malattia degenerativa"
+"SANTOM72E05D612O","Tommaso","Santini","1972-05-05","Firenze","Piazza della Signoria 154, Firenze","0",NULL,NULL
+"RICCHI85F06F839P","Chiara","Ricci","1985-06-06","Napoli","Via Toledo 155, Napoli","0",NULL,NULL
+"LEOMAR79G07A662Q","Marco","Leone","1979-07-07","Bari","Corso Vittorio Emanuele 156, Bari","0",NULL,NULL
+"BRUELI60H08C351R","Elisa","Bruno","1960-08-08","Catania","Via Etnea 157, Catania","0",NULL,NULL
+"FERFRA94I09I754S","Francesco","Ferretti","1994-09-09","Verona","Via Mazzini 158, Verona","0",NULL,NULL
+"EST0000000000017","Olivia","Jones","1982-07-11","Sydney, Australia","George Street, Sydney, Australia","0",NULL,NULL
+"EST0000000000018","Mateo","Hernandez","1976-11-03","Città del Messico, Messico","Paseo de la Reforma, Città del Messico, Messico","0",NULL,NULL
+"EST0000000000019","Isabelle","Tremblay","1990-02-28","Montreal, Canada","Rue Sainte-Catherine, Montreal, Canada","0",NULL,NULL
+"EST0000000000020","Nikolaos","Papadopoulos","1967-09-15","Atene, Grecia","Plaka District, Atene, Grecia","1","2025-04-01 15:20:00","Covid-19"
+"EST0000000000021","Amara","Diallo","1989-05-23","Dakar, Senegal","Avenue Blaise Diagne, Dakar, Senegal","0",NULL,NULL
+"EST0000000000022","Sun-hee","Kim","1995-12-07","Seoul, Corea del Sud","Gangnam District, Seoul, Corea del Sud","0",NULL,NULL
+"EST0000000000023","Ahmed","Zaki","1973-08-01","Riyadh, Arabia Saudita","Olaya Street, Riyadh, Arabia Saudita","0",NULL,NULL
+"EST0000000000024","Eva","Novak","1986-04-19","Praga, Repubblica Ceca","Piazza della Città Vecchia, Praga, Repubblica Ceca","0",NULL,NULL
+"EST0000000000025","Omar","Hassan","1992-10-27","Nairobi, Kenya","Kenyatta Avenue, Nairobi, Kenya","0",NULL,NULL
+"EST0000000000026","Linnea","Johansson","1970-06-05","Oslo, Norvegia","Karl Johans Gate, Oslo, Norvegia","0",NULL,NULL
+"COLDAV0034D168B2","Davide","Colombo","1958-04-13","Catanzaro","Via Manzoni 108, Bergamo","0",NULL,NULL
+"BELMAR0033CC3BEB","Martina","Bellini","1962-02-10","Napoli","Via Garibaldi 74, Monza","0",NULL,NULL
+"VITENR00325FF3B7","Enrico","Vitali","1956-08-31","Trieste","Via XX Settembre 70, Monza","0",NULL,NULL
+"GALIRE0031E19592","Irene","Galli","1956-05-29","Catanzaro","Via Dante Alighieri 140, Milano","0",NULL,NULL
+"FERELE003001FF24","Elena","Ferri","1962-12-22","Bologna","Via Mazzini 122, Varese","0",NULL,NULL
+"GREROB00297B74FC","Roberto","Greco","1961-04-05","Bologna","Via Mazzini 92, Lecco","0",NULL,NULL
+"VILPAO00283F0AA8","Paolo","Villa","1971-10-07","Firenze","Via Dante Alighieri 41, Varese","0",NULL,NULL
+"LORFED002750CA26","Federica","Lorenzi","1960-05-23","Catanzaro","Corso Italia 42, Lodi","0",NULL,NULL
+"RUGMAT0026D3E376","Matteo","Ruggeri","1971-12-05","Cagliari","Via Manzoni 38, Pavia","0",NULL,NULL
+"FONGIO002577F31F","Giovanni","Fontana","1974-04-30","Palermo","Via Cavour 25, Lodi","0",NULL,NULL
+"COLCHI0024DAC5A9","Chiara","Colombo","1967-09-15","Genova","Via Garibaldi 104, Milano","0",NULL,NULL
+"RIVLUC0023E213CD","Luca","Riva","1961-04-25","Campobasso","Via Mazzini 79, Lecco","0",NULL,NULL
+"BIAANN0022BBC805","Anna","Bianchi","1962-12-18","Bari","Via Mazzini 106, Varese","0",NULL,NULL
+"CONMAR002138C1BA","Marco","Conti","1957-12-01","Aosta","Via Mazzini 82, Sondrio","0",NULL,NULL
+"LOMANN00205C62B9","Anna","Lombardi","1959-10-18","Potenza","Corso Italia 36, Pavia","0",NULL,NULL
+"MARGIO001989B231","Giovanni","Marino","1957-11-11","Cagliari","Via Roma 80, Milano","0",NULL,NULL
+"RIZSOF001871169B","Sofia","Rizzo","1956-09-20","Bologna","Via Verdi 106, Varese","0",NULL,NULL
+"MORCAR001750D1A2","Carlo","Moretti","1961-09-05","Roma","Viale Lombardia 112, Milano","0",NULL,NULL
+"CONVAL00168D7536","Valentina","Conti","1958-06-15","Torino","Via Mazzini 137, Milano","0",NULL,NULL
+"ESPBRU0015D28BE9","Bruno","Esposito","1973-07-22","Trieste","Via Cavour 102, Como","0",NULL,NULL
+"ROSMAR0014D6AAC1","Marta","Rossi","1955-07-13","Trieste","Via XX Settembre 136, Sondrio","0",NULL,NULL
+"FERLOR0013492F66","Lorenzo","Ferrari","1967-11-21","Bari","Via XX Settembre 3, Bergamo","0",NULL,NULL
+"BIALUC0012094D0E","Lucia","Bianchi","1958-09-30","Ancona","Via Manzoni 7, Lecco","0",NULL,NULL
+"GRESAL00117537F0","Salvatore","Greco","1962-01-03","Torino","Via Dante Alighieri 70, Lodi","0",NULL,NULL
+"ROMGIO0010BEE32D","Giovanna","Romano","1971-03-06","Firenze","Via Mazzini 37, Lodi","0",NULL,NULL
+"MORMAR0009213F5B","Marco","Moretti","1972-08-04","Ancona","Via XX Settembre 44, Pavia","0",NULL,NULL
+"FERLAU0008F68FE0","Laura","Ferretti","1974-07-08","Firenze","Via Mazzini 132, Lecco","0",NULL,NULL
+"RUSANT00075D2984","Antonio","Russo","1963-11-02","Potenza","Via Dante Alighieri 85, Brescia","0",NULL,NULL
+"CONCHI00065C1909","Chiara","Conti","1964-08-18","Bari","Corso Italia 118, Milano","0",NULL,NULL
+"ESPGIU00059C2E7E","Giuseppe","Esposito","1957-04-08","Catania","Via Verdi 113, Lodi","0",NULL,NULL
+"VERFRA00047449E2","Francesca","Verdi","1974-08-25","Firenze","Viale Lombardia 122, Sondrio","0",NULL,NULL
+"BIAPAO0003E64FBA","Paolo","Bianchi","1970-07-26","Aosta","Via Dante Alighieri 3, Brescia","0",NULL,NULL
+"ROSMAR0002F1A4CA","Maria","Rossi","1968-11-26","Perugia","Via Mazzini 44, Bergamo","0",NULL,NULL
+"ZANALB0001122B88","Alberto","Zangrillo","1970-01-18","Perugia","Via Garibaldi 46, Milano","0",NULL,NULL
+"RUGELI0035133186","Elisa","Ruggeri","1966-01-14","Catanzaro","Via Manzoni 122, Lecco","0",NULL,NULL
+"PARLUI00362E08B3","Luigi","Parisi","1961-01-19","Bari","Viale Lombardia 12, Lecco","0",NULL,NULL
+"FERSIL0037ACDFD2","Silvia","Ferretti","1965-05-23","Genova","Via Manzoni 47, Sondrio","0",NULL,NULL
+"BRUTOM0038BF0114","Tommaso","Bruni","1967-05-22","Cagliari","Via Manzoni 94, Varese","0",NULL,NULL
+"FONGIU003987BDC4","Giulia","Fontana","1967-12-11","Bologna","Via Garibaldi 15, Como","0",NULL,NULL
+"SERALE0040D8AD55","Alessandro","Serra","1955-04-09","Trieste","Via Mazzini 4, Lodi","0",NULL,NULL
+"MAGLAU0041DFBC22","Laura","Magni","1974-06-17","Cagliari","Via Roma 52, Milano","0",NULL,NULL
+"RIVGIO0042B755D0","Giorgio","Riva","1968-11-07","Catanzaro","Via Roma 94, Bergamo","0",NULL,NULL
+"MARCHI00437AB1F5","Chiara","Marini","1974-01-03","Catanzaro","Via Manzoni 117, Brescia","0",NULL,NULL
+"DOTNIC0044E3D3C8","Nicola","Dotti","1971-12-04","Firenze","Via Manzoni 141, Lecco","0",NULL,NULL
+"POZMAR0045FA9B30","Margherita","Pozzi","1957-12-03","Cagliari","Via XX Settembre 7, Brescia","0",NULL,NULL
+"BERMAT00463BC3AE","Matteo","Bernardi","1955-07-24","Genova","Viale Lombardia 73, Monza","0",NULL,NULL
+"GREELE004721B423","Eleonora","Grechi","1960-09-03","Perugia","Via Dante Alighieri 1, Varese","0",NULL,NULL
+"FUMROB0048E85BB9","Roberto","Fumagalli","1957-01-06","Genova","Via Cavour 16, Milano","0",NULL,NULL
+"CRIMIC0049805BE0","Michela","Crippa","1968-02-27","Trento","Via Mazzini 39, Brescia","0",NULL,NULL
+"GUILOR00509461FC","Lorenzo","Guidi","1970-08-06","Ancona","Viale Lombardia 124, Milano","0",NULL,NULL
+"ASDDER34O47K465L","Milo","Mili","0001-09-30","Płock, Polonia","Lainate, MI, Italia","0",NULL,NULL
+"ASDDER34O47K465N","Xyz  審判","محاكمة пробный","2001-01-01","Minnetonka, Minnesota, Stati Uniti","Via Monte Napoleone, Milano, MI, Italia","1","2025-05-26 03:59:00","Grumo"
+"codice","nome","città","indirizzo","CSSN_direttore"
+"OSP001","Ospedale San Raffaele","Milano","Via Olgettina 60","ZANALB0001122B88"
+"OSP002","Ospedale Niguarda","Milano","Piazza Ospedale Maggiore 3","ROSMAR0002F1A4CA"
+"OSP003","Policlinico Gemelli","Bergamo","Largo Agostino Gemelli 8","BIAPAO0003E64FBA"
+"OSP004","Ospedale San Camillo","Monza","Circonvallazione Gianicolense 87","VERFRA00047449E2"
+"OSP005","Ospedale Molinette","Mantova","Corso Bramante 88","ESPGIU00059C2E7E"
+"OSP006","Ospedale Maggiore","Bergamo","Largo Bartolo Nigrisoli 2","CONCHI00065C1909"
+"OSP007","Ospedale Cardarelli","Milano","Via Antonio Cardarelli 9","RUSANT00075D2984"
+"OSP008","Ospedale San Martino","Milano","Largo Rosanna Benzi 10","FERLAU0008F68FE0"
+"OSP009","Ospedale Careggi","Monza","Largo Giovanni Alessandro Brambilla 3","MORMAR0009213F5B"
+"OSP010","Policlinico di Sondrio","Sondrio","Piazza Giulio Cesare 11","ROMGIO0010BEE32D"
+"OSP011","Ospedale Civico","Bergamo","Piazza Nicola Leotta 4","GRESAL00117537F0"
+"OSP012","Azienda Ospedaliera Padova","Lodi","Via Giustiniani 2","BIALUC0012094D0E"
+"OSP013","Ospedale Santa Chiara","Lodi","Via Roma 67","FERLOR0013492F66"
+"OSP014","Ospedale Civile Maggiore","Monza","Piazzale Aristide Stefani 1","ROSMAR0014D6AAC1"
+"OSP015","Policlinico Umberto I","Bergamo","Viale del Policlinico 155","ESPBRU0015D28BE9"
+"OSP016","Ospedale San Paolo","Milano","Via Antonio di Rudinì 8","CONVAL00168D7536"
+"OSP017","Ospedale Civile","Monza","Via Fonte Romana 8","MORCAR001750D1A2"
+"OSP018","Ospedale Garibaldi Centro","Brescia","Piazza Santa Maria di Gesù 5","RIZSOF001871169B"
+"OSP019","Azienda Ospedaliera Lombarda","Ponte San Pietro","Viale Pio X","MARGIO001989B231"
+"OSP020","Ospedale Mauriziano","Monza","Largo Filippo Turati 62","LOMANN00205C62B9"
+"OSP021","Ospedale Niguarda Ca' Granda","Milano","Piazza dell'Ospedale Maggiore 3","CONMAR002138C1BA"
+"OSP022","Ospedale San Gerardo","Monza","Via Pergolesi 33","BIAANN0022BBC805"
+"OSP023","Ospedale di Lecco Alessandro Manzoni","Lecco","Via dell'Eremo 9/11","RIVLUC0023E213CD"
+"OSP024","Ospedale di Cremona","Cremona","Viale Concordia 1","COLCHI0024DAC5A9"
+"OSP025","Ospedale Papa Giovanni XXIII","Bergamo","Piazza OMS 1","FONGIO002577F31F"
+"OSP026","Ospedale di Sondrio","Sondrio","Via Stelvio 25","RUGMAT0026D3E376"
+"OSP027","Ospedale Sant'Anna","Como","Via Ravona 20 - San Fermo della Battaglia","LORFED002750CA26"
+"OSP028","Ospedale di Varese Filippo Del Ponte","Varese","Via Monfalcone 19","VILPAO00283F0AA8"
+"OSP029","Ospedale di Busto Arsizio","Busto Arsizio","Via A. da Brescia 1","GREROB00297B74FC"
+"OSP030","Ospedale di Lodi","Lodi","Via A. Sforza 1","FERELE003001FF24"
+"OSP031","Ospedale Santa Marta","Pavia","Via Cavour 14","GALIRE0031E19592"
+"OSP032","Ospedale San Giuseppe","Como","Via Milano 88","VITENR00325FF3B7"
+"OSP033","Ospedale Sant’Ambrogio","Vigevano","Via Gravellona 5","BELMAR0033CC3BEB"
+"OSP034","Ospedale Madonna della Neve","Chiari","Via Roccafranca 12","COLDAV0034D168B2"
+"OSP035","Ospedale San Giuseppe Moscati","Brescia","Via Duca degli Abruzzi 6","RUGELI0035133186"
+"OSP036","Ospedale Val San Martino","Calolziocorte","Via Mazzini 9","PARLUI00362E08B3"
+"OSP037","Ospedale San Carlo Borromeo","Milano","Via Pio II 3","FERSIL0037ACDFD2"
+"OSP038","Ospedale San Giovanni Battista","Cassano d'Adda","Via Quintino Sella 20","BRUTOM0038BF0114"
+"OSP039","Ospedale Santa Maria delle Grazie","Legnano","Via Candiani 5","FONGIU003987BDC4"
+"OSP040","Ospedale San Francesco","Treviglio","Via Matteotti 27","SERALE0040D8AD55"
+"OSP041","Ospedale Beato Palazzolo","Grumello del Monte","Via Kennedy 1","MAGLAU0041DFBC22"
+"OSP042","Ospedale Montecchi","Montecchio","Via Trieste 8","RIVGIO0042B755D0"
+"OSP043","Ospedale San Michele","Desenzano del Garda","Via San Michele 15","MARCHI00437AB1F5"
+"OSP044","Ospedale San Biagio","Codogno","Via Roma 22","DOTNIC0044E3D3C8"
+"OSP045","Ospedale Sant’Antonio Abate","Gallarate","Viale Lombardia 12","POZMAR0045FA9B30"
+"OSP046","Ospedale Santa Maria Assunta","Saronno","Via Volta 3","BERMAT00463BC3AE"
+"OSP047","Ospedale San Matteo","Pavia","Viale Golgi 19","GREELE004721B423"
+"OSP048","Ospedale Civile San Bartolomeo","Castiglione delle Stiviere","Via Ospedale 10","FUMROB0048E85BB9"
+"OSP049","Ospedale San Leonardo","Rho","Via Togliatti 4","CRIMIC0049805BE0"
+"OSP050","Ospedale San Nicola","Abbiategrasso","Via Mazzola 7","GUILOR00509461FC"
+"cod","nome","criticità"
+"P001","Diabete mellito di tipo 2","7"
+"P002","Ipertensione arteriosa","6"
+"P003","Infarto miocardico acuto","10"
+"P004","Ictus cerebrale","9"
+"P005","Polmonite","7"
+"P006","Insufficienza renale cronica","8"
+"P007","Cirrosi epatica","9"
+"P008","Enfisema polmonare","8"
+"P009","Bronchite cronica","6"
+"P010","Artrite reumatoide","7"
+"P011","Osteoporosi","5"
+"P012","Morbo di Parkinson","8"
+"P013","Alzheimer","9"
+"P014","Sclerosi multipla","8"
+"P015","Depressione maggiore","7"
+"P016","Disturbo bipolare","7"
+"P017","Schizofrenia","8"
+"P018","Ansia generalizzata","6"
+"P019","Cancro al polmone","10"
+"P020","Cancro al seno","9"
+"P021","Cancro al colon","9"
+"P022","Leucemia mieloide acuta","10"
+"P023","Linfoma di Hodgkin","8"
+"P024","Melanoma","8"
+"P025","Epilessia","7"
+"P026","Glaucoma","6"
+"P027","Cataratta","4"
+"P028","Degenerazione maculare","7"
+"P029","Retinite pigmentosa","8"
+"P030","Sindrome del tunnel carpale","4"
+"P031","Ernia del disco","6"
+"P032","Lombalgia cronica","5"
+"P033","Fibromialgia","6"
+"P034","Sindrome da fatica cronica","5"
+"P035","Ulcera peptica","6"
+"P036","Reflusso gastroesofageo","4"
+"P037","Morbo di Crohn","7"
+"P038","Colite ulcerosa","7"
+"P039","Celiachia","5"
+"P040","Intolleranza al lattosio","3"
+"P041","Asma bronchiale","6"
+"P042","Tubercolosi polmonare","8"
+"P043","Fibrosi cistica","9"
+"P044","Sarcoidosi polmonare","7"
+"P045","Sindrome da apnea notturna","6"
+"P046","Embolia polmonare","9"
+"P047","Fibrosi polmonare idiopatica","8"
+"P048","Pneumotorace","7"
+"P049","Aritmia cardiaca","7"
+"P050","Cardiomiopatia dilatativa","8"
+"P051","Cardiomiopatia ipertrofica","7"
+"P052","Endocardite","8"
+"P053","Pericardite","6"
+"P054","Trombosi venosa profonda","7"
+"P055","Insufficienza cardiaca","9"
+"P056","Stenosi aortica","8"
+"P057","Insufficienza mitralica","7"
+"P058","Aneurisma aortico","9"
+"P059","Pancreatite acuta","8"
+"P060","Pancreatite cronica","7"
+"P061","Epatite virale A","6"
+"P062","Epatite virale B","7"
+"P063","Epatite virale C","7"
+"P064","Calcolosi biliare","6"
+"P065","Sindrome di intestino irritabile","4"
+"P066","Diverticolite","6"
+"P067","Occlusione intestinale","8"
+"P068","Peritonite","9"
+"P069","Calcolosi renale","6"
+"P070","Glomerulonefrite","7"
+"P071","Pielonefrite","7"
+"P072","Sindrome nefrosica","8"
+"P073","Cistite","4"
+"P074","Ipertrofia prostatica benigna","5"
+"P075","Prostatite","5"
+"P076","Cancro alla prostata","8"
+"P077","Diabete mellito di tipo 1","8"
+"P078","Ipotiroidismo","5"
+"P079","Ipertiroidismo","6"
+"P080","Morbo di Addison","7"
+"P081","Sindrome di Cushing","7"
+"P082","Acromegalia","6"
+"P083","Gotta","5"
+"P084","Ipercolesterolemia","6"
+"P085","Sclerosi laterale amiotrofica","10"
+"P086","Emicrania","5"
+"P087","Sindrome di Guillain-Barré","8"
+"P088","Neuropatia periferica","6"
+"P089","Idrocefalo","7"
+"P090","Meningite","9"
+"P091","Encefalite","9"
+"P092","Demenza vascolare","8"
+"P093","Lupus eritematoso sistemico","8"
+"P094","Sclerodermia","8"
+"P095","Sindrome di Sjögren","6"
+"P096","Spondilite anchilosante","7"
+"P097","Artrite psoriasica","6"
+"P099","Osteoartrite","5"
+"P100","Tendinite","4"
+"P101","Psoriasi","5"
+"P102","Dermatite atopica","4"
+"P103","Pemfigo","7"
+"P104","Herpes zoster","5"
+"P105","Acne rosacea","3"
+"P106","Dermatite da contatto","3"
+"P107","Orticaria cronica","5"
+"P108","Vitiligine","3"
+"P109","Anemia falciforme","7"
+"P110","Anemia emolitica","6"
+"P111","Anemia aplastica","8"
+"P112","Emofilia","7"
+"P113","Trombocitopenia","7"
+"P114","Leucemia linfatica cronica","8"
+"P115","Mieloma multiplo","9"
+"P116","Immunodeficienza comune variabile","7"
+"P117","Cancro al pancreas","10"
+"P118","Cancro alla tiroide","7"
+"P119","Cancro al fegato","9"
+"P120","Cancro allo stomaco","9"
+"codPatologia"
+"P001"
+"P002"
+"P006"
+"P007"
+"P008"
+"P009"
+"P010"
+"P011"
+"P012"
+"P013"
+"P014"
+"P015"
+"P016"
+"P017"
+"P018"
+"P025"
+"P026"
+"P028"
+"P029"
+"P032"
+"P033"
+"P034"
+"P036"
+"P037"
+"P038"
+"P039"
+"P040"
+"P041"
+"P043"
+"P044"
+"P045"
+"P047"
+"P049"
+"P050"
+"P051"
+"P055"
+"P056"
+"P057"
+"P060"
+"P062"
+"P063"
+"P065"
+"P070"
+"P072"
+"P074"
+"P077"
+"P078"
+"P079"
+"P080"
+"P081"
+"P082"
+"P083"
+"P084"
+"P086"
+"codPatologia"
+"P003"
+"P004"
+"P005"
+"P007"
+"P013"
+"P019"
+"P020"
+"P021"
+"P022"
+"P023"
+"P024"
+"P042"
+"P043"
+"P046"
+"P047"
+"P050"
+"P052"
+"P055"
+"P058"
+"P059"
+"P067"
+"P068"
+"P072"
+"P076"
+"P085"
+"P087"
+"P088"
+"P090"
+"P091"
+"P092"
+"P093"
+"P094"
+"P095"
+"P096"
+"P097"
+"P099"
+"P101"
+"P102"
+"P105"
+"P107"
+"P108"
+"P109"
+"P112"
+"P114"
+"P116"
+"codRicovero","codOspedale","codPatologia"
+"R0001","OSP001","P001"
+"R0021","OSP001","P099"
+"R0041","OSP001","P004"
+"R0061","OSP001","P067"
+"R0081","OSP001","P077"
+"R0002","OSP002","P005"
+"R0022","OSP002","P035"
+"R0042","OSP002","P067"
+"R0062","OSP002","P033"
+"R0082","OSP002","P078"
+"R2007","OSP007","P080"
+"R0003","OSP003","P067"
+"R0023","OSP003","P031"
+"R0043","OSP003","P067"
+"R0063","OSP003","P008"
+"R0083","OSP003","P060"
+"R2003","OSP016","P044"
+"R0004","OSP004","P099"
+"R0024","OSP004","P031"
+"R0044","OSP004","P028"
+"R0064","OSP004","P030"
+"R0084","OSP004","P031"
+"R2003","OSP016","P039"
+"R0005","OSP005","P064"
+"R0025","OSP005","P009"
+"R0045","OSP005","P088"
+"R0065","OSP005","P062"
+"R0085","OSP005","P010"
+NULL,NULL,"P105"
+"R0006","OSP006","P003"
+"R0026","OSP006","P006"
+"R0046","OSP006","P099"
+"R0066","OSP006","P093"
+"R0086","OSP006","P049"
+"R2007","OSP007","P031"
+"R0007","OSP007","P031"
+"R0027","OSP007","P007"
+"R0047","OSP007","P099"
+"R0067","OSP007","P054"
+"R0087","OSP007","P086"
+"R0008","OSP008","P069"
+"R0028","OSP008","P002"
+"R0048","OSP008","P037"
+"R0068","OSP008","P072"
+"R0088","OSP008","P035"
+"R0009","OSP009","P035"
+"R0029","OSP009","P025"
+"R0049","OSP009","P031"
+"R0069","OSP009","P119"
+"R0089","OSP009","P038"
+"R2003","OSP016","P036"
+"R159","OSP009","P058"
+"R0010","OSP010","P003"
+"R0030","OSP010","P058"
+"R0050","OSP010","P055"
+"R0070","OSP010","P087"
+"R2007","OSP007","P120"
+"R0011","OSP011","P047"
+"R0031","OSP011","P021"
+"R0051","OSP011","P065"
+"R0071","OSP011","P096"
+"R0091","OSP011","P085"
+"R155","OSP011","P031"
+"R0012","OSP012","P004"
+"R0032","OSP012","P026"
+"R0052","OSP012","P012"
+"R0072","OSP012","P014"
+"R0092","OSP012","P031"
+"R0181","OSP008","P002"
+"R2002","OSP018","P083"
+"R0013","OSP013","P066"
+"R0033","OSP013","P090"
+"R0053","OSP013","P004"
+"R0073","OSP013","P036"
+"R0093","OSP013","P004"
+"R0014","OSP014","P059"
+"R0034","OSP014","P067"
+"R0054","OSP014","P099"
+"R0074","OSP014","P099"
+"R0094","OSP014","P099"
+"R2001","OSP019","P022"
+"R0183","OSP009","P065"
+"R2005","OSP015","P080"
+"R2006","OSP007","P038"
+"R160","OSP014","P058"
+"R0015","OSP015","P049"
+"R0035","OSP015","P021"
+"R0055","OSP015","P076"
+"R0075","OSP015","P007"
+"R0095","OSP015","P117"
+"R0016","OSP016","P068"
+"R0036","OSP016","P055"
+"R0056","OSP016","P064"
+"R0076","OSP016","P064"
+"R0096","OSP016","P005"
+"R0017","OSP017","P006"
+"R0037","OSP017","P015"
+"R0057","OSP017","P041"
+"R0077","OSP017","P003"
+"R0097","OSP017","P055"
+"R0175","OSP017","P110"
+"R0038","OSP018","P087"
+"R0058","OSP018","P037"
+"R0078","OSP018","P028"
+"R0098","OSP018","P095"
+"R0179","OSP018","P109"
+"R2004","OSP003","P008"
+"R0019","OSP019","P089"
+"R0039","OSP019","P004"
+"R0059","OSP019","P002"
+"R0079","OSP019","P009"
+"R0099","OSP019","P071"
+"R0020","OSP020","P046"
+"R0040","OSP020","P054"
+"R0060","OSP020","P058"
+"R0080","OSP020","P120"
+"R2004","OSP003","P109"
+"R2008","OSP004","P003"
+"R2009","OSP011","codPatolog"
+"R2010","OSP002","P067"
+"R2010","OSP002","P060"
+"R2011","OSP018","P074"
+"R2011","OSP018","P094"
+"R2011","OSP018","P016"
+"R2012","OSP006","P114"
+"R2013","OSP011","P009"
+"R2013","OSP011","P084"
+"R2014","OSP008","P017"
+"R2015","OSP013","P070"
+"R2016","OSP018","P018"
+"R2016","OSP018","P068"
+"R2017","OSP020","P043"
+"R2017","OSP020","P101"
+"R2018","OSP010","P013"
+"R2018","OSP010","P029"
+"R2019","OSP012","P002"
+"R2019","OSP012","P114"
+"R2020","OSP007","P043"
+"R2020","OSP007","P009"
+"R2020","OSP007","P059"
+"R2021","OSP017","P007"
+"R2022","OSP016","P054"
+"R2022","OSP016","P059"
+"R2022","OSP016","P081"
+"R2023","OSP012","P098"
+"R2024","OSP013","P041"
+"R2025","OSP001","P019"
+"R2025","OSP001","P117"
+"R2026","OSP006","P001"
+"R2026","OSP006","P120"
+"R2026","OSP006","P083"
+"R2027","OSP016","P055"
+"R2027","OSP016","P081"
+"R2028","OSP005","P043"
+"R2028","OSP005","P001"
+"R2028","OSP005","P089"
+"R2029","OSP001","P010"
+"R2029","OSP001","P114"
+"R2029","OSP001","P086"
+"R2030","OSP010","P045"
+"R2030","OSP010","P118"
+"R2031","OSP007","P015"
+"R2032","OSP018","P092"
+"R2032","OSP018","P069"
+"R2033","OSP013","P095"
+"R2034","OSP009","P055"
+"R2035","OSP016","P015"
+"R2035","OSP016","P053"
+"R2035","OSP016","P115"
+"R2036","OSP007","P082"
+"R2036","OSP007","P081"
+"R2036","OSP007","P042"
+"R2037","OSP011","P022"
+"R2037","OSP011","P015"
+"R2037","OSP011","P042"
+"R2038","OSP017","P024"
+"R2039","OSP009","P019"
+"R2040","OSP016","P064"
+"R2040","OSP016","P078"
+"R2041","OSP015","P062"
+"R2041","OSP015","P055"
+"R2042","OSP006","P003"
+"R2042","OSP006","P059"
+"R2042","OSP006","P093"
+"R2043","OSP016","P004"
+"R2043","OSP016","P110"
+"R2044","OSP005","P032"
+"R2044","OSP005","P095"
+"R2045","OSP006","P052"
+"R2045","OSP006","P119"
+"R2045","OSP006","P073"
+"R2046","OSP012","P055"
+"R2046","OSP012","P115"
+"R2047","OSP007","P112"
+"R2048","OSP016","P025"
+"R2048","OSP016","P105"
+"R2048","OSP016","P061"
+"R0184","OSP005","P067"
+"R2049","OSP016","P034"
+"R2049","OSP016","P007"
+"R2050","OSP005","P015"
+"R0185","OSP009","P062"
+"R0186","OSP002","P044"
+"R0187","OSP018","P066"
+"R0187","OSP018","P065"
+"R0188","OSP006","P110"
+"R0189","OSP004","P033"
+"R0189","OSP004","P032"
+"R0190","OSP009","P065"
+"R0190","OSP009","P067"
+"R0191","OSP005","P066"
+"R0192","OSP019","P032"
+"R0193","OSP002","P065"
+"R0193","OSP002","P067"
+"R0194","OSP005","P017"
+"R0194","OSP005","P016"
+"R0195","OSP013","P067"
+"R0196","OSP007","P045"
+"R0197","OSP011","P065"
+"R0198","OSP015","P066"
+"R0199","OSP009","P066"
+"R0200","OSP020","P004"
+"R0200","OSP020","P050"
+"R0201","OSP007","P061"
+"R0202","OSP014","P003"
+"R0203","OSP005","P067"
+"R0204","OSP003","P046"
+"R0205","OSP011","P062"
+"R0205","OSP011","P060"
+"R0206","OSP015","P003"
+"R0206","OSP015","P001"
+"R0207","OSP001","P046"
+"R0208","OSP018","P067"
+"R0209","OSP002","P031"
+"R0210","OSP006","P002"
+"R0211","OSP015","P065"
+"R0212","OSP017","P050"
+"R0213","OSP003","P065"
+"R0214","OSP020","P016"
+"R0215","OSP011","P067"
+"R0216","OSP005","P067"
+"R0217","OSP009","P065"
+"R0218","OSP019","P045"
+"R0218","OSP019","P044"
+"R0219","OSP010","P065"
+"R0220","OSP006","P031"
+"R0221","OSP001","P061"
+"R0222","OSP003","P004"
+"R0223","OSP006","P065"
+"R0223","OSP006","P067"
+"R0224","OSP007","P067"
+"R0225","OSP004","P111"
+"R0225","OSP004","P112"
+"R0226","OSP014","P017"
+"R0227","OSP008","P061"
+"R0227","OSP008","P060"
+"R0228","OSP007","P067"
+"R0229","OSP011","P032"
+"R0294","OSP001","P002"
+"R0263","OSP009","P018"
+"R0231","OSP017","P067"
+"R0232","OSP008","P061"
+"R0232","OSP008","P060"
+"R0233","OSP018","P002"
+"R0233","OSP018","P003"
+"R0234","OSP001","P001"
+"R0234","OSP001","P050"
+"R0235","OSP012","P016"
+"R0236","OSP011","P001"
+"R0237","OSP005","P066"
+"R0237","OSP005","P067"
+"R0238","OSP016","P065"
+"R0239","OSP012","P003"
+"R0240","OSP006","P066"
+"R0241","OSP003","P111"
+"R0242","OSP011","P002"
+"R0242","OSP011","P001"
+"R0243","OSP006","P066"
+"R0243","OSP006","P065"
+"R0244","OSP005","P066"
+"R0245","OSP015","P033"
+"R0245","OSP015","P032"
+"R0246","OSP005","P065"
+"R0246","OSP005","P067"
+"R0247","OSP011","P019"
+"R0248","OSP003","P067"
+"R0249","OSP004","P002"
+"R0249","OSP004","P001"
+"R0250","OSP017","P066"
+"R0250","OSP017","P065"
+"R0251","OSP017","P060"
+"R0252","OSP019","P066"
+"R0252","OSP019","P067"
+"R0253","OSP002","P020"
+"R0254","OSP014","P086"
+"R0255","OSP010","P093"
+"R0255","OSP010","P048"
+"R0256","OSP037","P093"
+"R0256","OSP037","P105"
+"R0257","OSP025","P015"
+"R0257","OSP025","P018"
+"R0258","OSP041","P003"
+"R0259","OSP009","P119"
+"R0259","OSP009","P064"
+"R0260","OSP014","P064"
+"R0260","OSP014","P119"
+"R0261","OSP012","P086"
+"R0261","OSP012","P083"
+"R0256","OSP037","P048"
+"R0262","OSP017","P105"
+"R0262","OSP017","P093"
+"R0262","OSP017","P048"
+"R0294","OSP001","P049"
+"R0295","OSP002","P099"
+"R0296","OSP003","P005"
+"R0297","OSP004","P055"
+"R0298","OSP005","P086"
+"R0299","OSP006","P064"
+"R0300","OSP007","P002"
+"R0301","OSP010","P100"
+"R0302","OSP012","P086"
+"R0303","OSP015","P073"
+"R0304","OSP018","P005"
+"R0305","OSP020","P005"
+"R0306","OSP025","P018"
+"R0307","OSP037","P002"
+"R0308","OSP008","P001"
+"R0309","OSP011","P099"
+"R0310","OSP001","P002"
+"R0311","OSP016","P001"
+"R0312","OSP007","P031"
+"R0313","OSP022","P002"
+"R0314","OSP023","P008"
+"R0315","OSP024","P003"
+"R0316","OSP026","P026"
+"R0317","OSP027","P002"
+"R0318","OSP028","P067"
+"R0319","OSP029","P031"
+"R0320","OSP031","P009"
+"R0321","OSP032","P101"
+"R0322","OSP033","P031"
+"R0323","OSP034","P041"
+"R0324","OSP036","P001"
+"R0325","OSP038","P005"
+"R0326","OSP039","P035"
+"R0327","OSP041","P032"
+"R0328","OSP042","P037"
+"R0329","OSP043","P014"
+"R0330","OSP044","P011"
+"R0331","OSP046","P055"
+"R0332","OSP047","P027"
+"R0333","OSP048","P036"
+"R0334","OSP049","P018"
+"R0335","OSP001","P007"
+"R0336","OSP002","P110"
+"R0337","OSP003","P007"
+"R0338","OSP004","P039"
+"R0339","OSP005","P084"
+"R0340","OSP006","P045"
+"R0341","OSP007","P033"
+"R0342","OSP009","P041"
+"R0343","OSP011","P035"
+"R0344","OSP013","P005"
+"R0345","OSP014","P086"
+"R0346","OSP017","P022"
+"R0347","OSP019","P074"
+"R0348","OSP020","P100"
+"R0349","OSP021","P010"
+"R0350","OSP022","P077"
+"R0351","OSP023","P049"
+"R0352","OSP024","P003"
+"R0353","OSP016","P049"
+"R0354","OSP018","P008"
+"R0355","OSP020","P055"
+"R0356","OSP022","P028"
+"R0357","OSP023","P002"
+"R0358","OSP024","P064"
+"R0359","OSP026","P063"
+"R0360","OSP027","P019"
+"R0361","OSP028","P005"
+"R0390","OSP041","P004"
+"R0363","OSP031","P078"
+"R0364","OSP032","P060"
+"R0365","OSP033","P049"
+"R0366","OSP034","P001"
+"R0367","OSP036","P105"
+"R0368","OSP038","P002"
+"R0369","OSP039","P110"
+"R0370","OSP041","P005"
+"R0371","OSP042","P015"
+"R0372","OSP043","P042"
+"R0373","OSP044","P061"
+"R0374","OSP046","P102"
+"R0375","OSP047","P099"
+"R0376","OSP048","P018"
+"R0377","OSP049","P025"
+"R0378","OSP050","P054"
+"R0381","OSP003","P034"
+"R0382","OSP004","P013"
+"R0383","OSP005","P033"
+"R0385","OSP007","P041"
+"R0387","OSP010","P030"
+"R0388","OSP048","P030"
+NULL,NULL,"P093"
+NULL,NULL,"P048"
+NULL,NULL,"P030"
+NULL,NULL,"P030"
+NULL,NULL,"P030"
+NULL,NULL,"P030"
+NULL,NULL,"P030"
+NULL,NULL,"P030"
+NULL,NULL,"P030"
+"R0389","OSP041","P033"
+"cod","codOspedale","paziente","data","durata","motivo","costo","stato"
+"R0001","OSP001","RSSMRA70A01F205Z","2025-05-01","7","Intervento chirurgico programmato","3500.00","2"
+"R0002","OSP002","VRDLCU80B02F205Y","2025-05-04","5","Polmonite","2800.00","2"
+"R0003","OSP003","BNCLRA75C03F205X","2025-05-06","3","Appendicite acuta","2200.00","2"
+"R0004","OSP004","NRECLR82D04F205W","2025-05-03","10","Frattura femore","4500.00","2"
+"R0005","OSP005","GLLGPP79E05F205V","2025-05-05","4","Colecistite","2600.00","2"
+"R0006","OSP006","RSSFNC65F06D612U","2025-05-02","8","Bypass coronarico","9000.00","2"
+"R0007","OSP007","VRDMRC72G07H501T","2025-05-03","6","Ernia discale","3200.00","2"
+"R0008","OSP008","BNCSFN77H08A944S","2025-05-04","5","Calcoli renali","2500.00","2"
+"R0009","OSP009","NREMRT83I09L219R","2025-05-04","3","Gastroenterite acuta","1800.00","2"
+"R0010","OSP010","GLLSVT78L10A662Q","2025-05-02","7","Infarto miocardico","6500.00","2"
+"R0011","OSP011","BRNNTN66M11F839P","2025-05-03","4","Insufficienza respiratoria","3000.00","2"
+"R0012","OSP012","VRDGVN73N12D969O","2025-05-01","9","Ictus cerebrale","7200.00","2"
+"R0013","OSP013","BNCGPP78A13G273N","2025-05-03","6","Diverticolite","3800.00","2"
+"R0014","OSP014","RSSLRA68B14C351M","2025-05-05","5","Pancreatite acuta","4200.00","2"
+"R0015","OSP015","NREDNL81C15A271L","2025-05-04","3","Aritmia cardiaca","2800.00","2"
+"R0016","OSP016","GLLVNT87D16H703K","2025-05-01","8","Setticemia","5500.00","2"
+"R0017","OSP017","BRNLCU76E17I754J","2025-05-02","7","Insufficienza renale","4800.00","2"
+"R0019","OSP019","BNCLNZ85G19A783H","2025-05-03","4","Trauma cranico","3200.00","2"
+"R0020","OSP020","RSSPTR70H20G224G","2025-05-01","6","Embolia polmonare","4500.00","2"
+"R0021","OSP001","CNTGPP64A01F205Z","2025-05-04","5","Artroscopia ginocchio","3000.00","2"
+"R0022","OSP002","MRNDNL75B02F205Y","2025-05-02","7","Ulcera gastrica","3800.00","2"
+"R0023","OSP003","FRRLCU80C03F205X","2025-05-03","4","Ernia inguinale","2500.00","2"
+"R0024","OSP004","ESPLRA82D04F205W","2025-05-02","8","Frattura vertebrale","5200.00","2"
+"R0025","OSP005","RMNNNA79E05F205V","2025-05-04","3","Bronchite acuta","1900.00","2"
+"R0026","OSP006","CNTRCC65F06D612U","2025-04-27","12","Trapianto di rene","15000.00","2"
+"R0027","OSP007","MRNFNC72G07H501T","2025-05-01","6","Cirrosi epatica","4300.00","2"
+"R0028","OSP008","FRRMRC77H08A944S","2025-05-02","5","Ipertensione non controllata","2800.00","2"
+"R0029","OSP009","ESPSFN83I09L219R","2025-05-03","4","Epilessia","2600.00","2"
+"R0030","OSP010","RMNGVN78L10A662Q","2025-05-01","9","Aneurisma aortico","8500.00","2"
+"R0031","OSP011","BLDMRT66M11F839P","2025-05-02","7","Poliposi intestinale","4100.00","2"
+"R0032","OSP012","CNTCRL73N12D969O","2025-05-02","5","Glaucoma acuto","3000.00","2"
+"R0033","OSP013","MRNSVT78A13G273N","2025-05-01","6","Meningite","4800.00","2"
+"R0034","OSP014","FRRLRA68B14C351M","2025-05-03","4","Occlusione intestinale","3500.00","2"
+"R0035","OSP015","ESPGPP81C15A271L","2025-05-01","8","Tumore al colon","7200.00","2"
+"R0036","OSP016","RMNLCU87D16H703K","2025-05-04","3","Scompenso cardiaco","2500.00","2"
+"R0037","OSP017","BLDLNZ76E17I754J","2025-05-04","5","Depressione grave","3200.00","2"
+"R0038","OSP018","CNTCLR82F18E715I","2025-05-02","7","Miastenia gravis","4800.00","2"
+"R0039","OSP019","MRNDNL85G19A783H","2025-05-03","4","Emorragia cerebrale","3800.00","2"
+"R0040","OSP020","FRRFNC70H20G224G","2025-05-01","6","Trombosi venosa profonda","3900.00","2"
+"R0041","OSP001","MLNSVT76A21F205Z","2025-05-02","5","Stenosi carotidea","4200.00","2"
+"R0042","OSP002","RSSMRA60B22F205Y","2025-05-04","3","Laparoscopia esplorativa","2300.00","2"
+"R0043","OSP003","CSTLCU72C23F205X","2025-05-02","7","Infarto intestinale","5400.00","2"
+"R0044","OSP004","GRCLRA83D24F205W","2025-05-02","5","Distacco di retina","3800.00","2"
+"R0045","OSP005","BRNGVN77E25F205V","2025-05-03","4","Nevralgia del trigemino","2600.00","2"
+"R0046","OSP006","MLNVNT67F26D612U","2025-05-01","8","Protesi anca","6500.00","2"
+"R0047","OSP007","RSSDNL74G27H501T","2025-05-03","6","Artrosi cervicale","3700.00","2"
+"R0048","OSP008","CSTSRA78H28A944S","2025-05-02","5","Sindrome di Crohn","4200.00","2"
+"R0049","OSP009","GRCMRC82I29L219R","2025-05-03","4","Ernia del disco","3800.00","2"
+"R0050","OSP010","BRNNNA79L30A662Q","2025-04-30","9","Sostituzione valvola cardiaca","8900.00","2"
+"R0051","OSP011","FRRMNC75A21F205Z","2025-05-04","3","Emorroidi","1800.00","2"
+"R0052","OSP012","GLLPLA81B22F205Y","2025-05-02","7","Morbo di Parkinson","5200.00","2"
+"R0053","OSP013","BNCGCM63C23F205X","2025-05-02","5","Trombosi cerebrale","4300.00","2"
+"R0054","OSP014","RSSVTR72D24F205W","2025-05-03","4","Frattura omero","2900.00","2"
+"R0055","OSP015","MRCLDA84E25F205V","2025-05-01","8","Tumore alla prostata","7500.00","2"
+"R0056","OSP016","VRDGNN69F26D612U","2025-05-02","6","Calcoli alla cistifellea","3800.00","2"
+"R0057","OSP017","GRSMRC73G27H501T","2025-05-02","5","Asma severo","2800.00","2"
+"R0058","OSP018","LMBGPP85H28A944S","2025-05-02","7","Malattia di Crohn","4900.00","2"
+"R0059","OSP019","CTLLCU77I29L219R","2025-05-03","4","Ipertensione polmonare","3500.00","2"
+"R0060","OSP020","MNTSRA82L30A662Q","2025-05-02","6","Dissezione aortica","5800.00","2"
+"R0061","OSP001","SLVMTT68M01F839P","2025-05-04","3","Appendicectomia","2100.00","2"
+"R0062","OSP002","DMRNNA79N02D969O","2025-05-01","8","Endometriosi","4500.00","2"
+"R0063","OSP003","RMNRRT66A03G273N","2025-05-03","5","Enfisema polmonare","3800.00","2"
+"R0064","OSP004","MRLMRC84B04C351M","2025-05-04","4","Sindrome del tunnel carpale","2200.00","2"
+"R0065","OSP005","TRRFNC71C05A271L","2025-05-02","7","Epatite acuta","4800.00","2"
+"R0066","OSP006","CLMGPP83D06H703K","2025-05-03","6","Vasculite sistemica","4200.00","2"
+"R0067","OSP007","DSNCRL75E07I754J","2025-05-04","5","Trombosi venosa","3900.00","2"
+"R0068","OSP008","VLNNTN80F08E715I","2025-05-04","4","Sindrome nefrosica","3200.00","2"
+"R0069","OSP009","MRNRRT88G09A783H","2025-04-30","9","Trapianto di fegato","14000.00","2"
+"R0070","OSP010","BLLGCM74H10G224G","2025-05-03","5","Sindrome di Guillain-Barré","4300.00","2"
+"R0071","OSP011","PZZLDA62A11F205Z","2025-05-02","7","Spondilite anchilosante","4800.00","2"
+"R0072","OSP012","RZZSRA83B12F205Y","2025-05-03","6","Sclerosi multipla","5200.00","2"
+"R0073","OSP013","DNTNCS67C13F205X","2025-05-04","4","Ernia iatale","2700.00","2"
+"R0074","OSP014","FLCPLA86D14F205W","2025-05-01","8","Frattura del bacino","5800.00","2"
+"R0075","OSP015","CSTGNN78E15F205V","2025-05-03","5","Cirrosi epatica","4100.00","2"
+"R0076","OSP016","SNTMRA64F16D612U","2025-05-05","3","Colelitiasi","2200.00","2"
+"R0077","OSP017","DNGFBA71G17H501T","2025-05-02","7","Angina instabile","4700.00","2"
+"R0078","OSP018","LMBLRA89H18A944S","2025-05-03","5","Distacco di retina","3900.00","2"
+"R0079","OSP019","CRSLCU76I19L219R","2025-05-04","4","Bronchite cronica","2600.00","2"
+"R0080","OSP020","GLLDFR82L20A662Q","2025-04-29","10","Bypass gastrico","8500.00","2"
+"R0081","OSP001","GRDSVN65M21F839P","2025-05-03","6","Diabete scompensato","3700.00","2"
+"R0082","OSP002","MRTDNL77N22D969O","2025-05-04","5","Intervento alla tiroide","3800.00","1"
+"R0083","OSP003","CNTCLD69A23G273N","2025-05-04","4","Pancreatite cronica","3200.00","2"
+"R0084","OSP004","FRLSVN87B24C351M","2025-05-01","8","Frattura della colonna vertebrale","6200.00","2"
+"R0085","OSP005","PLMFLR70C25A271L","2025-05-03","5","Artrite reumatoide","3900.00","2"
+"R0086","OSP006","GRCLDA85D26H703K","2025-05-05","3","Fibrillazione atriale","2500.00","2"
+"R0087","OSP007","VLNSFN73E27I754J","2025-05-02","7","Sindrome di Ménière","4300.00","2"
+"R0088","OSP008","MRNMRL81F28E715I","2025-05-03","6","Ulcera peptica","3800.00","2"
+"R0089","OSP009","CSTPLA90G29A783H","2025-05-04","4","Colite ulcerosa","3200.00","2"
+"R0091","OSP011","RMNRRT63A01F205Z","2025-05-04","5","Sclerosi laterale amiotrofica","4900.00","2"
+"R0092","OSP012","SLVGRL84B02F205Y","2025-05-04","4","Ernia ombelicale","2800.00","2"
+"R0093","OSP013","MSGMTT66C03F205X","2025-05-02","7","Ictus ischemico","5300.00","2"
+"R0094","OSP014","GNTPLA88D04F205W","2025-05-03","6","Frattura del femore","4200.00","2"
+"R0095","OSP015","BRLSVN75E05F205V","2025-05-04","5","Tumore al pancreas","6800.00","2"
+"R0096","OSP016","MRCGPP67F06D612U","2025-05-05","3","Polmonite interstiziale","2600.00","2"
+"R0097","OSP017","CSTLNZ74G07H501T","2025-05-01","8","Scompenso cardiaco","5500.00","2"
+"R0098","OSP018","BRNLCU86H08A944S","2025-05-04","5","Sindrome di Sjögren","3900.00","2"
+"R0099","OSP019","FRRNTN71I09L219R","2025-05-04","4","Pielonefrite","2800.00","2"
+"R0101","OSP001","RCCLRA68M11F839P","2025-05-03","6","Spondilodiscite","4200.00","2"
+"R0102","OSP002","PLLNDR77N12D969O","2025-05-04","5","Epatite B","3800.00","2"
+"R0103","OSP003","DSTPTR69A13G273N","2025-05-05","3","Cataratta","1900.00","2"
+"R0104","OSP004","GRTLNZ82B14C351M","2025-05-01","8","Frattura del bacino","5900.00","2"
+"R0105","OSP005","BLDNNA77C15A271L","2025-05-04","4","Insufficienza renale acuta","3500.00","2"
+"R0106","OSP006","CLFGPP90D16H703K","2025-05-02","7","Aritmia ventricolare","4800.00","2"
+"R0107","OSP007","MRCLCU71E17I754J","2025-05-04","5","Linfoma di Hodgkin","5200.00","2"
+"R0108","OSP008","RSSMRT84F18E715I","2025-05-04","4","Fibrillazione atriale","3200.00","2"
+"R0109","OSP009","LNEDNL91G19A783H","2025-04-30","9","Trapianto di cuore","18000.00","2"
+"R0110","OSP010","FRRSFN64H20G224G","2025-05-03","6","Osteomielite","4300.00","2"
+"R0111","OSP011","CSTNLT67A21F205Z","2025-05-04","5","Pneumotorace","3700.00","2"
+"R0112","OSP012","VLNRRT89B22F205Y","2025-05-04","4","Porpora trombocitopenica","3200.00","2"
+"R0113","OSP013","CTLGCM61C23F205X","2025-05-02","7","Stenosi aortica severa","5800.00","2"
+"R0114","OSP014","TMMCST87D24F205W","2025-05-03","6","Endocardite","4500.00","2"
+"R0115","OSP015","GRSFLV76E25F205V","2025-05-04","5","Trombosi venosa profonda","3800.00","2"
+"R0116","OSP016","LNGPRN63F26D612U","2025-05-05","3","Anemia aplastica","2900.00","2"
+"R0117","OSP017","PRSMRA75G27H501T","2025-05-02","8","Infarto miocardico","6200.00","2"
+"R0118","OSP018","DLCCLR88H28A944S","2025-05-04","5","Otosclerosi","3500.00","2"
+"R0119","OSP019","GLLNTS73I29L219R","2025-05-05","4","Polmonite","2800.00","2"
+"R0120","OSP020","MRLDNL85L30A662Q","2025-04-29","10","Trapianto di polmone","16000.00","2"
+"R0121","OSP001","CNTGVN62M01F839P","2025-05-03","6","Calcoli urinari","3800.00","2"
+"R0122","OSP002","LMBLRA78N02D969O","2025-05-04","5","Emicrania con aura","3200.00","2"
+"R0123","OSP003","GRCDNL70A03G273N","2025-05-05","2","Broncopneumopatia","2900.00","2"
+"R0124","OSP004","BNCRRT83B04C351M","2025-05-02","7","Ernia discale lombare","4800.00","2"
+"R0125","OSP005","SCRLNZ65C05A271L","2025-05-04","5","Fibrillazione ventricolare","4200.00","2"
+"R0126","OSP006","SLVLSN92D06H703K","2025-05-05","3","Sindrome di Cushing","3100.00","2"
+"R0127","OSP007","GLLMRA72E07I754J","2025-05-01","8","Leucemia mieloide cronica","7500.00","2"
+"R0128","OSP008","BLLRRT86F08E715I","2025-05-03","6","Embolia polmonare","4500.00","2"
+"R0129","OSP009","CSTRRT93G09A783H","2025-05-05","4","Ictus ischemico","3800.00","2"
+"R0130","OSP010","MNTPLA64H10G224G","2025-04-30","9","Chirurgia vascolare","7200.00","2"
+"R0131","OSP011","VRNNLT66A11F205Z","2025-05-04","5","Malattia di Parkinson","4100.00","2"
+"R0132","OSP012","RSSFNC88B12F205Y","2025-05-05","4","Cisti ovarica","2800.00","2"
+"R0133","OSP013","FRLSVT60C13F205X","2025-05-02","7","Sepsi","5900.00","2"
+"R0134","OSP014","DLCGPP87D14F205W","2025-05-03","6","Tiroidite di Hashimoto","3800.00","2"
+"R0135","OSP015","CRSDNL79E15F205V","2025-05-04","5","Tumore alla vescica","5200.00","2"
+"R0136","OSP016","FNNLRA64F16D612U","2025-05-05","3","Gastrite erosiva","2100.00","2"
+"R0137","OSP017","MRLPTR76G17H501T","2025-05-01","8","Blocco atrio-ventricolare","5800.00","2"
+"R0138","OSP018","BLDMNC89H18A944S","2025-05-04","5","Artrite psoriasica","3900.00","2"
+"R0139","OSP019","VNTGNN70I19L219R","2025-05-05","7","Bronchite cronica","2600.00","2"
+"R0140","OSP020","VLTSFN82L20A662Q","2025-04-28","11","Trapianto di pancreas","14000.00","2"
+"R0141","OSP001","MRCLNZ67M21F839P","2025-05-03","6","Glomerulonefrite","4200.00","2"
+"R0229","OSP011","SLVLSN92D06H703K","2025-05-16","4","Osservazione neurologica","7313.78","2"
+"R0143","OSP003","BNNRRT69A23G273N","2025-05-05","3","Cataratta bilaterale","2200.00","2"
+"R0144","OSP004","CRRLNZ85B24C351M","2025-05-01","8","Frattura del femore","5600.00","2"
+"R0145","OSP005","GRSFBA65C25A271L","2025-05-01","5","Ipertensione polmonare","4300.00","2"
+"R0146","OSP006","DSTSRA94D26H703K","2025-05-02","4","Malattia di Crohn","3800.00","2"
+"R0147","OSP007","FRRLCU74E27I754J","2025-05-03","7","Mieloma multiplo","6900.00","2"
+"R0148","OSP008","VLNDNL86F28E715I","2025-05-01","6","Artrosi anca","4200.00","2"
+"R0149","OSP009","BSCLSN94G29A783H","2025-05-04","5","Insufficienza renale cronica","4800.00","2"
+"R0150","OSP010","GNTGNN66H30G224G","2025-04-30","9","Aneurisma aorta addominale","8500.00","2"
+"R0151","OSP011","SRRMLA65A01F205Z","2025-05-05","4","Emicrania con aura","2800.00","2"
+"R0190","OSP009","CLFGPP90D16H703K","2025-05-12","5","Follow-up cardiologico","4040.31","2"
+"R0179","OSP018","SRRMLA65A01F205Z","2025-05-07","4","Emicrania con aura","2800.00","2"
+"R0155","OSP011","VRDLCU80B02F205Y","2025-05-03","6","Dolori alla schiena","4300.00","2"
+"R0231","OSP017","GRSMRC73G27H501T","2025-05-15","4","Follow-up cardiologico","6543.30","2"
+"R0187","OSP018","BLDMRT66M11F839P","2025-05-20","6","Follow-up cardiologico","2931.72","2"
+"R0188","OSP006","RMNGVN78L10A662Q","2025-05-05","6","Trattamento oncologico","2599.41","2"
+"R0189","OSP004","CLFGPP90D16H703K","2025-05-12","8","Osservazione neurologica","6943.15","1"
+"R0181","OSP008","RSSLRA68B14C351M","2025-04-28","4","Controllo post-operatorio","3465.63","2"
+"R0388","OSP048","FERFRA94I09I754S","2025-05-26","4","Terapia per sindrome del tunnel carpale
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","1350.00","0"
+"R0183","OSP009","CRRLNZ85B24C351M","2025-05-11","6","Follow-up cardiologico","4576.04","2"
+"R0184","OSP005","BNCGCM63C23F205X","2025-05-19","5","Follow-up cardiologico","2530.90","2"
+"R0185","OSP009","MRNSVT78A13G273N","2025-05-02","5","Dolore toracico","4774.02","2"
+"R0186","OSP002","BLDMRT66M11F839P","2025-05-20","7","Dialisi","6860.64","1"
+"R0175","OSP017","BNLRCC90B02F205Y","2025-05-01","8","Sclerosi sistemica","5700.00","2"
+"R0263","OSP009","LLCNJE02R30R765W","2025-05-25","12","Ansia generalizzata","2000.00","0"
+"R0294","OSP001","FRRLNE85L52F205A","2025-05-26","7","Accertamenti cardiologici","1300.00","0"
+"R0191","OSP005","SNTMRT63M01F839P","2025-05-02","4","Follow-up cardiologico","6087.27","2"
+"R0192","OSP019","SLVMTT68M01F839P","2025-04-24","3","Osservazione neurologica","7680.38","1"
+"R0193","OSP002","SLVMTT68M01F839P","2025-04-24","3","Follow-up cardiologico","3521.38","2"
+"R0194","OSP005","CRLNTN76E05F205V","2025-04-24","3","Esami approfonditi","5408.80","1"
+"R0195","OSP013","CRLNTN76E05F205V","2025-04-24","5","Follow-up cardiologico","6188.04","2"
+"R0196","OSP007","VTLCRN72H30G224G","2025-04-30","10","Dialisi","2294.26","1"
+"R0197","OSP011","VTLCRN72H30G224G","2025-04-30","4","Follow-up cardiologico","2471.62","2"
+"R0198","OSP015","CNTCLR61A21F205Z","2025-04-24","8","Follow-up cardiologico","5349.31","1"
+"R0199","OSP009","CNTCLR61A21F205Z","2025-04-24","4","Follow-up cardiologico","2090.43","2"
+"R0228","OSP007","MRNSVT78A13G273N","2025-05-07","4","Follow-up cardiologico","5352.69","2"
+"R0227","OSP008","MRNSVT78A13G273N","2025-05-07","9","Dolore toracico","7752.05","1"
+"R0226","OSP014","GRTLNZ82B14C351M","2025-04-23","3","Esami approfonditi","3179.08","2"
+"R0225","OSP004","FRRNTN71I09L219R","2025-05-12","5","Trattamento oncologico","5377.25","2"
+"R0224","OSP007","SCRLNZ65C05A271L","2025-04-22","8","Follow-up cardiologico","7403.72","2"
+"R0223","OSP006","MRNLCA65H10G224G","2025-05-18","2","Follow-up cardiologico","6209.75","2"
+"R0222","OSP003","MRNLCA65H10G224G","2025-05-18","4","Intervento chirurgico","7184.84","1"
+"R0221","OSP001","DMRFNC91H08A944S","2025-05-05","7","Dolore toracico","2479.52","2"
+"R0220","OSP006","DSTPTR69A13G273N","2025-05-03","5","Osservazione neurologica","7506.38","2"
+"R0219","OSP010","DSNCRL75E07I754J","2025-05-17","6","Follow-up cardiologico","5442.98","2"
+"R0218","OSP019","DSNCRL75E07I754J","2025-05-17","6","Dialisi","7301.93","1"
+"R0217","OSP009","PRSMRA75G27H501T","2025-05-05","4","Follow-up cardiologico","7000.44","2"
+"R0216","OSP005","PRSMRA75G27H501T","2025-05-05","7","Follow-up cardiologico","6325.92","1"
+"R0215","OSP011","SLVMTT68M01F839P","2025-05-05","5","Follow-up cardiologico","2485.77","2"
+"R0214","OSP020","SLVMTT68M01F839P","2025-05-05","10","Esami approfonditi","5231.51","1"
+"R0213","OSP003","BSSLCA62M11F839P","2025-04-29","6","Follow-up cardiologico","6438.91","2"
+"R0212","OSP017","BSSLCA62M11F839P","2025-04-29","3","Intervento chirurgico","6813.75","1"
+"R0211","OSP015","GLLMRT88D14F205W","2025-05-02","5","Follow-up cardiologico","3558.34","2"
+"R0210","OSP006","GLLMRT88D14F205W","2025-05-02","4","Controllo post-operatorio","5864.83","1"
+"R0209","OSP002","CSTMNC72E07I754J","2025-04-20","6","Osservazione neurologica","2343.66","2"
+"R0208","OSP018","CNTGPP64A01F205Z","2025-05-10","4","Follow-up cardiologico","4473.50","2"
+"R0207","OSP001","CNTGPP64A01F205Z","2025-05-10","5","Dialisi","5348.33","1"
+"R0206","OSP015","LMBCRL84L30A662Q","2025-05-02","10","Controllo post-operatorio","6485.79","2"
+"R0205","OSP011","RSSPTR70H20G224G","2025-04-23","3","Dolore toracico","2786.54","2"
+"R0204","OSP003","VRNNLT66A11F205Z","2025-04-28","6","Dialisi","4662.22","2"
+"R0203","OSP005","LNEDNL91G19A783H","2025-04-24","6","Follow-up cardiologico","3810.45","2"
+"R0202","OSP014","LNEDNL91G19A783H","2025-04-24","8","Controllo post-operatorio","5536.45","1"
+"R0201","OSP007","RMNLCU87D16H703K","2025-04-25","8","Dolore toracico","2474.12","2"
+"R0200","OSP020","ESPLRA82D04F205W","2025-05-11","9","Intervento chirurgico","2811.09","2"
+"R0232","OSP008","VRDMRC72G07H501T","2025-04-22","8","Dolore toracico","6994.79","2"
+"R0233","OSP018","FRRFNC70H20G224G","2025-04-29","6","Controllo post-operatorio","6627.22","2"
+"R0234","OSP001","LNEDNL91G19A783H","2025-04-29","10","Intervento chirurgico","7017.95","2"
+"R0235","OSP012","VRDSMN82F18E715I","2025-05-07","4","Esami approfonditi","6867.52","2"
+"R0236","OSP011","CRLNTN76E05F205V","2025-04-21","7","Intervento chirurgico","7314.87","2"
+"R0237","OSP005","CNTCLD69A23G273N","2025-05-08","8","Follow-up cardiologico","4441.89","1"
+"R0238","OSP016","CNTCLD69A23G273N","2025-05-08","3","Follow-up cardiologico","4970.91","2"
+"R0239","OSP012","GLLSVT78L10A662Q","2025-05-20","5","Controllo post-operatorio","7337.03","1"
+"R0240","OSP006","GLLSVT78L10A662Q","2025-05-20","5","Follow-up cardiologico","4617.05","3"
+"R0241","OSP003","CSTPLA90G29A783H","2025-05-16","6","Trattamento oncologico","5471.00","2"
+"R0242","OSP011","CSTLNZ74G07H501T","2025-05-03","8","Controllo post-operatorio","3617.64","2"
+"R0243","OSP006","GLLMRA84L20A662Q","2025-05-10","4","Follow-up cardiologico","3018.61","1"
+"R0244","OSP005","GLLMRA84L20A662Q","2025-05-10","16","Follow-up cardiologico","6410.62","3"
+"R0245","OSP015","SLVLSN92D06H703K","2025-05-14","5","Osservazione neurologica","5884.70","2"
+"R0246","OSP005","VLNSFN73E27I754J","2025-05-03","9","Follow-up cardiologico","7855.62","2"
+"R0247","OSP011","BLDMNC89H18A944S","2025-04-30","9","Infezione respiratoria","6112.21","1"
+"R0248","OSP003","BLDMNC89H18A944S","2025-04-30","6","Follow-up cardiologico","2019.47","2"
+"R0249","OSP004","TMMCST87D24F205W","2025-05-20","9","Controllo post-operatorio","4186.32","1"
+"R0250","OSP017","TMMCST87D24F205W","2025-05-20","3","Follow-up cardiologico","2615.27","3"
+"R0251","OSP017","RZZSRA83B12F205Y","2025-05-10","9","Dolore toracico","4160.10","1"
+"R0252","OSP019","RZZSRA83B12F205Y","2025-05-10","3","Follow-up cardiologico","5186.62","3"
+"R0253","OSP002","MRTDNL77N22D969O","2025-05-07","4","Infezione respiratoria","5578.09","3"
+"R0254","OSP014","BRLSVN75E05F205V","2025-05-12","13","dolori alla testa","1200.00","3"
+"R0255","OSP010","LNGPRN63F26D612U","2025-05-22","5","Svenimento","7456.00","1"
+"R0256","OSP037","LNGPRN63F26D612U","2025-05-22","13","Svenimento e dolori ","4500.00","1"
+"R0257","OSP025","CCTCHR04T46A794A","2025-05-22","12","Ansia e depressione","4300.00","0"
+"R0258","OSP041","CSTLCU72C23F205X","2025-05-22","4","dolori addominali","5000.00","3"
+"R0259","OSP009","EST0000000000001","2025-05-22","6","coma etilico","3000.00","1"
+"R0260","OSP014","EST0000000000001","2025-05-22","6","coma etilico","3000.00","3"
+"R0018","OSP018","BRNLCU76E17I754J","2025-05-06","5","Bronchite acuta","2050.00","2"
+"R0090","OSP010","MRNMRL81F28E715I","2025-05-05","7","Infarto miocardico","6800.00","2"
+"R0100","OSP020","FRRFNC70H20G224G","2025-05-02","6","Trombosi venosa profunda","4100.00","2"
+"R0142","OSP002","BRNNTN66M11F839P","2025-05-04","5","Insufficienza respiratoria","3300.00","2"
+"R0152","OSP012","PLLNDR77N12D969O","2025-05-06","4","Glaucoma acuto","3100.00","2"
+"R0153","OSP013","DSTPTR69A13G273N","2025-05-05","3","Cataratta","1950.00","2"
+"R0154","OSP014","GRTLNZ82B14C351M","2025-05-02","9","Frattura del bacino","6000.00","2"
+"R0156","OSP016","CLFGPP90D16H703K","2025-05-03","6","Aritmia cardiaca","4900.00","2"
+"R0157","OSP017","MRCLCU71E17I754J","2025-05-05","5","Linfoma di Hodgkin","5300.00","2"
+"R0158","OSP018","RSSMRT84F18E715I","2025-05-05","4","Fibrillazione atriale","3300.00","2"
+"R0159","OSP019","LNEDNL91G19A783H","2025-05-01","10","Trapianto di cuore","18500.00","2"
+"R0160","OSP020","FRRSFN64H20G224G","2025-05-04","7","Osteomielite","4400.00","2"
+"R0161","OSP001","CSTNLT67A21F205Z","2025-05-05","6","Pneumotorace","3800.00","2"
+"R0162","OSP002","VLNRRT89B22F205Y","2025-05-05","5","Porpora trombocitopenica","3300.00","2"
+"R0163","OSP003","CTLGCM61C23F205X","2025-05-03","8","Stenosi aortica severa","5900.00","2"
+"R0164","OSP004","TMMCST87D24F205W","2025-05-04","7","Endocardite","4600.00","2"
+"R0165","OSP005","GRSFLV76E25F205V","2025-05-05","6","Trombosi venosa profonda","3900.00","2"
+"R0166","OSP006","LNGPRN63F26D612U","2025-05-06","4","Anemia aplastica","3000.00","2"
+"R0167","OSP007","PRSMRA75G27H501T","2025-05-03","9","Infarto miocardico","6300.00","2"
+"R0168","OSP008","DLCCLR88H28A944S","2025-05-05","6","Otosclerosi","3600.00","2"
+"R0169","OSP009","GLLNTS73I29L219R","2025-05-06","5","Polmonite","2900.00","2"
+"R0170","OSP010","MRLDNL85L30A662Q","2025-04-30","11","Trapianto di polmone","16500.00","2"
+"R0171","OSP011","CNTGVN62M01F839P","2025-05-04","7","Calcoli urinari","3900.00","2"
+"R0172","OSP012","LMBLRA78N02D969O","2025-05-05","6","Emicrania con aura","3300.00","2"
+"R0173","OSP013","GRCDNL70A03G273N","2025-05-06","3","Broncopneumopatia","3000.00","2"
+"R0174","OSP014","BNCRRT83B04C351M","2025-05-03","8","Ernia discale lombare","4900.00","2"
+"R0176","OSP016","FNNLRA64F16D612U","2025-05-06","4","Gastrite erosiva","2200.00","2"
+"R0177","OSP017","MRLPTR76G17H501T","2025-05-02","9","Blocco atrio-ventricolare","5900.00","2"
+"R0178","OSP018","BLDMNC89H18A944S","2025-05-05","6","Artrite psoriasica","4000.00","2"
+"R0180","OSP020","RSSPTR70H20G224G","2025-05-06","5","Embolia polmonare","4600.00","2"
+"R0261","OSP012","BCCRSS03H66I628K","2025-05-23","4","Emicrania","1400.00","0"
+"R0262","OSP017","LNGPRN63F26D612U","2025-05-25","13","Svenimento e dolori ","4500.00","0"
+"R0295","OSP002","GLLRRT72C22Bres","2025-05-27","5","Terapia fisica intensiva","2600.00","0"
+"R0296","OSP003","CNTSFO90S45P205C","2025-05-01","10","Otite media","750.00","2"
+"R0297","OSP004","MRTLSN66A30G205D","2025-04-07","3","Stato febbrile persistente","1600.00","3"
+"R0298","OSP005","RZZGLI95P58V205E","2025-05-02","11","Valutazione neurologica approfondita","3700.00","0"
+"R0299","OSP006","RSSMRA70A01F205Z","2025-05-03","12","Colica renale","2750.00","2"
+"R0300","OSP007","VRDLCU80B02F205Y","2025-05-04","13","Controllo pressione arteriosa","1700.00","0"
+"R0301","OSP010","EST0000000000002","2025-05-05","14","Intervento alla spalla","5800.00","0"
+"R0302","OSP012","EST0000000000003","2025-05-06","15","Trattamento per emicrania cronica","2300.00","0"
+"R0303","OSP015","BRBSMN92D03N205H","2025-05-07","10","Infezione delle vie urinarie","900.00","2"
+"R0304","OSP018","EST0000000000004","2025-02-08","2","Insufficienza respiratoria","1800.00","3"
+"R0305","OSP020","RMNFNC70B28P205J","2025-05-08","11","Sospetta polmonite","3100.00","0"
+"R0306","OSP025","EST0000000000005","2025-05-09","12","Consulenza specialistica","1200.00","0"
+"R0307","OSP037","EST0000000000006","2025-05-10","13","Riabilitazione cardiologica","3200.00","2"
+"R0308","OSP008","GRCCHR88R50B205K","2025-05-11","14","Controllo per diabete gestazionale","1650.00","0"
+"R0309","OSP011","VLLMRC63E20C205L","2025-05-12","15","Sostituzione protesi ginocchio","7500.00","0"
+"R0310","OSP001","MRTLSN66A30G205D","2025-04-01","6","Precauzione Cardiovascolare","3000.00","2"
+"R0311","OSP016","NGRALC82S41T205O","2025-04-25","6","Controllo intensivo diabete","2800.00","2"
+"R0312","OSP007","MRNVLN83M55T205I","2025-03-15","5","Monitoraggio post-trauma","2500.00","2"
+"R0313","OSP022","BNCDNL78A15M205U","2025-05-13","10","Controllo generale annuale","700.00","2"
+"R0314","OSP023","RSSLCA65B22F205V","2025-05-14","11","Riabilitazione polmonare","3500.00","0"
+"R0315","OSP024","VRDFBA82C10P205W","2025-01-10","5","Dolore toracico acuto","2800.00","3"
+"R0316","OSP026","GLLMRA91D55T205X","2025-05-15","12","Visita oculistica specialistica","450.00","2"
+"R0317","OSP027","CNTSTF60E01M205Y","2025-05-16","13","Trattamento ipertensione","2200.00","0"
+"R0318","OSP028","FRRGRG88F20B205Z","2025-05-17","14","Sospetta appendicite","2400.00","0"
+"R0319","OSP029","MRNCHR73G45V205A","2025-05-18","15","Fisioterapia post-incidente","2800.00","0"
+"R0320","OSP031","ESPLSN69H12C205B","2024-11-25","6","Bronchite acuta severa","3000.00","3"
+"R0321","OSP032","RMNELN95I50P205C","2025-05-19","10","Controllo dermatologico","300.00","0"
+"R0322","OSP033","BRNMTT70J25F205D","2025-05-20","11","Intervento ernia inguinale","4500.00","0"
+"R0323","OSP034","SNTAND80K03M205E","2025-05-21","12","Valutazione allergologica","1200.00","0"
+"R0324","OSP036","GRCLCU77L48T205F","2025-05-22","13","Monitoraggio glicemico","2000.00","0"
+"R0325","OSP038","FNTALB93A18B205G","2025-05-23","14","Infezione orecchio","650.00","0"
+"R0326","OSP039","CSTMCH66B55V205H","2025-02-28","3","Dolore addominale acuto","1700.00","3"
+"R0327","OSP041","RZZPAO85C28P205I","2025-05-24","15","Terapia del dolore cronico","2900.00","0"
+"R0328","OSP042","DMCDVD72D10T205J","2025-05-25","10","Colonscopia di controllo","900.00","0"
+"R0329","OSP043","MRLSRA90E50M205K","2025-05-26","11","Riabilitazione neurologica","4200.00","0"
+"R0330","OSP044","LNEMRT63F07B205L","2025-05-27","12","Accertamenti per osteoporosi","1500.00","0"
+"R0331","OSP046","PCCSMN87G14V205M","2025-05-01","13","Intervento di bypass","12000.00","0"
+"R0332","OSP047","TRRVLN60H55P205N","2025-05-02","14","Controllo post-operatorio cataratta","500.00","2"
+"R0333","OSP048","EST0000000000007","2025-05-03","15","Trattamento per reflusso gastroesofageo","1900.00","0"
+"R0334","OSP049","EST0000000000008","2025-05-04","10","Disturbi ansiosi","1300.00","2"
+"R0335","OSP001","EST0000000000009","2025-05-05","11","Monitoraggio epatico","2700.00","0"
+"R0336","OSP002","EST0000000000010","2025-05-06","12","Controllo per anemia","1400.00","0"
+"R0337","OSP003","EST0000000000011","2025-03-05","5","Aggravamento problemi epatici","2500.00","3"
+"R0338","OSP004","EST0000000000012","2025-05-07","13","Visita dietologica","400.00","2"
+"R0339","OSP005","EST0000000000013","2025-05-08","14","Valutazione per chirurgia bariatrica","1800.00","0"
+"R0340","OSP006","EST0000000000014","2025-05-09","15","Disturbi del sonno, polisonnografia","1600.00","2"
+"R0341","OSP007","EST0000000000015","2025-05-10","10","Terapia per fibromialgia","3000.00","0"
+"R0342","OSP009","EST0000000000016","2025-05-11","11","Controllo per asma","1550.00","0"
+"R0343","OSP011","GALLSN85A01F205A","2025-05-12","12","Trattamento per ulcera","2900.00","0"
+"R0344","OSP013","FERVAL70B42G273B","2025-05-13","13","Sostituzione medicazione","350.00","2"
+"R0345","OSP014","CONROB92C03H501C","2025-05-14","14","Indagini per cefalea persistente","1950.00","0"
+"R0346","OSP017","ESPSIM68D44L219D","2025-04-10","5","Cure palliative","2000.00","3"
+"R0347","OSP019","ROMGIU75E05A944E","2025-05-15","15","Controllo ginecologico","600.00","0"
+"R0348","OSP020","MARAND90F06D612F","2025-05-16","10","Riabilitazione spalla","3300.00","0"
+"R0349","OSP021","BARCHI65G07F839G","2025-05-17","11","Terapia per artrite","2100.00","0"
+"R0350","OSP022","SANFRA82H08A662H","2025-05-18","12","Esami del sangue specifici","450.00","0"
+"R0351","OSP023","GREMAR79I09C351I","2025-05-19","13","Valutazione per intervento al cuore","3800.00","0"
+"R0352","OSP024","FONLUC60J10I754J","2025-04-28","3","Monitoraggio cardiaco pre-decesso","1500.00","3"
+"R0353","OSP016","RZZGNN72A15F205K","2025-05-20","14","Monitoraggio post-operatorio","2800.00","0"
+"R0354","OSP018","BRNLCU88B20G273L","2025-05-21","15","Frattura composta polso","2300.00","0"
+"R0355","OSP020","MNTSRN65C05H501M","2025-02-15","5","Scompenso cardiaco grave","3200.00","3"
+"R0356","OSP022","GLLFNC93D42L219N","2025-05-22","10","Accertamenti per vertigini","1900.00","0"
+"R0357","OSP023","FSTVLR70E10A944O","2025-05-23","11","Controllo oncologico","800.00","0"
+"R0358","OSP024","DMCDNL90F25D612P","2025-05-24","12","Intervento di colecistectomia","4800.00","0"
+"R0359","OSP026","LNRTMS67G03F839Q","2025-05-25","13","Terapia per epatite C","3500.00","0"
+"R0360","OSP027","SCCCRI84H18A662R","2024-12-28","8","Chemioterapia aggressiva","5500.00","3"
+"R0361","OSP028","VTLSTF96I07C351S","2025-05-26","14","Sospetta infezione virale","1700.00","0"
+"R0390","OSP041","GRSMTT62J11I754T","2025-05-27","16","controlli successivi ad ictus","3000.00","0"
+"R0363","OSP031","PLLELN80K50A271U","2025-05-01","10","Controllo tiroide","650.00","2"
+"R0364","OSP032","BNCCRL75L08H703V","2025-05-02","11","Trattamento per pancreatite","3800.00","2"
+"R0365","OSP033","RMNPAO91M15E715W","2025-05-03","12","Dolore toracico atipico","2100.00","2"
+"R0366","OSP034","FRRMRZ68N55A783X","2024-11-01","10","Gestione complicanze diabete","3000.00","3"
+"R0367","OSP036","ESPGFR83O03G224Y","2025-05-04","13","Rimozione cisti sebacea","1200.00","2"
+"R0368","OSP038","CNTLCU70P10F205Z","2025-05-05","14","Intervento di angioplastica","7500.00","2"
+"R0369","OSP039","EST0000000000017","2025-05-06","15","Accertamenti per anemia","1750.00","2"
+"R0370","OSP041","EST0000000000018","2025-05-07","10","Sindrome influenzale grave","1000.00","2"
+"R0371","OSP042","EST0000000000019","2025-05-08","11","Valutazione psichiatrica","2500.00","2"
+"R0372","OSP043","EST0000000000020","2025-03-28","4","Polmonite bilaterale","2800.00","3"
+"R0373","OSP044","EST0000000000021","2025-05-09","12","Trattamento per malaria","2200.00","2"
+"R0374","OSP046","EST0000000000022","2025-05-10","13","Controllo dermatite severa","1300.00","2"
+"R0375","OSP047","EST0000000000023","2025-05-11","14","Riabilitazione post-trauma sportivo","3600.00","2"
+"R0376","OSP048","EST0000000000024","2025-05-12","15","Terapia per attacchi di panico","1100.00","2"
+"R0377","OSP049","EST0000000000025","2025-05-13","10","Monitoraggio per epilessia","2400.00","2"
+"R0378","OSP050","EST0000000000026","2025-05-14","15","Sospetta trombosi","2850.00","0"
+"R0381","OSP003","GRSANN90C03L219M","2025-05-17","14","Valutazione per disturbo alimentare","3100.00","0"
+"R0382","OSP004","BARPAO65D04A944N","2025-03-18","4","Peggioramento malattia degenerativa","2300.00","3"
+"R0383","OSP005","SANTOM72E05D612O","2025-05-18","15","Controllo fibromialgia","1800.00","1"
+"R0385","OSP007","LEOMAR79G07A662Q","2025-05-20","9","Accertamenti per dispnea","2600.00","0"
+"R0387","OSP010","FERFRA94I09I754S","2025-05-22","13","Terapia per sindrome del tunnel carpale","1350.00","1"
+"R0389","OSP041","SANTOM72E05D612O","2025-05-27","5","Controllo fibromialgia","1800.00","0"
