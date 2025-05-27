@@ -2,6 +2,14 @@
 $page = 'modifica_ricovero';
 include '../db_connection.php'; 
 
+define('STATO_ATTIVO', 0); 
+define('STATO_DIMESSO', 2);
+define('STATO_TRASFERITO', 1);
+define('STATO_DECEDUTO', 3);
+define('MAX_DURATA_RICOVERO_MOD', 36500);
+define('MAX_COSTO_RICOVERO_MOD', 99999999.99);
+define('MAX_LUNGHEZZA_MOTIVO_MOD', 499);
+
 if (!isset($_GET['codOspedale']) || !isset($_GET['codRicovero'])) {
     header('Location: ricoveri.php');
     exit;
@@ -14,116 +22,151 @@ $updateMessage = null;
 $updateError = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-    $paziente = $_POST['paziente'];
-    $data = $_POST['data']; 
-    $durata = $_POST['durata'];
-    $motivo = $_POST['motivo'];
-    $costo = $_POST['costo'];
+  
+    $paziente_form = trim($_POST['paziente'] ?? '');
+    $data_form = trim($_POST['data'] ?? ''); 
+    $durata_form = trim($_POST['durata'] ?? '');
+    $motivo_form = trim($_POST['motivo'] ?? '');
+    $costo_form = trim(str_replace(',', '.', $_POST['costo'] ?? '')); 
+    $patologie_selezionate_form = $_POST['patologie'] ?? [];
+
     
-    $nuovoOspedale = $_POST['ospedale'];
-    $nuovoCodRicovero = $_POST['codRicovero'];
-    
-    $dataRicovero = new DateTime($data);
-    $oggi = new DateTime();
-    $dataFine = clone $dataRicovero;
-    $dataFine->modify("+$durata days");
-    
-    $stato = 0; 
-    if ($dataFine < $oggi) {
-        $stato = 2; 
+
+    $form_validation_errors = []; 
+
+   
+    if (empty($paziente_form)) { $form_validation_errors[] = "Il campo Paziente è obbligatorio."; }
+    if (empty($data_form)) { $form_validation_errors[] = "Il campo Data Ricovero (originale) risulta mancante."; }
+    if (empty($durata_form)) { $form_validation_errors[] = "Il campo Durata è obbligatorio."; }
+    if (empty($motivo_form)) { $form_validation_errors[] = "Il campo Motivo Ricovero è obbligatorio."; }
+    if ($costo_form === '' || $costo_form === null) { $form_validation_errors[] = "Il campo Costo è obbligatorio."; }
+
+    if (!empty($durata_form)) {
+        if (!is_numeric($durata_form) || intval($durata_form) <= 0) {
+            $form_validation_errors[] = "La durata deve essere un numero intero positivo maggiore di zero.";
+        } elseif (intval($durata_form) > MAX_DURATA_RICOVERO_MOD) {
+            $form_validation_errors[] = "La durata del ricovero non può superare " . MAX_DURATA_RICOVERO_MOD . " giorni.";
+        }
+    }
+
+    if (mb_strlen($motivo_form, 'UTF-8') > MAX_LUNGHEZZA_MOTIVO_MOD) {
+        $form_validation_errors[] = "Il motivo del ricovero non può superare " . MAX_LUNGHEZZA_MOTIVO_MOD . " caratteri. Inseriti: " . mb_strlen($motivo_form, 'UTF-8') . ".";
+    }
+
+    if ($costo_form !== '' && $costo_form !== null) {
+        if (!is_numeric($costo_form) || floatval($costo_form) < 0) {
+            $form_validation_errors[] = "Il costo deve essere un numero positivo.";
+        } elseif (floatval($costo_form) > MAX_COSTO_RICOVERO_MOD) {
+            $form_validation_errors[] = "Il costo del ricovero non può superare " . number_format(MAX_COSTO_RICOVERO_MOD, 2, '.', '') . " €.";
+        }
     }
     
-    $conn->begin_transaction();
+    if (!empty($data_form) && !preg_match("/^\d{4}-\d{2}-\d{2}$/", $data_form)) {
+        $form_validation_errors[] = "Il formato della Data Ricovero (originale) non è valido.";
+    }
 
-    try {
-        if ($nuovoCodRicovero != $codRicovero || $nuovoOspedale != $codOspedale) {
-            $checkExisting = $conn->prepare("SELECT 1 FROM Ricovero WHERE codOspedale = ? AND cod = ?");
-            $checkExisting->bind_param("ss", $nuovoOspedale, $nuovoCodRicovero);
-            $checkExisting->execute();
-            $existingResult = $checkExisting->get_result();
-            
-            if ($existingResult->num_rows > 0) {
-                throw new Exception("Esiste già un ricovero con questo codice nell'ospedale selezionato.");
+
+    if (empty($form_validation_errors) && !empty($paziente_form) && !empty($data_form)) {
+        $stmtPazNascitaVal = $conn->prepare("SELECT dataNascita FROM Cittadino WHERE CSSN = ?");
+        if ($stmtPazNascitaVal) {
+            $stmtPazNascitaVal->bind_param("s", $paziente_form);
+            $stmtPazNascitaVal->execute();
+            $resultPazNascitaVal = $stmtPazNascitaVal->get_result();
+            if ($pazienteSelezionatoVal = $resultPazNascitaVal->fetch_assoc()) {
+                $dataNascitaPazDBVal = $pazienteSelezionatoVal['dataNascita'];
+                if ($dataNascitaPazDBVal) {
+                    try {
+                        $dataRicoveroObjVal = new DateTime($data_form); 
+                        $dataNascitaObjVal = new DateTime($dataNascitaPazDBVal);
+                        $dataRicoveroObjVal->setTime(0,0,0);
+                        $dataNascitaObjVal->setTime(0,0,0);
+                        if ($dataRicoveroObjVal < $dataNascitaObjVal) {
+                            $form_validation_errors[] = "La data di ricovero (" . $dataRicoveroObjVal->format('d/m/Y') . ") non può essere precedente alla data di nascita del paziente (" . $dataNascitaObjVal->format('d/m/Y') . ").";
+                        }
+                    } catch (Exception $e) {
+                        $form_validation_errors[] = "Errore nel formato delle date per il confronto (server).";
+                    }
+                } else {
+                     $form_validation_errors[] = "Data di nascita non disponibile per il paziente selezionato.";
+                }
+            } else {
+                $form_validation_errors[] = "Paziente (" . htmlspecialchars($paziente_form) . ") non trovato per validazione data nascita (server).";
             }
-            $checkExisting->close();
+            $stmtPazNascitaVal->close();
+        } else {
+             $form_validation_errors[] = "Errore query data nascita paziente (server).";
+        }
+    }
+
+    
+    if (!empty($form_validation_errors)) {
+        $updateError = implode("<br>", $form_validation_errors);
+    } else {
+        
+        $dataRicoveroPHP = new DateTime($data_form); 
+        $oggiPHP = new DateTime();
+        $dataFinePHP = clone $dataRicoveroPHP;
+        $dataFinePHP->modify("+" . intval($durata_form) . " days"); 
+
+        $stmtStatoOriginalePHP = $conn->prepare("SELECT stato FROM Ricovero WHERE codOspedale = ? AND cod = ?");
+        $statoOriginaleDBPHP = STATO_ATTIVO;
+        if ($stmtStatoOriginalePHP) {
+            $stmtStatoOriginalePHP->bind_param("ss", $codOspedale, $codRicovero);
+            $stmtStatoOriginalePHP->execute();
+            $resStatoOrigPHP = $stmtStatoOriginalePHP->get_result();
+            if ($resStatoOrigPHP && $resStatoOrigPHP->num_rows > 0) {
+                 $statoRowPHP = $resStatoOrigPHP->fetch_assoc();
+                 $statoOriginaleDBPHP = (int)$statoRowPHP['stato'];
+            }
+            $stmtStatoOriginalePHP->close();
         }
         
-        if ($nuovoCodRicovero != $codRicovero || $nuovoOspedale != $codOspedale) {
-            $insertStmt = $conn->prepare("
-                INSERT INTO Ricovero (codOspedale, cod, paziente, data, durata, motivo, costo, stato)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ");
-            $insertStmt->bind_param("sssssssi", $nuovoOspedale, $nuovoCodRicovero, $paziente, $data, $durata, $motivo, $costo, $stato);
-            $insertStmt->execute();
-            
-            if ($insertStmt->error) {
-                throw new Exception($insertStmt->error);
+        $statoCalcolato = $statoOriginaleDBPHP; 
+        if ($statoOriginaleDBPHP == STATO_ATTIVO) { 
+            if ($dataFinePHP < $oggiPHP) {
+                $statoCalcolato = STATO_DIMESSO; 
+            } else {
+                $statoCalcolato = STATO_ATTIVO;
             }
-            $insertStmt->close();
-            
-            if (isset($_POST['patologie']) && is_array($_POST['patologie'])) {
-                $nuovePatologie = $_POST['patologie'];
-                $insertPatologiaStmt = $conn->prepare("INSERT INTO PatologiaRicovero (codOspedale, codRicovero, codPatologia) VALUES (?, ?, ?)");
-                foreach ($nuovePatologie as $patologiaCod) {
-                    $insertPatologiaStmt->bind_param("sss", $nuovoOspedale, $nuovoCodRicovero, $patologiaCod);
-                    $insertPatologiaStmt->execute();
-                }
-                $insertPatologiaStmt->close();
-            }
-            
-            $deletePatologieStmt = $conn->prepare("DELETE FROM PatologiaRicovero WHERE codOspedale = ? AND codRicovero = ?");
-            $deletePatologieStmt->bind_param("ss", $codOspedale, $codRicovero);
-            $deletePatologieStmt->execute();
-            $deletePatologieStmt->close();
-            
-            $deleteRicoveroStmt = $conn->prepare("DELETE FROM Ricovero WHERE codOspedale = ? AND cod = ?");
-            $deleteRicoveroStmt->bind_param("ss", $codOspedale, $codRicovero);
-            $deleteRicoveroStmt->execute();
-            $deleteRicoveroStmt->close();
-        } else {
+        } 
+
+        $conn->begin_transaction();
+        try {
             $updateStmt = $conn->prepare("
                 UPDATE Ricovero
                 SET paziente = ?, durata = ?, motivo = ?, costo = ?, stato = ?
                 WHERE codOspedale = ? AND cod = ?
             ");
-            $updateStmt->bind_param("sississ", $paziente, $durata, $motivo, $costo, $stato, $codOspedale, $codRicovero);
-            $updateStmt->execute();
-
+            if ($updateStmt === false) throw new Exception("Errore DB (prepare Ricovero): " . $conn->error);
+            $updateStmt->bind_param("sississ", $paziente_form, $durata_form, $motivo_form, $costo_form, $statoCalcolato, $codOspedale, $codRicovero);
+            if (!$updateStmt->execute()) throw new Exception("Errore DB (execute Ricovero): " . $updateStmt->error);
+            $updateStmt->close();
             
             $deletePatologieStmt = $conn->prepare("DELETE FROM PatologiaRicovero WHERE codOspedale = ? AND codRicovero = ?");
+            if ($deletePatologieStmt === false) throw new Exception("Errore DB (prepare delete Patologie): " . $conn->error);
             $deletePatologieStmt->bind_param("ss", $codOspedale, $codRicovero);
             $deletePatologieStmt->execute();
             $deletePatologieStmt->close();
 
-            
-            if (isset($_POST['patologie']) && is_array($_POST['patologie'])) {
-                $nuovePatologie = $_POST['patologie'];
+            if (!empty($patologie_selezionate_form)) {
                 $insertPatologiaStmt = $conn->prepare("INSERT INTO PatologiaRicovero (codOspedale, codRicovero, codPatologia) VALUES (?, ?, ?)");
-                foreach ($nuovePatologie as $patologiaCod) {
+                if ($insertPatologiaStmt === false) throw new Exception("Errore DB (prepare insert Patologie): " . $conn->error);
+                foreach ($patologie_selezionate_form as $patologiaCod) {
                     $insertPatologiaStmt->bind_param("sss", $codOspedale, $codRicovero, $patologiaCod);
-                    $insertPatologiaStmt->execute();
+                    if(!$insertPatologiaStmt->execute()) throw new Exception("Errore DB (execute insert Patologia " .htmlspecialchars($patologiaCod). "): " . $insertPatologiaStmt->error);
                 }
                 $insertPatologiaStmt->close();
             }
             
-            if ($updateStmt->error) {
-                throw new Exception($updateStmt->error);
-            }
-            $updateStmt->close();
+            $conn->commit();
+            $updateMessage = "Ricovero aggiornato con successo!";
+            $success_action = "ricovero_aggiornato";
+            $_GET['update_success'] = '1'; 
+
+        } catch (Exception $e) {
+            $conn->rollback();
+            $updateError = "Errore durante l'aggiornamento: " . $e->getMessage();
         }
-
-        $conn->commit();
-        $updateMessage = "Ricovero aggiornato con successo!";
-        $success_action = "ricovero_aggiornato";
-
-    } catch (Exception $e) {
-        $conn->rollback();
-        $updateError = "Errore durante l'aggiornamento: " . $e->getMessage();
-        if (isset($updateStmt) && $updateStmt !== false) $updateStmt->close();
-        if (isset($insertStmt) && $insertStmt !== false) $insertStmt->close();
-        if (isset($insertPatologiaStmt) && $insertPatologiaStmt !== false) $insertPatologiaStmt->close();
-        if (isset($deletePatologieStmt) && $deletePatologieStmt !== false) $deletePatologieStmt->close();
-        if (isset($deleteRicoveroStmt) && $deleteRicoveroStmt !== false) $deleteRicoveroStmt->close();
     }
 }
 
@@ -134,6 +177,7 @@ $query = "
         r.paziente AS pazienteCSSN,
         c.nome AS nomePaziente,
         c.cognome AS cognomePaziente,
+        c.dataNascita AS dataNascitaPaziente, /* <-- RIGA MODIFICATA/AGGIUNTA */
         o.nome AS nomeOspedale,
         r.data,
         r.durata,
@@ -160,8 +204,9 @@ if ($result->num_rows === 0) {
 }
 
 $ricovero = $result->fetch_assoc();
+$currentPazienteDataNascitaValueHTML = $ricovero['dataNascitaPaziente'] ?? '';
 
-$queryPazienti = "SELECT CSSN, nome, cognome FROM Cittadino ORDER BY cognome, nome";
+$queryPazienti = "SELECT CSSN, nome, cognome, dataNascita FROM Cittadino WHERE deceduto = 0 OR deceduto IS NULL ORDER BY cognome, nome";
 $resultPazienti = $conn->query($queryPazienti);
 
 $queryOspedali = "SELECT codice, nome FROM Ospedale ORDER BY nome";
@@ -229,7 +274,7 @@ $stmtPatologieReload->close();
                 <label for="ospedale_nome">Ospedale:</label>
                 <input type="text" id="ospedale_nome" value="<?= htmlspecialchars($ricovero['nomeOspedale'] ?? 'N/D') ?>" readonly>
                 <input type="hidden" name="ospedale" value="<?= htmlspecialchars($ricovero['codOspedale'] ?? '') ?>">
-                <?php if (isset($resultOspedali) && $resultOspedali !== false) $resultOspedali->free(); // Libera il risultato Ospedali ?>
+                <?php if (isset($resultOspedali) && $resultOspedali !== false) $resultOspedali->free();  ?>
                 </div>
 
                 <div class="form-group">
@@ -282,8 +327,9 @@ $stmtPatologieReload->close();
                             <div class="ospedale-container">
                                 <?php if ($resultPazienti && $resultPazienti->num_rows > 0): ?>
                                     <?php while ($paziente = $resultPazienti->fetch_assoc()): ?>
-                                        <div class="ospedale-item <?= ($paziente['CSSN'] == $ricovero['pazienteCSSN']) ? 'selected' : '' ?>" 
-                                             data-value="<?= htmlspecialchars($paziente['CSSN']) ?>">
+                                        <div class="ospedale-item <?= ($paziente['CSSN'] == $ricovero['pazienteCSSN']) ? 'selected' : '' ?>"
+                                             data-value="<?= htmlspecialchars($paziente['CSSN']) ?>"
+                                             data-birthdate="<?= htmlspecialchars($paziente['dataNascita']) ?>"> 
                                             <?= htmlspecialchars($paziente['cognome'] . ' ' . $paziente['nome'] . ' (' . $paziente['CSSN'] . ')') ?>
                                         </div>
                                     <?php endwhile; ?>
@@ -293,7 +339,7 @@ $stmtPatologieReload->close();
                                 <?php if (isset($resultPazienti) && $resultPazienti !== false) $resultPazienti->data_seek(0); ?>
                             </div>
                         </div>
-                        <input type="hidden" id="paziente" name="paziente" value="<?= htmlspecialchars($ricovero['pazienteCSSN']) ?>" required>
+                        <input type="hidden" id="paziente" name="paziente" value="<?= htmlspecialchars($ricovero['pazienteCSSN']) ?>" required data-birthdate="<?= htmlspecialchars($currentPazienteDataNascitaValueHTML) ?>">
                     </div>
                 </div>
 
@@ -305,17 +351,17 @@ $stmtPatologieReload->close();
 
                 <div class="form-group duration-input-group"> 
                     <label for="durata">Durata (giorni):</label>
-                    <input type="number" id="durata" name="durata" class="duration-input" value="<?= htmlspecialchars($ricovero['durata']) ?>" min="1" required> 
+                    <input type="number" id="durata" name="durata" class="duration-input" value="<?= htmlspecialchars($ricovero['durata']) ?>" min="1" max="<?= MAX_DURATA_RICOVERO_MOD ?>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="motivo">Motivo Ricovero:</label>
-                    <textarea id="motivo" name="motivo" required><?= htmlspecialchars($ricovero['motivo']) ?></textarea>
+                    <textarea id="motivo" name="motivo" required maxlength="<?= MAX_LUNGHEZZA_MOTIVO_MOD ?>"><?= htmlspecialchars($ricovero['motivo']) ?></textarea>
                 </div>
 
                 <div class="form-group cost-input-group"> 
                     <label for="costo">Costo (€):</label>
-                    <input type="number" id="costo" name="costo" class="cost-input" value="<?= htmlspecialchars($ricovero['costo']) ?>" min="0" step="0.01" required> 
+                    <input type="number" id="costo" name="costo" class="cost-input" value="<?= htmlspecialchars($ricovero['costo']) ?>" min="0" step="0.01" max="<?= MAX_COSTO_RICOVERO_MOD ?>" required>
                 </div>
 
                 <div class="form-group">
@@ -596,6 +642,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             pazienteSelectedValue.textContent = text;
             pazienteHiddenInput.value = value;
+             const birthdate = this.getAttribute('data-birthdate');
+        if (birthdate) {
+            pazienteHiddenInput.dataset.birthdate = birthdate;
+        } else {
+            delete pazienteHiddenInput.dataset.birthdate;
+        }
+
             
             pazienteItems.forEach(i => i.classList.remove('selected'));
             this.classList.add('selected');
@@ -615,6 +668,72 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form && btnSalva) {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
+            
+            
+            let clientSideErrors = [];
+    const durataInputJS = document.getElementById('durata');
+    const motivoInputJS = document.getElementById('motivo');
+    const costoInputJS = document.getElementById('costo');
+    const pazienteHiddenInputJS = document.getElementById('paziente');
+    const dataRicoveroOriginaleJS = document.getElementById('data').value; 
+
+    const MAX_DURATA_JS = <?= MAX_DURATA_RICOVERO_MOD ?>;
+    const MAX_COSTO_JS = <?= MAX_COSTO_RICOVERO_MOD ?>;
+    const MAX_LUNGHEZZA_MOTIVO_JS = <?= MAX_LUNGHEZZA_MOTIVO_MOD ?>;
+
+    if (!pazienteHiddenInputJS || pazienteHiddenInputJS.value.trim() === '') {
+         clientSideErrors.push("Il campo Paziente è obbligatorio.");
+    }
+
+    if (!durataInputJS || durataInputJS.value.trim() === '') {
+        clientSideErrors.push("Il campo Durata è obbligatorio.");
+    } else {
+        const durataVal = parseInt(durataInputJS.value);
+        if (isNaN(durataVal) || durataVal <= 0) {
+            clientSideErrors.push("La durata deve essere un numero intero positivo.");
+        } else if (durataVal > MAX_DURATA_JS) {
+            clientSideErrors.push(`La durata del ricovero non può superare ${MAX_DURATA_JS} giorni.`);
+        }
+    }
+
+    if (!motivoInputJS || motivoInputJS.value.trim() === '') {
+        clientSideErrors.push("Il campo Motivo Ricovero è obbligatorio.");
+    } else if (motivoInputJS.value.trim().length > MAX_LUNGHEZZA_MOTIVO_JS) {
+         clientSideErrors.push(`Il motivo del ricovero non può superare ${MAX_LUNGHEZZA_MOTIVO_JS} caratteri. Inseriti: ${motivoInputJS.value.trim().length}.`);
+    }
+
+    if (!costoInputJS || costoInputJS.value.trim() === '') {
+        clientSideErrors.push("Il campo Costo è obbligatorio.");
+    } else {
+        const costoVal = parseFloat(costoInputJS.value.replace(',', '.'));
+        if (isNaN(costoVal) || costoVal < 0) {
+            clientSideErrors.push("Il costo deve essere un numero positivo.");
+        } else if (costoVal > MAX_COSTO_JS) {
+            clientSideErrors.push(`Il costo del ricovero non può superare ${MAX_COSTO_JS.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €.`);
+        }
+    }
+
+    const pazienteBirthDateValue = pazienteHiddenInputJS ? pazienteHiddenInputJS.dataset.birthdate : null;
+    if (dataRicoveroOriginaleJS && pazienteBirthDateValue) {
+        const dataRicoveroDate = new Date(dataRicoveroOriginaleJS);
+        const pazienteNascitaDate = new Date(pazienteBirthDateValue);
+        dataRicoveroDate.setHours(0,0,0,0);
+        pazienteNascitaDate.setHours(0,0,0,0);
+        if (dataRicoveroDate < pazienteNascitaDate) {
+            clientSideErrors.push("La data di ricovero ("+ dataRicoveroDate.toLocaleDateString('it-IT') +") non può essere precedente alla data di nascita del paziente ("+ pazienteNascitaDate.toLocaleDateString('it-IT') +").");
+        }
+    }
+
+    if (clientSideErrors.length > 0) {
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Errori di Validazione',
+            html: clientSideErrors.join('<br>'),
+            confirmButtonColor: '#002080'
+        });
+        return; 
+    }
             
             Swal.fire({
                 title: 'Sei sicuro?',
